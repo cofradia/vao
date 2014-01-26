@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">vao</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">VAO u_u</string>
+    <string name="title_activity_event_details">EventDetails</string>
+    <string name="picture_event">picture_event</string>
+    <string name="btnLogin">Button</string>
+
+</resources>
