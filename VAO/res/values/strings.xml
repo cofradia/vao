@@ -7,5 +7,10 @@
     <string name="title_activity_event_details">EventDetails</string>
     <string name="picture_event">picture_event</string>
     <string name="btnLogin">Button</string>
+    <string name="imageEvent">image_event</string>
+    <string name="eventTitle">Event 1</string>
+    <string name="eventDescription">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. In elementum mi nec malesuada ultricies. Quisque quis odio eu felis rhoncus ultricies. Mauris turpis quam, rhoncus vitae risus a, imperdiet suscipit lorem. Nam vitae est sem. Duis erat erat, interdum in eleifend sed, feugiat eu sapien. "</string>
+    <string name="EventDescription">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. In elementum mi nec malesuada ultricies. Quisque quis odio eu felis rhoncus ultricies. Mauris turpis quam, rhoncus vitae risus a, imperdiet suscipit lorem. Nam vitae est sem. Duis erat erat, interdum in eleifend sed, feugiat eu sapien. "</string>
+    <string name="EventAttendance">Asistir</string>
 
 </resources>

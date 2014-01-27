@@ -9,26 +9,40 @@
     tools:context=".EventDetails" >
 
     <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/imgEvent"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:contentDescription="@string/picture_event"
-        android:src="@android:drawable/picture_frame" />
+        android:contentDescription="@string/imageEvent"
+        android:src="@drawable/ic_launcher" />
 
-    <EditText
-        android:id="@+id/editText1"
+    <TextView
+        android:id="@+id/txtEventTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView1"
-        android:layout_marginTop="78dp"
-        android:layout_toRightOf="@+id/imageView1"
-        android:ems="10"
-        android:inputType="textMultiLine" >
+        android:layout_above="@+id/txtEventDescription"
+        android:layout_alignLeft="@+id/imgEvent"
+        android:text="@string/eventTitle"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <requestFocus />
-    </EditText>
+    <TextView
+        android:id="@+id/txtEventDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txtEventTitle"
+        android:layout_below="@+id/imgEvent"
+        android:layout_marginTop="17dp"
+        android:text="@string/EventDescription" />
 
-    
+    <Switch
+        android:id="@+id/swtEvent"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignLeft="@+id/txtEventDescription"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="59dp"
+        android:checked="true"
+        android:text="@string/EventAttendance" />
 
 </RelativeLayout>
