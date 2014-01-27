@@ -1,10 +1,15 @@
 package com.cofradia.vao;
 
-import android.os.Bundle;
+import events.EventDetails;
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 
 public class Main extends Activity {
+    public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,4 +25,9 @@ public class Main extends Activity {
         return true;
     }
     
+    public void openDetails(View view){
+        Intent intent = new Intent(this, EventDetails.class);
+        startActivity(intent);
+
+    }
 }
