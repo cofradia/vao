@@ -14,5 +14,7 @@
     <string name="EventAttendance">Asistir</string>
     <string name="imglogo">imgLogo</string>
     <string name="btnLoginFB">Login with Facebook</string>
+    <string name="placeHolderUsuario">Usuario</string>
+    <string name="placeHolderPassword">Password</string>
 
 </resources>
