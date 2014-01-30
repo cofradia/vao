@@ -6,8 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import com.facebook.*;
+import com.facebook.model.*;
+import android.widget.TextView;
+import android.content.Intent;
 
-public class Main extends Activity {
+public class MainActivity extends Activity {
     public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 
 
@@ -15,6 +19,19 @@ public class Main extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        
+        // Move to FBlogin class
+
+        // start Facebook Login (activity)
+        Session.openActiveSession(this, true, new Session.StatusCallback() {
+
+          // callback when session changes state
+          @Override
+          public void call(Session session, SessionState state, Exception exception) {
+
+          }
+        });
+        
     }
 
 
@@ -29,5 +46,11 @@ public class Main extends Activity {
         Intent intent = new Intent(this, EventDetails.class);
         startActivity(intent);
 
+    }
+    
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+      super.onActivityResult(requestCode, resultCode, data);
+      Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
     }
 }
