@@ -10,15 +10,15 @@ public class VaoDaoGenerator {
         
         //Add elements to schema
         addUsuario(schema);
-        new DaoGenerator().generateAll(schema, "../DaoVao/src-gen");
+        new DaoGenerator().generateAll(schema, "../VAO/src-gen");
     }
 	
 	 private static void addUsuario(Schema schema) {
 	        Entity usuario = schema.addEntity("Usuario");
 	        usuario.addIdProperty();
-	        usuario.addStringProperty("text").notNull();
-	        usuario.addStringProperty("nombre");
-	        usuario.addDateProperty("otrapropiedad");
+	        usuario.addStringProperty("nombre").notNull();
+	        usuario.addStringProperty("password");
+	        usuario.addStringProperty("fbToken");
 	    }
 
 
