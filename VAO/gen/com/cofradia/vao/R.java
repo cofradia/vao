@@ -220,8 +220,8 @@ containing a value of this type.
     }
     public static final class id {
         public static final int action_settings=0x7f040021;
-        public static final int button1=0x7f04000b;
-        public static final int button2=0x7f04000a;
+        public static final int btnLogin=0x7f04000b;
+        public static final int btnLoginFB=0x7f04000a;
         public static final int com_facebook_login_activity_progress_bar=0x7f04000e;
         public static final int com_facebook_picker_activity_circle=0x7f04000d;
         public static final int com_facebook_picker_checkbox=0x7f040010;
@@ -242,8 +242,8 @@ containing a value of this type.
         public static final int com_facebook_usersettingsfragment_login_button=0x7f040020;
         public static final int com_facebook_usersettingsfragment_logo_image=0x7f04001e;
         public static final int com_facebook_usersettingsfragment_profile_name=0x7f04001f;
-        public static final int imageView1=0x7f040008;
         public static final int imgEvent=0x7f040003;
+        public static final int imgLogo=0x7f040008;
         public static final int large=0x7f040002;
         public static final int normal=0x7f040001;
         public static final int picker_subtitle=0x7f04001b;
@@ -286,7 +286,9 @@ containing a value of this type.
         public static final int app_id=0x7f070028;
         public static final int app_name=0x7f070019;
         public static final int btnLogin=0x7f07001e;
-        public static final int btnLoginFB=0x7f070025;
+        /** Facebook stuff 
+         */
+        public static final int btnLoginFB=0x7f070027;
         public static final int com_facebook_choose_friends=0x7f07000f;
         public static final int com_facebook_dialogloginactivity_ok_button=0x7f070000;
         public static final int com_facebook_internet_permission_error_message=0x7f070013;
@@ -318,8 +320,8 @@ containing a value of this type.
         public static final int imageEvent=0x7f07001f;
         public static final int imglogo=0x7f070024;
         public static final int picture_event=0x7f07001d;
-        public static final int placeHolderPassword=0x7f070027;
-        public static final int placeHolderUsuario=0x7f070026;
+        public static final int placeHolderPassword=0x7f070026;
+        public static final int placeHolderUsuario=0x7f070025;
         public static final int title_activity_event_details=0x7f07001c;
     }
     public static final class style {

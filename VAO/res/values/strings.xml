@@ -13,9 +13,11 @@
     <string name="EventDescription">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. In elementum mi nec malesuada ultricies. Quisque quis odio eu felis rhoncus ultricies. Mauris turpis quam, rhoncus vitae risus a, imperdiet suscipit lorem. Nam vitae est sem. Duis erat erat, interdum in eleifend sed, feugiat eu sapien. "</string>
     <string name="EventAttendance">Asistir</string>
     <string name="imglogo">imgLogo</string>
-    <string name="btnLoginFB">Login with Facebook</string>
     <string name="placeHolderUsuario">Usuario</string>
     <string name="placeHolderPassword">Password</string>
+    
+    <!--Facebook stuff -->
+	<string name="btnLoginFB">Login with Facebook</string>
 	<string name="app_id">266719326820720</string> <!--id according to fb standard  -->
 	<string name="appName">VAO COFRADIA</string>
 </resources>

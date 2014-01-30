@@ -12,7 +12,7 @@
         android:id="@+id/txtUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/imageView1"
+        android:layout_alignTop="@+id/imgLogo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
         android:hint="@string/placeHolderUsuario"
@@ -34,17 +34,18 @@
     
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnLoginFB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button1"
-        android:layout_alignRight="@+id/button1"
-        android:layout_below="@+id/button1"
+        android:layout_alignLeft="@+id/btnLogin"
+        android:layout_alignRight="@+id/btnLogin"
+        android:layout_below="@+id/btnLogin"
         android:layout_marginTop="20dp"
+        android:onClick="doLoginFB"
         android:text="@string/btnLoginFB" />
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/imgLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -54,7 +55,7 @@
         android:src="@drawable/ic_launcher" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/txtPassword"

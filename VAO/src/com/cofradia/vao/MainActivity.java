@@ -18,20 +18,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        
-        // Move to FBlogin class
-
-        // start Facebook Login (activity)
-        Session.openActiveSession(this, true, new Session.StatusCallback() {
-
-          // callback when session changes state
-          @Override
-          public void call(Session session, SessionState state, Exception exception) {
-
-          }
-        });
-        
+        setContentView(R.layout.activity_login);        
     }
 
 
@@ -47,7 +34,21 @@ public class MainActivity extends Activity {
         startActivity(intent);
 
     }
-    
+
+    //FB Login
+    public void doLoginFB(View view){
+        // start Facebook Login
+        Session.openActiveSession(this, true, new Session.StatusCallback() {
+
+          // callback when session changes state
+          @Override
+          public void call(Session session, SessionState state, Exception exception) {
+
+          }
+        });
+
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
       super.onActivityResult(requestCode, resultCode, data);
