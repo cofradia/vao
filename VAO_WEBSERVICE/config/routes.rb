@@ -13,10 +13,10 @@ Vao::Application.routes.draw do
   # This route can be invoked with purchase_url(:id => product.id)
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
+
 
   # Sample resource route with options:
-  #   resources :products do
+  #   resources :events do
   #     member do
   #       get 'short'
   #       post 'toggle'
@@ -42,11 +42,15 @@ Vao::Application.routes.draw do
   #   end
 
   # Sample resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
+     namespace :v1 do
+      get  "events" =>"event::index"
+      devise_scope :user do
+        post 'sessions' => 'sessions#create', :as => 'login'
+        delete 'sessions' => 'sessions#destroy', :as => 'logout'
+      end
+       # Directs /admin/products/* to Admin::ProductsController
+       # (app/controllers/admin/products_controller.rb)
+     end
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
