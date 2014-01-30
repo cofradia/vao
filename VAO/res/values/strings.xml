@@ -16,5 +16,6 @@
     <string name="btnLoginFB">Login with Facebook</string>
     <string name="placeHolderUsuario">Usuario</string>
     <string name="placeHolderPassword">Password</string>
-
+	<string name="app_id">266719326820720</string> <!--id according to fb standard  -->
+	<string name="appName">VAO COFRADIA</string>
 </resources>
