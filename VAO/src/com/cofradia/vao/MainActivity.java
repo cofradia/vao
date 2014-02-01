@@ -1,6 +1,6 @@
 package com.cofradia.vao;
 
-import events.EventDetails;
+import com.cofradia.vao.events.EventDetail;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
