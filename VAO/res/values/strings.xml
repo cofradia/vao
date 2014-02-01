@@ -9,13 +9,19 @@
     <string name="btnLogin">Login</string>
     <string name="imageEvent">image_event</string>
     <string name="eventTitle">Event 1</string>
-    <string name="eventDescription">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. In elementum mi nec malesuada ultricies. Quisque quis odio eu felis rhoncus ultricies. Mauris turpis quam, rhoncus vitae risus a, imperdiet suscipit lorem. Nam vitae est sem. Duis erat erat, interdum in eleifend sed, feugiat eu sapien. "</string>
-    <string name="EventDescription">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. In elementum mi nec malesuada ultricies. Quisque quis odio eu felis rhoncus ultricies. Mauris turpis quam, rhoncus vitae risus a, imperdiet suscipit lorem. Nam vitae est sem. Duis erat erat, interdum in eleifend sed, feugiat eu sapien. "</string>
-    <string name="EventAttendance">Asistir</string>
+    <string name="EventDescription">&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit. In elementum mi nec malesuada ultricies. Quisque quis odio eu felis rhoncus ultricies. Mauris turpis quam, rhoncus vitae risus a, imperdiet suscipit lorem. Nam vitae est sem. Duis erat erat, interdum in eleifend sed, feugiat eu sapien. &quot;</string>
+    <string name="swtEventAttendance">Asistir</string>
     <string name="imglogo">imgLogo</string>
     <string name="btnLoginFB">Login with Facebook</string>
     <string name="placeHolderUsuario">Usuario</string>
     <string name="placeHolderPassword">Password</string>
 	<string name="app_id">266719326820720</string> <!--id according to fb standard  -->
 	<string name="appName">VAO COFRADIA</string>
+	<string name="eventPlace">This is the place</string>
+	<string name="facebookevent">FacebookEvent</string>
+	<string name="eventComment">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
+	<string name="eventTime">This is the time!</string>
+	<string name="favoriteEvent">FavoriteEvent</string>
+	<string name="commentUserImage">commentuserimage</string>
+	<string name="categoryEvent">algo</string>
 </resources>

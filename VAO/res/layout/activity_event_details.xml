@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rellayEventDetails"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -8,41 +9,128 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".EventDetails" >
 
-    <ImageView
-        android:id="@+id/imgEvent"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:contentDescription="@string/imageEvent"
-        android:src="@drawable/ic_launcher" />
+    <ScrollView
+        android:id="@+id/scvwEventDetails"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
 
-    <TextView
-        android:id="@+id/txtEventTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/txtEventDescription"
-        android:layout_alignLeft="@+id/imgEvent"
-        android:text="@string/eventTitle"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        <LinearLayout
+            android:id="@+id/linlayEventDetailsIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/txtEventDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtEventTitle"
-        android:layout_below="@+id/imgEvent"
-        android:layout_marginTop="17dp"
-        android:text="@string/EventDescription" />
+            <RelativeLayout
+                android:id="@+id/rellayEventDetailsInfo"
+                android:layout_width="match_parent"
+                android:layout_height="150dp" >
 
-    <Switch
-        android:id="@+id/swtEvent"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_alignLeft="@+id/txtEventDescription"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="59dp"
-        android:checked="true"
-        android:text="@string/EventAttendance" />
+                <ImageView
+                    android:id="@+id/imgEvent"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:contentDescription="@string/imageEvent"
+                    android:src="@drawable/ic_launcher" />
+
+                <RelativeLayout
+                    android:id="@+id/rellayEventDetailsInfoIn"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true" >
+
+                    <TextView
+                        android:id="@+id/txtEventTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/eventTitle"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <TextView
+                        android:id="@+id/txtEventPlace"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/eventPlace"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <TextView
+                        android:id="@+id/txtEventTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_below="@+id/txtEventPlace"
+                        android:text="@string/eventTime"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/txtEventDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/EventDescription" />
+
+            <LinearLayout
+                android:id="@+id/linlayEventImageActions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <ImageButton
+                    android:id="@+id/imgEventFav"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:contentDescription="@string/favoriteEvent"
+                    android:src="@android:drawable/btn_star" />
+
+                <ImageView
+                    android:id="@+id/imgEventAlgo"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:contentDescription="@string/categoryEvent"
+                    android:src="@android:drawable/dialog_holo_light_frame" />
+
+                <ImageView
+                    android:id="@+id/imgIsFbEvent"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:contentDescription="@string/facebookevent"
+                    android:src="@drawable/fb_launcher" />
+            </LinearLayout>
+
+            <Switch
+                android:id="@+id/swtEvent"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:checked="true"
+                android:text="@string/swtEventAttendance" />
+
+            <RelativeLayout
+                android:id="@+id/rellayEventComment"
+                android:layout_width="match_parent"
+                android:layout_height="70dp" >
+
+                <ImageView
+                    android:id="@+id/imgEventCommentUserImage"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:contentDescription="@string/commentUserImage"
+                    android:src="@drawable/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/txtEventComment"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/imgEventCommentUserImage"
+                    android:text="@string/eventComment" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>
