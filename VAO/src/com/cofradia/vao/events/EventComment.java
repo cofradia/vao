@@ -5,4 +5,6 @@ public class EventComment {
 	public int created;
 	public int updated;
 //	public User user;
+	
+	
 }
