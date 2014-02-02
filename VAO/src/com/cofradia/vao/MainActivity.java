@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-//import com.facebook.*;
-//import com.facebook.model.*;
+import com.facebook.*;
+import com.facebook.model.*;
 import android.widget.TextView;
 import android.content.Intent;
 
@@ -22,7 +22,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);        
+        setContentView(R.layout.main);        
     }
 
 
@@ -40,22 +40,22 @@ public class MainActivity extends Activity {
     }
 
 //    //FB Login
-//    public void doLoginFB(View view){
-//        // start Facebook Login
-//        Session.openActiveSession(this, true, new Session.StatusCallback() {
-//
-//          // callback when session changes state
-//          @Override
-//          public void call(Session session, SessionState state, Exception exception) {
-//
-//          }
-//        });
-//
-//    }
-//
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//      super.onActivityResult(requestCode, resultCode, data);
-//      Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
-//    }
+    public void doLoginFB(View view){
+        // start Facebook Login
+        Session.openActiveSession(this, true, new Session.StatusCallback() {
+
+          // callback when session changes state
+          @Override
+          public void call(Session session, SessionState state, Exception exception) {
+
+          }
+        });
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+      super.onActivityResult(requestCode, resultCode, data);
+      Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+    }
 }
