@@ -26,4 +26,8 @@
 	<string name="favoriteEvent">FavoriteEvent</string>
 	<string name="commentUserImage">commentuserimage</string>
 	<string name="categoryEvent">algo</string>
+	<string name="chkEventFacebookAttendance">Confirmar en Facebook</string>
+	<string name="btnConfirmAttendance">Confirmar</string>
+	<string name="txtEventAttendanceText">Lorem ipsum dolor sit amet,Lorem ipsum dolor sit amet</string>
+	<string name="btnCancelAttendance">Cancelar</string>
 </resources>

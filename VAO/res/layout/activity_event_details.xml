@@ -104,7 +104,7 @@
                 android:id="@+id/swtEvent"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:checked="true"
+                android:checked="false"
                 android:text="@string/swtEventAttendance" />
 
             <RelativeLayout
