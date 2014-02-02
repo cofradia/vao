@@ -3,33 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <Button
-        android:id="@+id/btnEventConfirmAttendace"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/chkEventFacebookAttendance"
-        android:layout_below="@+id/chkEventFacebookAttendance"
-        android:layout_marginTop="20dp"
-        android:text="@string/btnConfirmAttendance" />
-
-    <Button
-        android:id="@+id/btnEventCancelAttendance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/btnEventConfirmAttendace"
-        android:layout_alignBottom="@+id/btnEventConfirmAttendace"
-        android:layout_marginLeft="25dp"
-        android:layout_toRightOf="@+id/btnEventConfirmAttendace"
-        android:text="@string/btnCancelAttendance" />
-
-    <TextView
-        android:id="@+id/txtEventAttendanceConfirmText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/txtEventAttendanceText" />
-
     <CheckBox
         android:id="@+id/chkEventFacebookAttendance"
         android:layout_width="wrap_content"
@@ -38,5 +11,16 @@
         android:layout_below="@+id/txtEventAttendanceConfirmText"
         android:layout_marginLeft="37dp"
         android:text="@string/chkEventFacebookAttendance" />
+
+    <TextView
+        android:id="@+id/txtEventAttendanceConfirmText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="@string/txtEventAttendanceText" />
 
 </RelativeLayout>

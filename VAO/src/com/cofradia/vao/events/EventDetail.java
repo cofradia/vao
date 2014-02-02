@@ -1,18 +1,12 @@
 package com.cofradia.vao.events;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import com.cofradia.vao.R;
 
@@ -36,8 +30,10 @@ public class EventDetail extends Activity {
 					public void onCheckedChanged(CompoundButton buttonView,
 							boolean isChecked) {
 						// TODO Auto-generated method stub
-
-						final Dialog dlgAttendance = new Dialog(context);
+						new EventAttendanceDialogFragment().show(getFragmentManager(), "MyDialog");
+						
+//Dialog init						
+/*						final Dialog dlgAttendance = new Dialog(context);
 						dlgAttendance
 								.setContentView(R.layout.dialog_event_attendance);
 						dlgAttendance.setTitle("Confirmar asistencia");
@@ -71,11 +67,17 @@ public class EventDetail extends Activity {
 										dlgAttendance.dismiss();
 									}
 								});
-						
+
 						if (isChecked) {
 							dlgAttendance.show();
-						}
+						}*/
+//Dialog end
+
+						
+						
 					}
+
+					
 				});
 
 	}

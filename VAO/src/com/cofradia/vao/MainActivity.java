@@ -6,11 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import com.facebook.*;
-import com.facebook.model.*;
+//import com.facebook.*;
+//import com.facebook.model.*;
 import android.widget.TextView;
 import android.content.Intent;
 
+/**
+ * @author Usuario
+ *
+ */
 public class MainActivity extends Activity {
     public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 
@@ -30,28 +34,28 @@ public class MainActivity extends Activity {
     }
     
     public void openDetails(View view){
-        Intent intent = new Intent(this, EventDetails.class);
+        Intent intent = new Intent(this, EventDetail.class);
         startActivity(intent);
 
     }
 
-    //FB Login
-    public void doLoginFB(View view){
-        // start Facebook Login
-        Session.openActiveSession(this, true, new Session.StatusCallback() {
-
-          // callback when session changes state
-          @Override
-          public void call(Session session, SessionState state, Exception exception) {
-
-          }
-        });
-
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-      super.onActivityResult(requestCode, resultCode, data);
-      Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
-    }
+//    //FB Login
+//    public void doLoginFB(View view){
+//        // start Facebook Login
+//        Session.openActiveSession(this, true, new Session.StatusCallback() {
+//
+//          // callback when session changes state
+//          @Override
+//          public void call(Session session, SessionState state, Exception exception) {
+//
+//          }
+//        });
+//
+//    }
+//
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//      super.onActivityResult(requestCode, resultCode, data);
+//      Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+//    }
 }
