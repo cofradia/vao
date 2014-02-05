@@ -62,7 +62,7 @@
         android:layout_alignRight="@+id/txtPassword"
         android:layout_below="@+id/txtPassword"
         android:layout_marginTop="20dp"
-        android:onClick="openDetails"
+        android:onClick="doRegularLogin"
         android:text="@string/btnLogin" />
 
 </RelativeLayout>
