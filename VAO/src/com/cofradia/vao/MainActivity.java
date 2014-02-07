@@ -39,7 +39,7 @@ public class MainActivity extends Activity {
 
     }
 
-//    //FB Login
+    //FB Login
     public void doLoginFB(View view){
         // start Facebook Login
         Session.openActiveSession(this, true, new Session.StatusCallback() {
