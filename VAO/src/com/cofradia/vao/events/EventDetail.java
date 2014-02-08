@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Switch;
@@ -14,7 +15,9 @@ public class EventDetail extends Activity {
 
 	final Context context = this;
 	private Switch swtEventConfirm;
-
+	private CheckBox chkEventFacebookAttendance;
+	public Event event=new Event();
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -29,57 +32,40 @@ public class EventDetail extends Activity {
 					@Override
 					public void onCheckedChanged(CompoundButton buttonView,
 							boolean isChecked) {
-						// TODO Auto-generated method stub
-						new EventAttendanceDialogFragment().show(getFragmentManager(), "MyDialog");
-						
-//Dialog init						
-/*						final Dialog dlgAttendance = new Dialog(context);
-						dlgAttendance
-								.setContentView(R.layout.dialog_event_attendance);
-						dlgAttendance.setTitle("Confirmar asistencia");
-
-						// set the custom dialog components - text, image and
-						// button
-						// TextView text = (TextView)
-						// dlgAttendance.findViewById(R.id.txtEventAttendanceConfirmText);
-						// CheckBox chkFacebookAttendance = (CheckBox)
-						// dlgAttendance.findViewById(R.id.chkEventFacebookAttendance);
-						Button btnConfirmAttendance = (Button) dlgAttendance
-								.findViewById(R.id.btnEventConfirmAttendace);
-						Button btnCancelConfirm = (Button) dlgAttendance
-								.findViewById(R.id.btnEventCancelAttendance);
-
-						// if button is clicked, close the custom dialog
-						btnCancelConfirm
-								.setOnClickListener(new OnClickListener() {
-									@Override
-									public void onClick(View v) {
-										dlgAttendance.dismiss();
-									}
-								});
-
-						// if button is clicked, close the custom dialog
-						btnConfirmAttendance
-								.setOnClickListener(new OnClickListener() {
-									@Override
-									public void onClick(View v) {
-										System.out.print("confirm");
-										dlgAttendance.dismiss();
-									}
-								});
-
 						if (isChecked) {
-							dlgAttendance.show();
-						}*/
-//Dialog end
+							// TODO Auto-generated method stub
+							EventAttendanceDialogFragment attendanceDialogFragment = new EventAttendanceDialogFragment();
+							attendanceDialogFragment.show(getFragmentManager(),
+									"EventAttendanceDialog");
+							if (attendanceDialogFragment.getDialog() != null)
+								attendanceDialogFragment.getDialog()
+										.setCanceledOnTouchOutside(true);
+						} else {
 
-						
-						
+						}
+
 					}
 
-					
 				});
 
+		chkEventFacebookAttendance = (CheckBox) findViewById(R.id.chkEventFacebookAttendance);
+
+		// Add a checkbox listener
+/*		chkEventFacebookAttendance
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						// TODO Auto-generated method stub
+						if (isChecked) {
+							Toast.makeText(context, "fb!", Toast.LENGTH_LONG)
+									.show();
+						} else {
+
+						}
+					}
+				});*/
 	}
 
 	@Override
