@@ -76,7 +76,7 @@ public class MainActivity extends Activity {
 
     }
     
-    public void doRegularLogin(Button view){
+    public void doRegularLogin(View view){
     	EditText userEmailField = (EditText) findViewById(R.id.txtUsuario);
         emailText = userEmailField.getText().toString();
         EditText userPasswordField = (EditText) findViewById(R.id.txtPassword);
