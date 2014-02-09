@@ -45,7 +45,8 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);        
+        setContentView(R.layout.main);
+        mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
     }
 
 
@@ -150,17 +151,13 @@ public class MainActivity extends Activity {
         protected void onPostExecute(JSONObject json) {
             try {
                 if (json.getBoolean("success")) {
-                	Log.e("RESULT!!!", "OK");
+                	Log.e("RESULT!!!", json.toString());
                     // everything is ok
-                	Log.e("RESULT!!!", "1");
                     SharedPreferences.Editor editor = mPreferences.edit();
-                    Log.e("RESULT!!!", "2");
                     // save the returned auth_token into
                     // the SharedPreferences
                     editor.putString("AuthToken", json.getJSONObject("data").getString("auth_token"));
-                    Log.e("RESULT!!!", "3");
                     editor.commit();
-                    Log.e("RESULT!!!", "4");
 
                     // launch the HomeActivity and close this one
                     openDetails();
@@ -170,7 +167,7 @@ public class MainActivity extends Activity {
             } catch (Exception e) {
                 // something went wrong: show a Toast
                 // with the exception message
-            	Log.e("RESULT!!!", "STH WRONG :(");
+            	Log.e("RESULT!!!", e.getMessage());
                 Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
             } finally {
                 super.onPostExecute(json);
