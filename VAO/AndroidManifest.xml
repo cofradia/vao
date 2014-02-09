@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="events.EventDetails"
+            android:name="com.cofradia.vao.events.EventDetail"
             android:label="@string/title_activity_event_details" >
         </activity>
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/app_id"/>
