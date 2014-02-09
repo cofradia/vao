@@ -36,7 +36,7 @@ import android.content.Intent;
 public class MainActivity extends Activity {
     public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     
-    private final static String LOGIN_API_ENDPOINT_URL = "vao-ws.herokuapp.com";
+    private final static String LOGIN_API_ENDPOINT_URL = "http://vao-ws.herokuapp.com/v1/sessions.json";
     private SharedPreferences mPreferences;
     private String emailText;
     private String passwordText;
@@ -150,20 +150,27 @@ public class MainActivity extends Activity {
         protected void onPostExecute(JSONObject json) {
             try {
                 if (json.getBoolean("success")) {
+                	Log.e("RESULT!!!", "OK");
                     // everything is ok
+                	Log.e("RESULT!!!", "1");
                     SharedPreferences.Editor editor = mPreferences.edit();
+                    Log.e("RESULT!!!", "2");
                     // save the returned auth_token into
                     // the SharedPreferences
                     editor.putString("AuthToken", json.getJSONObject("data").getString("auth_token"));
+                    Log.e("RESULT!!!", "3");
                     editor.commit();
+                    Log.e("RESULT!!!", "4");
 
                     // launch the HomeActivity and close this one
                     openDetails();
                 }
+                Log.e("RESULT!!!", "STH ELSE D:");
                 Toast.makeText(context, json.getString("info"), Toast.LENGTH_LONG).show();
             } catch (Exception e) {
                 // something went wrong: show a Toast
                 // with the exception message
+            	Log.e("RESULT!!!", "STH WRONG :(");
                 Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
             } finally {
                 super.onPostExecute(json);
