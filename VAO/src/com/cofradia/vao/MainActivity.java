@@ -22,7 +22,6 @@ import tasks.*;
 import com.cofradia.vao.*;
 import com.facebook.*;
 import com.facebook.model.*;
-
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -40,12 +39,24 @@ public class MainActivity extends Activity {
     private SharedPreferences mPreferences;
     private String emailText;
     private String passwordText;
+    private Button buttonLoginActivity;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        buttonLoginActivity = (Button) findViewById(R.id.btnLoginFB);
+        buttonLoginActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LoginFacebook.class);
+                startActivity(intent);
+            }
+        });
+
+
         mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
     }
 
