@@ -34,6 +34,8 @@
     <string name="eventMoodLabel">Mood</string>
     <string name="eventEventDescripcionLabel">Descripcion</string>
     <string name="eventCommentLabel">Mira lo que estan hablando :O</string>
+	<string name="title_activity_login_facebook">LoginFacebook</string>
+    <string name="successFBLogin">bien fb del mal!</string>
     <string name="title_activity_event_detail">EventDetail</string>
     <string name="title_activity_event_creation">EventCreation</string>
     
@@ -42,5 +44,4 @@
         <item>Teatro</item>
         <item>Tono</item>
     </string-array>
-
 </resources>
