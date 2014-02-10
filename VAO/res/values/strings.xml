@@ -14,23 +14,33 @@
     <string name="imglogo">imgLogo</string>
     <string name="placeHolderUsuario">Usuario</string>
     <string name="placeHolderPassword">Password</string>
+
+    <!-- Facebook stuff -->
+    <string name="btnLoginFB">Login with Facebook</string>
+    <string name="app_id">266719326820720</string>
+    <!-- id according to fb standard -->
+    <string name="appName">VAO COFRADIA</string>
+    <string name="eventPlace">This is the place</string>
+    <string name="facebookevent">FacebookEvent</string>
+    <string name="eventComment">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
+    <string name="eventTime">This is the time!</string>
+    <string name="favoriteEvent">FavoriteEvent</string>
+    <string name="commentUserImage">commentuserimage</string>
+    <string name="categoryEvent">algo</string>
+    <string name="chkEventFacebookAttendance">Confirmar en Facebook</string>
+    <string name="btnConfirmAttendance">Confirmar</string>
+    <string name="txtEventAttendanceText">Lorem ipsum dolor sit amet,Lorem ipsum dolor sit amet</string>
+    <string name="btnCancelAttendance">Cancelar</string>
+    <string name="eventMoodLabel">Mood</string>
+    <string name="eventEventDescripcionLabel">Descripcion</string>
+    <string name="eventCommentLabel">Mira lo que estan hablando :O</string>
+    <string name="title_activity_event_detail">EventDetail</string>
+    <string name="title_activity_event_creation">EventCreation</string>
     
-    <!--Facebook stuff -->
-	<string name="btnLoginFB">Login with Facebook</string>
-	<string name="app_id">266719326820720</string> <!--id according to fb standard  -->
-	<string name="appName">VAO COFRADIA</string>
-	<string name="eventPlace">This is the place</string>
-	<string name="facebookevent">FacebookEvent</string>
-	<string name="eventComment">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
-	<string name="eventTime">This is the time!</string>
-	<string name="favoriteEvent">FavoriteEvent</string>
-	<string name="commentUserImage">commentuserimage</string>
-	<string name="categoryEvent">algo</string>
-	<string name="chkEventFacebookAttendance">Confirmar en Facebook</string>
-	<string name="btnConfirmAttendance">Confirmar</string>
-	<string name="txtEventAttendanceText">Lorem ipsum dolor sit amet,Lorem ipsum dolor sit amet</string>
-	<string name="btnCancelAttendance">Cancelar</string>
-	<string name="eventMoodLabel">Mood</string>
-	<string name="eventEventDescripcionLabel">Descripcion</string>
-	<string name="eventCommentLabel">Mira lo que estan hablando :O</string>
+    <string-array name="event_categories">
+        <item>Concierto</item>
+        <item>Teatro</item>
+        <item>Tono</item>
+    </string-array>
+
 </resources>
