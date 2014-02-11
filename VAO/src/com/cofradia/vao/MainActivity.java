@@ -25,11 +25,19 @@ import tasks.*;
 import com.cofradia.vao.*;
 import com.facebook.*;
 import com.facebook.model.*;
+
+
+import de.greenrobot.daovao.DaoMaster;
+import de.greenrobot.daovao.DaoMaster.DevOpenHelper;
+import de.greenrobot.daovao.DaoSession;
+import de.greenrobot.daovao.User;
+import de.greenrobot.daovao.UserDao;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 
 /**
  * @author Usuario
@@ -45,21 +53,37 @@ public class MainActivity extends Activity {
     private static final String URL_PREFIX_FRIENDS = "https://graph.facebook.com/me/friends?access_token=";
     private Button btnLoginFB;
     private Session.StatusCallback statusCallback = new SessionStatusCallback();
-
+    //GreenDao
+    private SQLiteDatabase db;
+    private DaoMaster daoMaster;
+    private DaoSession daoSession;
+    private UserDao userDao;
+    private User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
        
+        //Initializing Device BD
+        DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "vao-db", null);
+        db = helper.getWritableDatabase();
+        daoMaster = new DaoMaster(db);
+        daoSession = daoMaster.newSession();
+        userDao = daoSession.getUserDao();
+        currentUser = new User();
+        
+        //Set up events
         btnLoginFB = (Button)findViewById(R.id.btnLoginFB);
-      //TODO: move this methos to a Session Manager
-        setupSession(savedInstanceState);
         
         mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
+
+        //TODO: move this methos to a Session Manager
+        setupFBSession(savedInstanceState);
+        
     }
 
-    private void setupSession(Bundle savedInstanceState) {
+    private void setupFBSession(Bundle savedInstanceState) {
         Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
 
         Session session = Session.getActiveSession();
@@ -75,7 +99,6 @@ public class MainActivity extends Activity {
                 session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
             }
         }
-
         updateView();
     }
 
@@ -85,7 +108,6 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.login, menu);
         return true;
     }
-
  
     public void doRegularLogin(View view){
     	EditText userEmailField = (EditText) findViewById(R.id.txtUsuario);
@@ -99,12 +121,20 @@ public class MainActivity extends Activity {
                 Toast.LENGTH_LONG).show();
             return;
         } else {
-            LoginTask loginTask = new LoginTask(emailText,passwordText, mPreferences , MainActivity.this);
-            loginTask.doLogin(); 
+        	currentUser.setUser("user1@example.com");
+        	currentUser.setPassword("secret123");
+            LoginTask loginTask = new LoginTask(currentUser.getUser(),currentUser.getPassword(), mPreferences , MainActivity.this);
+            if (loginTask.doLogin()) {
+            	
+            	//TODO: after "dologin" call
+            	currentUser.setActiveSession(true);
+            	userDao.insert(currentUser);
+            }else{
+            	//TODO: show fb regular login error
+            }
         }
     }
     
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
       super.onActivityResult(requestCode, resultCode, data);
@@ -130,26 +160,6 @@ public class MainActivity extends Activity {
         Session.saveSession(session, outState);
     }
 	
-    private void updateView() {
-        Session session = Session.getActiveSession();
-        if (session.isOpened()) {
-        	Log.d("FB Login: ", "Session is already opened --  KATHERINE WI WI");
-        	
-        	//TODO: delete session.closeAndClearTokenInformation, just for test purpose
-    	    //session.closeAndClearTokenInformation();
-    	    
-    	    //Redirect to eventList window
-        	//TODO: add server side && greenDao (create user, login server side)
-        	//Add user fbtoken
-            LoginTask loginTask = new LoginTask("user1@example.com","secret123", mPreferences , MainActivity.this);
-            loginTask.doLogin(); 
-        } else {
-            btnLoginFB.setOnClickListener(new OnClickListener() {
-                public void onClick(View view) { onClickFBLogin(); }
-            });
-        }
-    }
-
     private void onClickFBLogin() {
         Session session = Session.getActiveSession();
         if (!session.isOpened() && !session.isClosed()) {
@@ -163,10 +173,35 @@ public class MainActivity extends Activity {
     private class SessionStatusCallback implements Session.StatusCallback {
         @Override
         public void call(Session session, SessionState state, Exception exception) {
-        	
         	Log.d("FBLogin: ", "token: " + session.getAccessToken());
             updateView();
            
+        }
+    }
+
+    private void updateView() {
+        Session session = Session.getActiveSession();
+        if (session.isOpened()) {
+        	Log.d("FB Login: ", "Session is already opened --  KATHERINE WI WI");
+        	//TODO: delete session.closeAndClearTokenInformation, just for test purpose
+    	    //session.closeAndClearTokenInformation();
+    	    
+    	    currentUser.setFbToken(session.getAccessToken());
+        	currentUser.setUser("user1@example.com");
+        	currentUser.setPassword("secret123");
+            LoginTask loginTask = new LoginTask(currentUser.getUser(),currentUser.getPassword(), mPreferences , MainActivity.this);
+            if (loginTask.doLogin()) {
+		            	
+		        //TODO: after "dologin" call
+            	currentUser.setActiveSession(true);
+            	userDao.insert(currentUser);
+            }else{
+            	//TODO: show fb regular login error
+            }
+        } else {
+            btnLoginFB.setOnClickListener(new OnClickListener() {
+                public void onClick(View view) { onClickFBLogin(); }
+            });
         }
     }
 
