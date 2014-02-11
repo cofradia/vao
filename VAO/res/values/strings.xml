@@ -3,7 +3,7 @@
 
     <string name="app_name">vao</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">VAO u_u</string>
+    <string name="hello_world">HOLA VAO u_u</string>
     <string name="title_activity_event_details">EventDetails</string>
     <string name="picture_event">picture_event</string>
     <string name="btnLogin">Login</string>
@@ -14,10 +14,15 @@
     <string name="imglogo">imgLogo</string>
     <string name="placeHolderUsuario">Usuario</string>
     <string name="placeHolderPassword">Password</string>
+    <string name="eventListMessage">Mostar lista de eventos</string>
 
     <!-- Facebook stuff -->
     <string name="btnLoginFB">Login with Facebook</string>
     <string name="app_id">266719326820720</string> <!-- id according to fb standard -->
+    <string name="title_activity_login_facebook">LoginFacebook</string>
+    <string name="successFBLogin">bien fb del mal!</string>
+    <!-- /Facebook stuff -->
+    
     <string name="appName">VAO COFRADIA</string>
     <string name="eventPlace">This is the place</string>
     <string name="facebookevent">FacebookEvent</string>
@@ -33,7 +38,10 @@
     <string name="eventMoodLabel">Mood</string>
     <string name="eventEventDescripcionLabel">Descripcion</string>
     <string name="eventCommentLabel">Mira lo que estan hablando :O</string>
-    <string name="title_activity_login_facebook">LoginFacebook</string>
-    <string name="successFBLogin">bien fb del mal!</string>
+    <string name="login">Login</string>
+    <string name="instructions">Login to create a link to fetch account data</string>
+    <!-- string name="logout">Log out</string> -->
+
+    <string name="title_activity_event_list">EventList</string>
 
 </resources>

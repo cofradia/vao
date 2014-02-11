@@ -14,37 +14,38 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.Settings;
 
-public class LoginFacebook extends Activity {
-	private static final String URL_PREFIX_FRIENDS = "https://graph.facebook.com/me/friends?access_token=";
 
+public class LoginFacebook extends Activity {
+	
     private TextView textInstructionsOrLink;
+    private static final String URL_PREFIX_FRIENDS = "https://graph.facebook.com/me/friends?access_token=";
     private Button buttonLoginLogout;
     private Session.StatusCallback statusCallback = new SessionStatusCallback();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_login_facebook);
-//        buttonLoginLogout = (Button)findViewById(R.id.buttonLoginLogout);
-//        textInstructionsOrLink = (TextView)findViewById(R.id.instructionsOrLink);
+		//setContentView(R.layout.activity_login_facebook);
+        //buttonLoginLogout = (Button)findViewById(R.id.buttonLoginLogout);
+        //textInstructionsOrLink = (TextView)findViewById(R.id.instructionsOrLink);
 
-        Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
-
-        Session session = Session.getActiveSession();
-        if (session == null) {
-            if (savedInstanceState != null) {
-                session = Session.restoreSession(this, null, statusCallback, savedInstanceState);
-            }
-            if (session == null) {
-                session = new Session(this);
-            }
-            Session.setActiveSession(session);
-            if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
-                session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
-            }
-        }
-
-        updateView();
+//        Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
+//
+//        Session session = Session.getActiveSession();
+//        if (session == null) {
+//            if (savedInstanceState != null) {
+//                session = Session.restoreSession(this, null, statusCallback, savedInstanceState);
+//            }
+//            if (session == null) {
+//                session = new Session(this);
+//            }
+//            Session.setActiveSession(session);
+//            if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
+//                session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
+//            }
+//        }
+//
+//        updateView();
 
 	}
 
@@ -82,22 +83,31 @@ public class LoginFacebook extends Activity {
 
 	
     private void updateView() {
-//        Session session = Session.getActiveSession();
-//        if (session.isOpened()) {
-//            textInstructionsOrLink.setText(URL_PREFIX_FRIENDS + session.getAccessToken());
-//            buttonLoginLogout.setText(R.string.logout);
-//            buttonLoginLogout.setOnClickListener(new OnClickListener() {
-//                public void onClick(View view) { onClickLogout(); }
-//            });
-//        } else {
-//            textInstructionsOrLink.setText(R.string.instructions);
-//            buttonLoginLogout.setText(R.string.login);
-//            buttonLoginLogout.setOnClickListener(new OnClickListener() {
-//                public void onClick(View view) { onClickLogin(); }
-//            });
-//        }
+        Session session = Session.getActiveSession();
+        if (session.isOpened()) {
+            textInstructionsOrLink.setText(URL_PREFIX_FRIENDS + session.getAccessToken());
+           // buttonLoginLogout.setText(R.string.logout);
+            buttonLoginLogout.setOnClickListener(new OnClickListener() {
+                public void onClick(View view) { onClickLogout(); }
+            });
+        } else {
+            textInstructionsOrLink.setText(R.string.instructions);
+            buttonLoginLogout.setText(R.string.login);
+            buttonLoginLogout.setOnClickListener(new OnClickListener() {
+                public void onClick(View view) { onClickLogin(); }
+            });
+        }
     }
-    
+
+    private void onClickLogin() {
+        Session session = Session.getActiveSession();
+        if (!session.isOpened() && !session.isClosed()) {
+            session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
+        } else {
+            Session.openActiveSession(this, true, statusCallback);
+        }
+    }
+
     private void onClickLogout() {
         Session session = Session.getActiveSession();
         if (!session.isClosed()) {
@@ -109,6 +119,7 @@ public class LoginFacebook extends Activity {
         @Override
         public void call(Session session, SessionState state, Exception exception) {
             updateView();
+            //alguito:
         }
     }
 

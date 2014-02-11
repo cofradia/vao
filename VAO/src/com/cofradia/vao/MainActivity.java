@@ -12,12 +12,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.cofradia.vao.events.EventDetail;
+import com.cofradia.vao.events.EventList;
+
 import android.app.Activity;
 import android.content.*;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import tasks.*;
 import com.cofradia.vao.*;
 import com.facebook.*;
@@ -35,31 +38,46 @@ import android.content.Intent;
 public class MainActivity extends Activity {
     public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
     
-    private final static String LOGIN_API_ENDPOINT_URL = "http://vao-ws.herokuapp.com/v1/sessions.json";
     private SharedPreferences mPreferences;
     private String emailText;
     private String passwordText;
-    private Button buttonLoginActivity;
+    //TODO: use GreenDao user class
+    private static final String URL_PREFIX_FRIENDS = "https://graph.facebook.com/me/friends?access_token=";
+    private Button btnLoginFB;
+    private Session.StatusCallback statusCallback = new SessionStatusCallback();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+       
+        btnLoginFB = (Button)findViewById(R.id.btnLoginFB);
+      //TODO: move this methos to a Session Manager
+        setupSession(savedInstanceState);
         
-        buttonLoginActivity = (Button) findViewById(R.id.btnLoginFB);
-        buttonLoginActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, LoginFacebook.class);
-                startActivity(intent);
-            }
-        });
-
-
         mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
     }
 
+    private void setupSession(Bundle savedInstanceState) {
+        Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
+
+        Session session = Session.getActiveSession();
+        if (session == null) {
+            if (savedInstanceState != null) {
+                session = Session.restoreSession(this, null, statusCallback, savedInstanceState);
+            }
+            if (session == null) {
+                session = new Session(this);
+            }
+            Session.setActiveSession(session);
+            if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
+                session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
+            }
+        }
+
+        updateView();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -67,27 +85,8 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.login, menu);
         return true;
     }
-    
-    public void openDetails(){
-        Intent intent = new Intent(this, EventDetail.class);
-        startActivity(intent);
 
-    }
-
-    //FB Login
-    public void doLoginFB(View view){
-        // start Facebook Login
-        Session.openActiveSession(this, true, new Session.StatusCallback() {
-
-          // callback when session changes state
-          @Override
-          public void call(Session session, SessionState state, Exception exception) {
-
-          }
-        });
-
-    }
-    
+ 
     public void doRegularLogin(View view){
     	EditText userEmailField = (EditText) findViewById(R.id.txtUsuario);
         emailText = userEmailField.getText().toString();
@@ -100,95 +99,75 @@ public class MainActivity extends Activity {
                 Toast.LENGTH_LONG).show();
             return;
         } else {
-            LoginTask loginTask = new LoginTask(MainActivity.this);
-            loginTask.setMessageLoading("Logging in...");
-            loginTask.execute(LOGIN_API_ENDPOINT_URL);
+            LoginTask loginTask = new LoginTask(emailText,passwordText, mPreferences , MainActivity.this);
+            loginTask.doLogin(); 
         }
     }
     
-    private class LoginTask extends UrlJsonAsyncTask {
-        public LoginTask(Context context) {
-            super(context);
-        }
-
-        @Override
-        protected JSONObject doInBackground(String... urls) {
-            DefaultHttpClient client = new DefaultHttpClient();
-            HttpPost post = new HttpPost(urls[0]);
-            JSONObject holder = new JSONObject();
-            JSONObject userObj = new JSONObject();
-            String response = null;
-            JSONObject json = new JSONObject();
-
-            try {
-                try {
-                    // setup the returned values in case
-                    // something goes wrong
-                    json.put("success", false);
-                    json.put("info", "Something went wrong. Retry!");
-                    // add the user email and password to
-                    // the params
-                    userObj.put("email", emailText);
-                    userObj.put("password", passwordText);
-                    holder.put("user", userObj);
-                    StringEntity se = new StringEntity(holder.toString());
-                    post.setEntity(se);
-
-                    // setup the request headers
-                    post.setHeader("Accept", "application/json");
-                    post.setHeader("Content-Type", "application/json");
-
-                    ResponseHandler<String> responseHandler = new BasicResponseHandler();
-                    response = client.execute(post, responseHandler);
-                    json = new JSONObject(response);
-
-                } catch (HttpResponseException e) {
-                    e.printStackTrace();
-                    Log.e("ClientProtocol", "" + e);
-                    json.put("info", "Email and/or password are invalid. Retry!");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Log.e("IO", "" + e);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                Log.e("JSON", "" + e);
-            }
-
-            return json;
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject json) {
-            try {
-                if (json.getBoolean("success")) {
-                	Log.e("RESULT!!!", json.toString());
-                    // everything is ok
-                    SharedPreferences.Editor editor = mPreferences.edit();
-                    // save the returned auth_token into
-                    // the SharedPreferences
-                    editor.putString("AuthToken", json.getJSONObject("data").getString("auth_token"));
-                    editor.commit();
-
-                    // launch the HomeActivity and close this one
-                    openDetails();
-                }
-                Log.e("RESULT!!!", "STH ELSE D:");
-                Toast.makeText(context, json.getString("info"), Toast.LENGTH_LONG).show();
-            } catch (Exception e) {
-                // something went wrong: show a Toast
-                // with the exception message
-            	Log.e("RESULT!!!", e.getMessage());
-                Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
-            } finally {
-                super.onPostExecute(json);
-            }
-        }
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
       super.onActivityResult(requestCode, resultCode, data);
       Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
     }
+	
+	@Override
+    public void onStart() {
+        super.onStart();
+        Session.getActiveSession().addCallback(statusCallback);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Session.getActiveSession().removeCallback(statusCallback);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Session session = Session.getActiveSession();
+        Session.saveSession(session, outState);
+    }
+	
+    private void updateView() {
+        Session session = Session.getActiveSession();
+        if (session.isOpened()) {
+        	Log.d("FB Login: ", "Session is already opened --  KATHERINE WI WI");
+        	
+        	//TODO: delete session.closeAndClearTokenInformation, just for test purpose
+    	    //session.closeAndClearTokenInformation();
+    	    
+    	    //Redirect to eventList window
+        	//TODO: add server side && greenDao (create user, login server side)
+        	//Add user fbtoken
+            LoginTask loginTask = new LoginTask("user1@example.com","secret123", mPreferences , MainActivity.this);
+            loginTask.doLogin(); 
+        } else {
+            btnLoginFB.setOnClickListener(new OnClickListener() {
+                public void onClick(View view) { onClickFBLogin(); }
+            });
+        }
+    }
+
+    private void onClickFBLogin() {
+        Session session = Session.getActiveSession();
+        if (!session.isOpened() && !session.isClosed()) {
+        	Log.d("ONCLICKLOGIN: " ,"nor closed nor opened session");
+            session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
+        } else {
+            Session.openActiveSession(this, true, statusCallback);
+        }
+    }
+
+    private class SessionStatusCallback implements Session.StatusCallback {
+        @Override
+        public void call(Session session, SessionState state, Exception exception) {
+        	
+        	Log.d("FBLogin: ", "token: " + session.getAccessToken());
+            updateView();
+           
+        }
+    }
+
 }
