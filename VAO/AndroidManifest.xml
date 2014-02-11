@@ -43,6 +43,14 @@
             android:name="com.cofradia.vao.events.EventCreation"
             android:label="@string/title_activity_event_creation" >
         </activity>
+        <activity
+            android:name="com.cofradia.vao.EventCreationDetails"
+            android:label="@string/title_activity_event_creation_details"
+            android:parentActivityName="com.cofradia.vao.events.EventCreation" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cofradia.vao.events.EventCreation" />
+        </activity>
     </application>
 
 </manifest>
