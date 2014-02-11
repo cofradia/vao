@@ -1,7 +1,9 @@
-package com.cofradia.vao.events;
+package DataAccess;
 
-public class Event {
-	public EventComment comment;
+import com.cofradia.vao.events.EventComment;
+
+public class DAEvent {
+	public EventComment eventComments;
 	public int created;
 	public int updated;
 	public int id;
@@ -10,23 +12,39 @@ public class Event {
 	public String mood;
 	public String imagen;
 	public String fb_evento_id;
-	public String id_categoria;
-	public String id_lugar;
-	public String id_privacidad;
+	public int categoria_id;
+	public int privacidad_id;
+	public int asistencia_evento_id;
+    public int fecha_evento_id;
 	public int likes;
 	public float rating;
 
-	public Event() {
-		super();
+	public DAEvent() {
+		this.eventComments = new EventComment(1);
+		// TODO Auto-generated constructor stub
+	}
+
+	public DAEvent(int id) {
+		this.nombre = "Nombre del evento de id:" + id;
+		this.descripcion = "Nombre del evento de id:" + id;
+		this.mood = "Evento " + id + "Me siento graciosamente bien :D";
+		this.fb_evento_id = null;
+		this.categoria_id = 0;
+		this.privacidad_id = 0;
+		this.eventComments = new EventComment(1);
 		// TODO Auto-generated constructor stub
 	}
 
 	public EventComment getComment() {
-		return comment;
+		return eventComments;
+	}
+
+	public EventComment getLastComment(int eventId) {
+		return eventComments;
 	}
 
 	public void setComment(EventComment comment) {
-		this.comment = comment;
+		this.eventComments = comment;
 	}
 
 	public int getCreated() {
@@ -93,28 +111,36 @@ public class Event {
 		this.fb_evento_id = fb_evento_id;
 	}
 
-	public String getId_categoria() {
-		return id_categoria;
+	public int getId_categoria() {
+		return categoria_id;
 	}
 
-	public void setId_categoria(String id_categoria) {
-		this.id_categoria = id_categoria;
+	public void setId_categoria(int id_categoria) {
+		this.categoria_id = id_categoria;
 	}
 
-	public String getId_lugar() {
-		return id_lugar;
+	public int getId_privacidad() {
+		return privacidad_id;
 	}
 
-	public void setId_lugar(String id_lugar) {
-		this.id_lugar = id_lugar;
+	public void setId_privacidad(int id_privacidad) {
+		this.privacidad_id = id_privacidad;
 	}
 
-	public String getId_privacidad() {
-		return id_privacidad;
+	public int getId_asistencia_evento() {
+		return asistencia_evento_id;
 	}
 
-	public void setId_privacidad(String id_privacidad) {
-		this.id_privacidad = id_privacidad;
+	public void setId_asistencia_evento(int id_asistencia_evento) {
+		this.asistencia_evento_id = id_asistencia_evento;
+	}
+
+	public int getId_fecha_evento() {
+		return fecha_evento_id;
+	}
+
+	public void setId_fecha_evento(int id_fecha_evento) {
+		this.fecha_evento_id = id_fecha_evento;
 	}
 
 	public int getLikes() {
