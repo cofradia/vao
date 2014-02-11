@@ -40,6 +40,7 @@
     <string name="eventCommentLabel">Mira lo que estan hablando :O</string>
     <string name="title_activity_event_detail">EventDetail</string>
     <string name="title_activity_event_creation">EventCreation</string>
+    <string name="title_activity_event_list">Mostrar lista de eventos</string>
     
     <string-array name="event_categories">
         <item>Concierto</item>
