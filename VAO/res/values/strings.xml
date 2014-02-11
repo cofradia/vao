@@ -14,11 +14,15 @@
     <string name="imglogo">imgLogo</string>
     <string name="placeHolderUsuario">Usuario</string>
     <string name="placeHolderPassword">Password</string>
+    <string name="eventListMessage">Mostar lista de eventos</string>
 
     <!-- Facebook stuff -->
     <string name="btnLoginFB">Login with Facebook</string>
-    <string name="app_id">266719326820720</string>
-    <!-- id according to fb standard -->
+    <string name="app_id">266719326820720</string> <!-- id according to fb standard -->
+    <string name="title_activity_login_facebook">LoginFacebook</string>
+    <string name="successFBLogin">bien fb del mal!</string>
+    <!-- /Facebook stuff -->
+    
     <string name="appName">VAO COFRADIA</string>
     <string name="eventPlace">This is the place</string>
     <string name="facebookevent">FacebookEvent</string>
@@ -34,17 +38,15 @@
     <string name="eventMoodLabel">Mood</string>
     <string name="eventEventDescripcionLabel">Descripcion</string>
     <string name="eventCommentLabel">Mira lo que estan hablando :O</string>
-    <string name="title_activity_login_facebook">LoginFacebook</string>
-    <string name="successFBLogin">bien fb del mal!</string>
     <string name="title_activity_event_detail">EventDetail</string>
     <string name="title_activity_event_creation">EventCreation</string>
-
+    <string name="title_activity_event_list">Mostrar lista de eventos</string>
+    
     <string-array name="event_categories">
         <item>Concierto</item>
         <item>Teatro</item>
         <item>Tono</item>
     </string-array>
-
-    <string name="title_activity_event_creation_details">EventCreationDetails</string>
-
+	
+	<string name="title_activity_event_creation_details">EventCreationDetails</string>
 </resources>
