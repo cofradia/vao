@@ -45,6 +45,8 @@
     <string-array name="event_categories">
         <item>Concierto</item>
         <item>Teatro</item>
-        <item>Tono</item>
+        <item>Tono </item>
     </string-array>
+    <string name="searchTitle">Lista de Eventos</string>
+    <string name="txtExampleEvent">Mi primer evento</string>
 </resources>

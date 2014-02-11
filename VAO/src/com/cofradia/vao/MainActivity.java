@@ -128,7 +128,7 @@ public class MainActivity extends Activity {
             	
             	//TODO: after "dologin" call
             	currentUser.setActiveSession(true);
-            	userDao.insert(currentUser);
+            	//userDao.insert(currentUser);
             }else{
             	//TODO: show fb regular login error
             }
@@ -194,7 +194,7 @@ public class MainActivity extends Activity {
 		            	
 		        //TODO: after "dologin" call
             	currentUser.setActiveSession(true);
-            	userDao.insert(currentUser);
+            	//userDao.insert(currentUser);
             }else{
             	//TODO: show fb regular login error
             }
