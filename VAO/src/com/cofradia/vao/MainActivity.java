@@ -96,8 +96,14 @@ public class MainActivity extends Activity {
             @Override
             public void onUserInfoFetched(GraphUser user) {
                 MainActivity.this.user = user;
-                if (user!=null)
+                if (user!=null){
+                	
                 	Log.d("FBLogin", "usuario existente! ");
+                	Log.d("FBLogin", " id usuario: "+ user.getId());
+                	Log.d("FBLogin", " userName usuario: "+ user.getUsername());
+                	Log.d("FBLogin", " name usuario: "+ user.getName());
+                	Log.d("FBLogin", "email? " + user.asMap().get("email"));
+                }
                 else
                 	Log.d("FBLogin", "usuario nulo :(");
              //   updateUI();

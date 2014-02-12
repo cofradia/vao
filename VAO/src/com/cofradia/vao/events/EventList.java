@@ -2,6 +2,7 @@ package com.cofradia.vao.events;
 
 import java.util.ArrayList;
 
+import com.cofradia.vao.CreateEvent;
 import com.cofradia.vao.MainActivity;
 import com.cofradia.vao.R;
 import com.cofradia.vao.R.layout;
@@ -10,7 +11,10 @@ import com.cofradia.vao.R.menu;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,12 +27,6 @@ public class EventList extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_event_list);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.event_list, menu);
 		ListView searchResult = (ListView)findViewById(R.id.listEventSearchResult);
 		
 		//TODO: modify to use Event
@@ -63,7 +61,34 @@ public class EventList extends Activity {
                 Toast.makeText(getApplicationContext(),str,Toast.LENGTH_SHORT).show();*/
 			}
         });
-		return true;
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		//getMenuInflater().inflate(R.menu.event_list, menu);
+		MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.event_list, menu);
+	    return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Log.d("Action bar"," Listening to item: " + item.getTitle());
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        case R.id.itemAddEvent:
+	            openCreateEvent();
+	            return true;
+	       
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
+
+	//TODO: modify this method to open CreateEvent window
+	public void openCreateEvent(){
+		Intent intent = new Intent(EventList.this, CreateEvent.class);
+		startActivity(intent);
+	}
 }

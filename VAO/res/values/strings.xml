@@ -22,7 +22,7 @@
     <string name="title_activity_login_facebook">LoginFacebook</string>
     <string name="successFBLogin">bien fb del mal!</string>
     <!-- /Facebook stuff -->
-    
+
     <string name="appName">VAO COFRADIA</string>
     <string name="eventPlace">This is the place</string>
     <string name="facebookevent">FacebookEvent</string>
@@ -41,13 +41,17 @@
     <string name="title_activity_event_detail">EventDetail</string>
     <string name="title_activity_event_creation">EventCreation</string>
     <string name="title_activity_event_list">Mostrar lista de eventos</string>
-    
+    <string name="txtAddEvent">Crear evento</string>
+	<string name="txtNewEvent">Nuevo evento</string>
     <string-array name="event_categories">
         <item>Concierto</item>
         <item>Teatro</item>
         <item>Tono </item>
     </string-array>
+
     <string name="searchTitle">Lista de Eventos</string>
     <string name="txtExampleEvent">Mi primer evento</string>
     <string name="txtHelloUser">Hola boli: </string>
+    <string name="title_activity_create_event">CreateEvent</string>
+
 </resources>
