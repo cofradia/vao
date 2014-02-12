@@ -49,7 +49,7 @@
             android:label="@string/title_activity_event_list" >
         </activity>
         <activity
-            android:name="com.cofradia.vao.CreateEvent"
+            android:name="com.cofradia.vao.events.CreateEvent"
             android:label="@string/title_activity_create_event"
             android:parentActivityName="com.cofradia.vao.events.EventList" >
             <meta-data

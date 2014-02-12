@@ -2,7 +2,6 @@ package com.cofradia.vao.events;
 
 import java.util.ArrayList;
 
-import com.cofradia.vao.CreateEvent;
 import com.cofradia.vao.MainActivity;
 import com.cofradia.vao.R;
 import com.cofradia.vao.R.layout;
