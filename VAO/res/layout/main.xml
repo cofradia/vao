@@ -33,16 +33,17 @@
         android:hint="@string/placeHolderPassword"
         android:inputType="textPassword" />
     
-
-    <Button
-    	android:id="@+id/btnLoginFB"
+	<com.facebook.widget.LoginButton
+        android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/btnLogin"
         android:layout_alignRight="@+id/btnLogin"
         android:layout_below="@+id/btnLogin"
         android:layout_marginTop="20dp"
-        android:text="@string/btnLoginFB" /> 
+        facebook:confirm_logout="false"
+        facebook:fetch_user_info="true"/>
+
 
     <ImageView
         android:id="@+id/imgLogo"
@@ -64,5 +65,7 @@
         android:layout_marginTop="20dp"
         android:onClick="doRegularLogin"
         android:text="@string/btnLogin" />
+    
+    
 
 </RelativeLayout>

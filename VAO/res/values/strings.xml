@@ -49,4 +49,5 @@
     </string-array>
     <string name="searchTitle">Lista de Eventos</string>
     <string name="txtExampleEvent">Mi primer evento</string>
+    <string name="txtHelloUser">Hola boli: </string>
 </resources>
