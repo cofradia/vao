@@ -39,14 +39,22 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id" />
-		<activity
+
+        <activity
             android:name="com.cofradia.vao.events.EventCreation"
             android:label="@string/title_activity_event_creation" >
         </activity>
-      
         <activity
             android:name="com.cofradia.vao.events.EventList"
             android:label="@string/title_activity_event_list" >
+        </activity>
+        <activity
+            android:name="com.cofradia.vao.CreateEvent"
+            android:label="@string/title_activity_create_event"
+            android:parentActivityName="com.cofradia.vao.events.EventList" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cofradia.vao.events.EventList" />
         </activity>
     </application>
 
