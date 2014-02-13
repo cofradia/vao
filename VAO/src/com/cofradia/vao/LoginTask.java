@@ -38,7 +38,8 @@ public class LoginTask extends UrlJsonAsyncTask {
         public boolean doLogin(){
         	this.setMessageLoading("Logging in...");
         	this.execute(LOGIN_API_ENDPOINT_URL);
-            return true;
+            //TODO: modify returning value to handle exceptions or fail cases
+        	return true;
         }
 
         @Override
