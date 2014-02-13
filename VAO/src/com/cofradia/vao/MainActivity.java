@@ -21,7 +21,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import tasks.*;
+import com.cofradia.vao.tasks.*;
 import com.cofradia.vao.*;
 import com.facebook.*;
 import com.facebook.model.*;

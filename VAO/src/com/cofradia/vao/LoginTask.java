@@ -13,7 +13,7 @@ import org.json.JSONObject;
 
 import com.cofradia.vao.events.EventList;
 
-import tasks.UrlJsonAsyncTask;
+import com.cofradia.vao.tasks.UrlJsonAsyncTask;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
