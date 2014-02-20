@@ -6,5 +6,16 @@ public class EventComment {
 	public int updated;
 //	public User user;
 	
+	public EventComment() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public EventComment(int eventId) {
+		// TODO Auto-generated constructor stub
+		this.comment = "algo";
+		this.created = 123;
+		this.updated = 234;
+	}
+
 	
 }

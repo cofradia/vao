@@ -220,96 +220,104 @@ containing a value of this type.
         public static final int ic_launcher=0x7f020021;
     }
     public static final class id {
-        public static final int action_settings=0x7f040031;
-        public static final int btnLogin=0x7f040030;
-        public static final int btnLoginFB=0x7f04002f;
-        public static final int chkEventFacebookAttendance=0x7f04002a;
-        public static final int com_facebook_login_activity_progress_bar=0x7f040017;
-        public static final int com_facebook_picker_activity_circle=0x7f040016;
-        public static final int com_facebook_picker_checkbox=0x7f040019;
-        public static final int com_facebook_picker_checkbox_stub=0x7f04001d;
-        public static final int com_facebook_picker_divider=0x7f040021;
-        public static final int com_facebook_picker_done_button=0x7f040020;
-        public static final int com_facebook_picker_image=0x7f04001a;
-        public static final int com_facebook_picker_list_section_header=0x7f04001e;
-        public static final int com_facebook_picker_list_view=0x7f040015;
-        public static final int com_facebook_picker_profile_pic_stub=0x7f04001b;
-        public static final int com_facebook_picker_row_activity_circle=0x7f040018;
-        public static final int com_facebook_picker_search_text=0x7f040026;
-        public static final int com_facebook_picker_title=0x7f04001c;
-        public static final int com_facebook_picker_title_bar=0x7f040023;
-        public static final int com_facebook_picker_title_bar_stub=0x7f040022;
-        public static final int com_facebook_picker_top_bar=0x7f04001f;
-        public static final int com_facebook_search_bar_view=0x7f040025;
-        public static final int com_facebook_usersettingsfragment_login_button=0x7f040029;
-        public static final int com_facebook_usersettingsfragment_logo_image=0x7f040027;
-        public static final int com_facebook_usersettingsfragment_profile_name=0x7f040028;
+        public static final int action_settings=0x7f040037;
+        public static final int btnLogin=0x7f040036;
+        public static final int btnLoginFB=0x7f040035;
+        public static final int chkEventFacebookAttendance=0x7f040030;
+        public static final int com_facebook_login_activity_progress_bar=0x7f04001d;
+        public static final int com_facebook_picker_activity_circle=0x7f04001c;
+        public static final int com_facebook_picker_checkbox=0x7f04001f;
+        public static final int com_facebook_picker_checkbox_stub=0x7f040023;
+        public static final int com_facebook_picker_divider=0x7f040027;
+        public static final int com_facebook_picker_done_button=0x7f040026;
+        public static final int com_facebook_picker_image=0x7f040020;
+        public static final int com_facebook_picker_list_section_header=0x7f040024;
+        public static final int com_facebook_picker_list_view=0x7f04001b;
+        public static final int com_facebook_picker_profile_pic_stub=0x7f040021;
+        public static final int com_facebook_picker_row_activity_circle=0x7f04001e;
+        public static final int com_facebook_picker_search_text=0x7f04002c;
+        public static final int com_facebook_picker_title=0x7f040022;
+        public static final int com_facebook_picker_title_bar=0x7f040029;
+        public static final int com_facebook_picker_title_bar_stub=0x7f040028;
+        public static final int com_facebook_picker_top_bar=0x7f040025;
+        public static final int com_facebook_search_bar_view=0x7f04002b;
+        public static final int com_facebook_usersettingsfragment_login_button=0x7f04002f;
+        public static final int com_facebook_usersettingsfragment_logo_image=0x7f04002d;
+        public static final int com_facebook_usersettingsfragment_profile_name=0x7f04002e;
         public static final int imgEvent=0x7f040007;
-        public static final int imgEventAlgo=0x7f04000f;
-        public static final int imgEventCommentUserImage=0x7f040013;
-        public static final int imgEventFav=0x7f04000e;
-        public static final int imgIsFbEvent=0x7f040010;
-        public static final int imgLogo=0x7f04002d;
+        public static final int imgEventAlgo=0x7f04000e;
+        public static final int imgEventCommentUserImage=0x7f040019;
+        public static final int imgEventFav=0x7f04000d;
+        public static final int imgIsFbEvent=0x7f04000f;
+        public static final int imgLogo=0x7f040033;
         public static final int large=0x7f040002;
         public static final int linlayEventDetailsIn=0x7f040005;
-        public static final int linlayEventImageActions=0x7f04000d;
+        public static final int linlayEventImageActions=0x7f04000c;
         public static final int normal=0x7f040001;
-        public static final int picker_subtitle=0x7f040024;
-        public static final int rellayEventComment=0x7f040012;
+        public static final int picker_subtitle=0x7f04002a;
+        public static final int rellayEventComment=0x7f040017;
+        public static final int rellayEventDescription=0x7f040013;
         public static final int rellayEventDetails=0x7f040003;
         public static final int rellayEventDetailsInfo=0x7f040006;
         public static final int rellayEventDetailsInfoIn=0x7f040008;
+        public static final int rellayEventMood=0x7f040010;
         public static final int scvwEventDetails=0x7f040004;
         public static final int small=0x7f040000;
-        public static final int swtEvent=0x7f040011;
-        public static final int txtEventAttendanceConfirmText=0x7f04002b;
-        public static final int txtEventComment=0x7f040014;
-        public static final int txtEventDescription=0x7f04000c;
-        public static final int txtEventPlace=0x7f04000a;
-        public static final int txtEventTime=0x7f04000b;
+        public static final int swtEvent=0x7f040016;
+        public static final int txtEventAttendanceConfirmText=0x7f040031;
+        public static final int txtEventComment=0x7f04001a;
+        public static final int txtEventCommentLabel=0x7f040018;
+        public static final int txtEventDescription=0x7f040015;
+        public static final int txtEventDescriptionLabel=0x7f040014;
+        public static final int txtEventMood=0x7f040012;
+        public static final int txtEventMoodLabel=0x7f040011;
+        public static final int txtEventPlace=0x7f04000b;
+        public static final int txtEventTime=0x7f04000a;
         public static final int txtEventTitle=0x7f040009;
-        public static final int txtPassword=0x7f04002e;
-        public static final int txtUsuario=0x7f04002c;
+        public static final int txtPassword=0x7f040034;
+        public static final int txtUsuario=0x7f040032;
     }
     public static final class layout {
         public static final int activity_event_details=0x7f030000;
-        public static final int com_facebook_friendpickerfragment=0x7f030001;
-        public static final int com_facebook_login_activity_layout=0x7f030002;
-        public static final int com_facebook_picker_activity_circle_row=0x7f030003;
-        public static final int com_facebook_picker_checkbox=0x7f030004;
-        public static final int com_facebook_picker_image=0x7f030005;
-        public static final int com_facebook_picker_list_row=0x7f030006;
-        public static final int com_facebook_picker_list_section_header=0x7f030007;
-        public static final int com_facebook_picker_search_box=0x7f030008;
-        public static final int com_facebook_picker_title_bar=0x7f030009;
-        public static final int com_facebook_picker_title_bar_stub=0x7f03000a;
-        public static final int com_facebook_placepickerfragment=0x7f03000b;
-        public static final int com_facebook_placepickerfragment_list_row=0x7f03000c;
-        public static final int com_facebook_search_bar_layout=0x7f03000d;
-        public static final int com_facebook_usersettingsfragment=0x7f03000e;
-        public static final int dialog_event_attendance=0x7f03000f;
-        public static final int main=0x7f030010;
+        public static final int activity_event_list=0x7f030001;
+        public static final int com_facebook_friendpickerfragment=0x7f030002;
+        public static final int com_facebook_login_activity_layout=0x7f030003;
+        public static final int com_facebook_picker_activity_circle_row=0x7f030004;
+        public static final int com_facebook_picker_checkbox=0x7f030005;
+        public static final int com_facebook_picker_image=0x7f030006;
+        public static final int com_facebook_picker_list_row=0x7f030007;
+        public static final int com_facebook_picker_list_section_header=0x7f030008;
+        public static final int com_facebook_picker_search_box=0x7f030009;
+        public static final int com_facebook_picker_title_bar=0x7f03000a;
+        public static final int com_facebook_picker_title_bar_stub=0x7f03000b;
+        public static final int com_facebook_placepickerfragment=0x7f03000c;
+        public static final int com_facebook_placepickerfragment_list_row=0x7f03000d;
+        public static final int com_facebook_search_bar_layout=0x7f03000e;
+        public static final int com_facebook_usersettingsfragment=0x7f03000f;
+        public static final int dialog_event_attendance=0x7f030010;
+        public static final int main=0x7f030011;
     }
     public static final class menu {
         public static final int event_details=0x7f090000;
-        public static final int login=0x7f090001;
+        public static final int event_list=0x7f090001;
+        public static final int login=0x7f090002;
+        public static final int login_facebook=0x7f090003;
     }
     public static final class string {
-        public static final int EventDescription=0x7f070021;
         public static final int action_settings=0x7f07001a;
-        /** id according to fb standard  
+        /**  /Facebook stuff 
          */
-        public static final int appName=0x7f070028;
-        public static final int app_id=0x7f070027;
+        public static final int appName=0x7f07002b;
+        public static final int app_id=0x7f070028;
         public static final int app_name=0x7f070019;
-        public static final int btnCancelAttendance=0x7f070033;
-        public static final int btnConfirmAttendance=0x7f070031;
+        public static final int btnCancelAttendance=0x7f070036;
+        public static final int btnConfirmAttendance=0x7f070034;
         public static final int btnLogin=0x7f07001e;
-        /** Facebook stuff 
+        /**  Facebook stuff 
          */
-        public static final int btnLoginFB=0x7f070026;
-        public static final int categoryEvent=0x7f07002f;
-        public static final int chkEventFacebookAttendance=0x7f070030;
+        public static final int btnLoginFB=0x7f070027;
+        public static final int categoryEvent=0x7f070032;
+        public static final int chkEventFacebookAttendance=0x7f070033;
         public static final int com_facebook_choose_friends=0x7f07000f;
         public static final int com_facebook_dialogloginactivity_ok_button=0x7f070000;
         public static final int com_facebook_internet_permission_error_message=0x7f070013;
@@ -335,22 +343,36 @@ containing a value of this type.
         public static final int com_facebook_usersettingsfragment_log_in_button=0x7f070008;
         public static final int com_facebook_usersettingsfragment_logged_in=0x7f070009;
         public static final int com_facebook_usersettingsfragment_not_logged_in=0x7f07000a;
-        public static final int commentUserImage=0x7f07002e;
-        public static final int eventComment=0x7f07002b;
-        public static final int eventPlace=0x7f070029;
-        public static final int eventTime=0x7f07002c;
+        public static final int commentUserImage=0x7f070031;
+        public static final int eventComment=0x7f07002e;
+        public static final int eventCommentLabel=0x7f070039;
+        public static final int eventDescription=0x7f070021;
+        public static final int eventEventDescripcionLabel=0x7f070038;
+        public static final int eventListMessage=0x7f070026;
+        public static final int eventMoodLabel=0x7f070037;
+        public static final int eventPlace=0x7f07002c;
+        public static final int eventTime=0x7f07002f;
         public static final int eventTitle=0x7f070020;
-        public static final int facebookevent=0x7f07002a;
-        public static final int favoriteEvent=0x7f07002d;
+        public static final int facebookevent=0x7f07002d;
+        public static final int favoriteEvent=0x7f070030;
         public static final int hello_world=0x7f07001b;
         public static final int imageEvent=0x7f07001f;
         public static final int imglogo=0x7f070023;
+        public static final int instructions=0x7f07003b;
+        public static final int login=0x7f07003a;
         public static final int picture_event=0x7f07001d;
         public static final int placeHolderPassword=0x7f070025;
         public static final int placeHolderUsuario=0x7f070024;
+        public static final int successFBLogin=0x7f07002a;
         public static final int swtEventAttendance=0x7f070022;
         public static final int title_activity_event_details=0x7f07001c;
-        public static final int txtEventAttendanceText=0x7f070032;
+        /**  string name="logout">Log out</string> 
+         */
+        public static final int title_activity_event_list=0x7f07003c;
+        /**  id according to fb standard 
+         */
+        public static final int title_activity_login_facebook=0x7f070029;
+        public static final int txtEventAttendanceText=0x7f070035;
     }
     public static final class style {
         /** 

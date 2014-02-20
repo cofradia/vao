@@ -23,12 +23,12 @@
             <RelativeLayout
                 android:id="@+id/rellayEventDetailsInfo"
                 android:layout_width="match_parent"
-                android:layout_height="150dp" >
+                android:layout_height="170dp" >
 
                 <ImageView
                     android:id="@+id/imgEvent"
                     android:layout_width="match_parent"
-                    android:layout_height="130dp"
+                    android:layout_height="150dp"
                     android:contentDescription="@string/imageEvent"
                     android:src="@drawable/ic_launcher" />
 
@@ -47,6 +47,15 @@
                         android:textAppearance="?android:attr/textAppearanceLarge" />
 
                     <TextView
+                        android:id="@+id/txtEventTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_below="@+id/txtEventPlace"
+                        android:text="@string/eventTime"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <TextView
                         android:id="@+id/txtEventPlace"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -55,50 +64,81 @@
                         android:text="@string/eventPlace"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
 
-                    <TextView
-                        android:id="@+id/txtEventTime"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_below="@+id/txtEventPlace"
-                        android:text="@string/eventTime"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
                 </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/linlayEventImageActions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:orientation="horizontal" >
+
+                    <ImageButton
+                        android:id="@+id/imgEventFav"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:contentDescription="@string/favoriteEvent"
+                        android:src="@android:drawable/btn_star" />
+
+                    <ImageView
+                        android:id="@+id/imgEventAlgo"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:contentDescription="@string/categoryEvent"
+                        android:src="@android:drawable/dialog_frame" />
+
+                    <ImageView
+                        android:id="@+id/imgIsFbEvent"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:contentDescription="@string/facebookevent"
+                        android:src="@drawable/fb_launcher" />
+                </LinearLayout>
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/txtEventDescription"
+            <RelativeLayout
+                android:id="@+id/rellayEventMood"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/EventDescription" />
+                android:layout_height="70dp" >
 
-            <LinearLayout
-                android:id="@+id/linlayEventImageActions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                <TextView
+                    android:id="@+id/txtEventMoodLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/eventMoodLabel"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                <ImageButton
-                    android:id="@+id/imgEventFav"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:contentDescription="@string/favoriteEvent"
-                    android:src="@android:drawable/btn_star" />
+                <TextView
+                    android:id="@+id/txtEventMood"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/txtEventMoodLabel"
+                    android:text="@string/eventComment" />
 
-                <ImageView
-                    android:id="@+id/imgEventAlgo"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:contentDescription="@string/categoryEvent"
-                    android:src="@android:drawable/dialog_holo_light_frame" />
+            </RelativeLayout>
 
-                <ImageView
-                    android:id="@+id/imgIsFbEvent"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:contentDescription="@string/facebookevent"
-                    android:src="@drawable/fb_launcher" />
-            </LinearLayout>
+            <RelativeLayout
+                android:id="@+id/rellayEventDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/txtEventDescriptionLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/eventEventDescripcionLabel"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/txtEventDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/txtEventDescriptionLabel"
+                    android:text="@string/eventDescription" />
+            </RelativeLayout>
 
             <Switch
                 android:id="@+id/swtEvent"
@@ -110,25 +150,34 @@
             <RelativeLayout
                 android:id="@+id/rellayEventComment"
                 android:layout_width="match_parent"
-                android:layout_height="70dp" >
+                android:layout_height="100dp" >
+
+                <TextView
+                    android:id="@+id/txtEventCommentLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/eventCommentLabel"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <ImageView
                     android:id="@+id/imgEventCommentUserImage"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
+                    android:layout_below="@+id/txtEventCommentLabel"
                     android:contentDescription="@string/commentUserImage"
                     android:src="@drawable/ic_launcher" />
 
                 <TextView
                     android:id="@+id/txtEventComment"
                     android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentTop="true"
+                    android:layout_height="fill_parent"
+                    android:layout_alignTop="@+id/imgEventCommentUserImage"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/imgEventCommentUserImage"
                     android:text="@string/eventComment" />
+
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

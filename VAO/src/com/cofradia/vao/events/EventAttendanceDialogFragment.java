@@ -10,35 +10,40 @@ import android.widget.Toast;
 
 import com.cofradia.vao.R;
 
-public class EventAttendanceDialogFragment extends DialogFragment{
-	
-	    @Override
-	    public Dialog onCreateDialog(Bundle savedInstanceState) {
-	        AlertDialog.Builder EventDialogBuilder = new AlertDialog.Builder(getActivity());
-	        LayoutInflater EventAttendanceInflater = getActivity().getLayoutInflater();
-	        EventDialogBuilder.setView(EventAttendanceInflater.inflate(R.layout.dialog_event_attendance,null));
+public class EventAttendanceDialogFragment extends DialogFragment {
 
-	        //null should be your on click listener
-	        EventDialogBuilder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+	@Override
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		AlertDialog.Builder EventDialogBuilder = new AlertDialog.Builder(
+				getActivity());
+		LayoutInflater EventAttendanceInflater = getActivity()
+				.getLayoutInflater();
+		EventDialogBuilder.setView(EventAttendanceInflater.inflate(
+				R.layout.dialog_event_attendance, null));
 
-	            @Override
-	            public void onClick(DialogInterface dialog, int which) {
-	            	Toast.makeText(getActivity(), 
-	            			"holi", Toast.LENGTH_LONG).show();
-	            	
-	            }
-	        });
+		EventDialogBuilder.setPositiveButton("Confirmar",
+				new DialogInterface.OnClickListener() {
 
-	        EventDialogBuilder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// Toast:
+						Toast.makeText(getActivity(), "holi", Toast.LENGTH_LONG)
+								.show();
 
-	            @Override
-	            public void onClick(DialogInterface dialog, int which) {
-	                dialog.dismiss();
-	            }
-	        });
+					}
+				});
 
+		EventDialogBuilder.setNegativeButton("Cancelar",
+				new DialogInterface.OnClickListener() {
 
-	        return EventDialogBuilder.create();
-	    }
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+
+					}
+				});
+
+		return EventDialogBuilder.create();
+	}
 
 }
