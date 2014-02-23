@@ -75,6 +75,11 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
+        
+        user_logged_in();
+        
         setContentView(R.layout.main);
         uiHelper = new UiLifecycleHelper(this, callback);
         uiHelper.onCreate(savedInstanceState);
@@ -112,12 +117,21 @@ public class MainActivity extends Activity {
                 //handlePendingAction();
             }
         });
-        
-        mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
+
 
     }
     
-    private void onSessionStateChange(Session session, SessionState state, Exception exception) {
+    private boolean user_logged_in() {
+        String first = mPreferences.getString("AuthToken", null);
+        if((first != null)){
+            Intent i = new Intent(this, EventList.class);
+             startActivity(i);
+             finish();
+        }
+    	return false;
+	}
+
+	private void onSessionStateChange(Session session, SessionState state, Exception exception) {
         Log.d("on SessionStateChange", "session changed");
 
         if (session.isOpened()) {

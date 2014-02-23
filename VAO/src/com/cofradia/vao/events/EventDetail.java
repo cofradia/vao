@@ -24,8 +24,7 @@ public class EventDetail extends Activity {
 	}
 	
 	public EventDetail(int idEvent) {
-		super();
-		this.event =new DAEvent(idEvent);		
+		super();		
 	}
 
 	@Override

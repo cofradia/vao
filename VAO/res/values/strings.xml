@@ -53,4 +53,6 @@
     <string name="txtExampleEvent">Mi primer evento</string>
     <string name="txtHelloUser">Hola boli: </string>
     <string name="title_activity_create_event">CreateEvent</string>
+    <string name="validation_fields_complete">Por favor, complete todos los campos</string>
+    <string name="validation_correct_dates">Por favor, ingrese fechas válidas para el evento</string>
 </resources>

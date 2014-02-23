@@ -1,7 +1,9 @@
 package com.cofradia.vao;
 
+import de.greenrobot.daovao.event.Evento;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -9,14 +11,34 @@ import android.widget.Spinner;
 import android.support.v4.app.NavUtils;
 
 public class EventCreationDetails extends Activity {
+	
+	private String event_name = null;
+	private String event_description = null;
+	private String event_place = null;
+	private String event_start_date = null;
+	private String event_start_time = null;
+	private String event_end_date = null;
+	private String event_end_time = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_event_creation_details);
 		// Show the Up button in the action bar.
+		get_event_parameters();
 		fill_spinner();
 		setupActionBar();
+	}
+	
+	public void get_event_parameters(){
+		event_name =getIntent().getExtras().getString("event_name");
+		event_description =getIntent().getExtras().getString("event_description");
+		event_place =getIntent().getExtras().getString("event_place");
+		event_start_date =getIntent().getExtras().getString("event_from_date");
+		event_start_time =getIntent().getExtras().getString("event_from_time");
+		event_end_date =getIntent().getExtras().getString("event_to_date");
+		event_end_time =getIntent().getExtras().getString("event_to_time");
+		
 	}
 
 	/**
