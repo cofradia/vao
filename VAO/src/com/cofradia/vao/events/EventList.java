@@ -87,7 +87,7 @@ public class EventList extends Activity {
 
 	//TODO: modify this method to open CreateEvent window
 	public void openCreateEvent(){
-		Intent intent = new Intent(EventList.this, CreateEvent.class);
+		Intent intent = new Intent(EventList.this, EventCreation.class);
 		startActivity(intent);
 	}
 }
