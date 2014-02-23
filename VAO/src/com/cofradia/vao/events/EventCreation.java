@@ -55,7 +55,6 @@ public class EventCreation extends Activity {
 	private ImageButton mainImageEvent;
 	private EditText eventNameEditText;
 	private EditText eventDescriptionEditText;
-	private EditText eventPlaceEditText;
 	private Button eventFromDateBtn;
 	private Button eventToDateBtn;
 	private Button eventFromTimeBtn;
@@ -63,7 +62,6 @@ public class EventCreation extends Activity {
 //	private Event event = null;
 	private String event_name = null;
 	private String event_description = null;
-	private String event_place = null;
 	private String event_from_date = null;
 	private String event_from_time = null;
 	private String event_to_date = null;
@@ -115,7 +113,6 @@ public class EventCreation extends Activity {
 		mainImageEvent = (ImageButton) findViewById(R.id.imgBtnEventMainImage);
 		eventNameEditText = (EditText) findViewById(R.id.edtTxEventName);
 		eventDescriptionEditText = (EditText) findViewById(R.id.edtTxEventDescription);
-		eventPlaceEditText = (EditText) findViewById(R.id.edtTxEventPlace);
 		eventFromDateBtn = (Button) findViewById(R.id.btnFromDate);
 		eventToDateBtn = (Button) findViewById(R.id.btnToDate);
 		eventFromTimeBtn = (Button) findViewById(R.id.btnFromTime);
@@ -318,7 +315,6 @@ public class EventCreation extends Activity {
 			if (valid_dates()){
 				event_name = eventNameEditText.getText().toString();
 				event_description = eventDescriptionEditText.getText().toString();
-				event_place = eventPlaceEditText.getText().toString();
 				event_from_date = eventFromDateBtn.getText().toString();
 				event_from_time = eventFromTimeBtn.getText().toString();
 				event_to_date = eventToDateBtn.getText().toString();
@@ -328,7 +324,6 @@ public class EventCreation extends Activity {
 				Intent intent = new Intent(this, EventCreationDetails.class);
 				intent.putExtra("event_name", event_name);
 				intent.putExtra("event_description", event_description);
-				intent.putExtra("event_place", event_place);
 				intent.putExtra("event_from_date", event_from_date);
 				intent.putExtra("event_to_time", event_to_date);
 				intent.putExtra("event_from_time", event_from_time);
@@ -342,7 +337,7 @@ public class EventCreation extends Activity {
 	}
 	
 	public boolean valid_fields(){
-	    if (eventNameEditText.length() == 0 || eventDescriptionEditText.length() == 0 || eventPlaceEditText.length()==0 ||
+	    if (eventNameEditText.length() == 0 || eventDescriptionEditText.length() == 0 ||
 	    		eventFromDateBtn.getText().length() == 0 || eventFromTimeBtn.getText().length()==0 ||
 	    		eventToDateBtn.getText().length() == 0 || eventToTimeBtn.getText().length()==0) {
 	        // input fields are empty
