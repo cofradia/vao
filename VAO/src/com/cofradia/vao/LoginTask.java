@@ -26,8 +26,10 @@ public class LoginTask extends UrlJsonAsyncTask {
 	String emailText;
 	String passwordText;
 	SharedPreferences mPreferences;
-
-		
+//	 public LoginTask(Context context) {
+//         super(context);
+//        
+//     }
         public LoginTask( String emailText, String passwordText, SharedPreferences mPreferences, Context context) {
             super(context);
             this.emailText = emailText;
@@ -35,11 +37,11 @@ public class LoginTask extends UrlJsonAsyncTask {
             this.mPreferences = mPreferences;
         }
         
-        public boolean doLogin(){
+        public void doLogin(){
         	this.setMessageLoading("Logging in...");
         	this.execute(LOGIN_API_ENDPOINT_URL);
             //TODO: modify returning value to handle exceptions or fail cases
-        	return true;
+        
         }
 
         @Override
@@ -104,6 +106,7 @@ public class LoginTask extends UrlJsonAsyncTask {
                     // launch the HomeActivity and close this one
                     Intent intent = new Intent(((MainActivity)context)	, EventList.class);
             	    ((MainActivity)context).startActivity(intent);
+            	  //  ((MainActivity)context).finish();
             	    
                 }
                 Log.e("RESULT!!!", "STH ELSE D:");
