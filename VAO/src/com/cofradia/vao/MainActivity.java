@@ -1,6 +1,8 @@
 package com.cofradia.vao;
 
 import java.io.IOException;
+import java.util.Arrays;
+
 
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.ResponseHandler;
@@ -21,23 +23,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
-import com.cofradia.vao.tasks.*;
 
-import com.cofradia.vao.*;
+
 import com.facebook.*;
 import com.facebook.model.*;
-import com.facebook.widget.FacebookDialog;
 import com.facebook.widget.LoginButton;
 
 import de.greenrobot.daovao.DaoMaster;
-import de.greenrobot.daovao.DaoMaster.DevOpenHelper;
 import de.greenrobot.daovao.DaoSession;
 import de.greenrobot.daovao.User;
 import de.greenrobot.daovao.UserDao;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -48,26 +44,22 @@ import android.database.sqlite.SQLiteDatabase;
  */
 public class MainActivity extends Activity {
     public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+    public final static String ADMINUSER = "admin@vao.com";
+    public final static String ADMINPWD = "secret123";
     
     private SharedPreferences mPreferences;
     private String emailText;
     private String passwordText;
-    
-    private static final String URL_PREFIX_FRIENDS = "https://graph.facebook.com/me/friends?access_token=";
     private LoginButton loginButton;
-    private Session.StatusCallback callback = new Session.StatusCallback() {
-        @Override
-        public void call(Session session, SessionState state, Exception exception) {
-            onSessionStateChange(session, state, exception);
-        }
-    };
+    private FacebookAPI fbApi = new FacebookAPI();
+    private Session  fbSession ;
     
     //GreenDao
     private SQLiteDatabase db;
     private DaoMaster daoMaster;
     private DaoSession daoSession;
     private UserDao userDao;
-    private User currentUser;
+    private User currentUser = new User();
     private GraphUser user;
     private UiLifecycleHelper uiHelper;
     
@@ -77,26 +69,19 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         
         mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
-        
-        user_logged_in();
-        
-        setContentView(R.layout.main);
-        uiHelper = new UiLifecycleHelper(this, callback);
-        uiHelper.onCreate(savedInstanceState);
-        
-        //Initializing Device BD
-        DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "vao-db", null);
-        db = helper.getWritableDatabase();
-        daoMaster = new DaoMaster(db);
-        daoSession = daoMaster.newSession();
-        userDao = daoSession.getUserDao();
-        currentUser = new User();
-        
-        //TODO: move this methods to a Session Manager
-        setupFBSession(savedInstanceState);
-        
-        //Test
+        fbSession = fbApi.setupFBSession(savedInstanceState, this);
+        // Check whether user is already logged in and redirects to next View
+        boolean userLoggedIn = user_logged_in(savedInstanceState);
+        if (!userLoggedIn) {
+        	setContentView(R.layout.main);
+        	setViewListeners();
+        }
+    }
+    
+    private void setViewListeners(){
         loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton.setReadPermissions(Arrays.asList("user_birthday", "user_status", "email"));
+
         loginButton.setUserInfoChangedCallback(new LoginButton.UserInfoChangedCallback() {
             @Override
             public void onUserInfoFetched(GraphUser user) {
@@ -107,21 +92,24 @@ public class MainActivity extends Activity {
                 	Log.d("FBLogin", " id usuario: "+ user.getId());
                 	Log.d("FBLogin", " userName usuario: "+ user.getUsername());
                 	Log.d("FBLogin", " name usuario: "+ user.getName());
-                	Log.d("FBLogin", "email? " + user.asMap().get("email"));
+                	Object email = user.asMap().get("email");
+                	Log.d("FBLogin", "email: " + email);
+                	Log.d("VAO Login", "doing regular login for fb user");
+                	//TODO: AUTH FB SERVER MISSING 
+                	currentUser.setUser(ADMINUSER);
+                	currentUser.setPassword(ADMINPWD);
+                	_doRegularLogin(currentUser);
                 }
-                else
+                else{
                 	Log.d("FBLogin", "usuario nulo :(");
-             //   updateUI();
-                // It's possible that we were waiting for this.user to be populated in order to post a
-                // status update.
-                //handlePendingAction();
+                    Toast.makeText(MainActivity.this, "No se pudo reealizar el loggeo con FB.", Toast.LENGTH_LONG).show();
+
+                }
             }
         });
-
-
     }
     
-    private boolean user_logged_in() {
+    private boolean user_logged_in(Bundle savedInstanceState) {
         String first = mPreferences.getString("AuthToken", null);
         if((first != null)){
             Intent i = new Intent(this, EventList.class);
@@ -131,65 +119,13 @@ public class MainActivity extends Activity {
     	return false;
 	}
 
-	private void onSessionStateChange(Session session, SessionState state, Exception exception) {
-        Log.d("on SessionStateChange", "session changed");
-
-        if (session.isOpened()) {
-	      	Log.d("FB Login: ", "Session is already opened, redirecting to eventList");
-	      	//TODO: delete session.closeAndClearTokenInformation, just for test purpose
-	  	    //session.closeAndClearTokenInformation();
-	  	    currentUser.setFbToken(session.getAccessToken());
-	      	currentUser.setUser("user1@example.com");
-	      	currentUser.setPassword("secret123");
-	      	
-	      	LoginTask loginTask = new LoginTask(currentUser.getUser(),currentUser.getPassword(), mPreferences , MainActivity.this);
-	          if (loginTask.doLogin()) {    	
-			        //TODO: after "dologin" call
-	          	currentUser.setActiveSession(true);
-	          	//userDao.insert(currentUser);
-	          }else{
-	          	//TODO: show fb  login error
-	          }
-	      }
-    }
-    
-    private FacebookDialog.Callback dialogCallback = new FacebookDialog.Callback() {
-        @Override
-        public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
-            Log.d("HelloFacebook", String.format("Error: %s", error.toString()));
-        }
-
-        @Override
-        public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
-            Log.d("HelloFacebook", "Success!");
-        }
-    };
-
-    private void setupFBSession(Bundle savedInstanceState) {
-        Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
-
-        Session session = Session.getActiveSession();
-        if (session == null) {
-            if (savedInstanceState != null) {
-                session = Session.restoreSession(this, null, callback, savedInstanceState);
-            }
-            if (session == null) {
-                session = new Session(this);
-            }
-            Session.setActiveSession(session);
-            if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
-                session.openForRead(new Session.OpenRequest(this).setCallback(callback));
-            }
-        }
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.login, menu);
         return true;
     }
- 
+    
     public void doRegularLogin(View view){
     	EditText userEmailField = (EditText) findViewById(R.id.txtUsuario);
         emailText = userEmailField.getText().toString();
@@ -202,38 +138,38 @@ public class MainActivity extends Activity {
                 Toast.LENGTH_LONG).show();
             return;
         } else {
-        	currentUser.setUser("user1@example.com");
-        	currentUser.setPassword("secret123");
-            LoginTask loginTask = new LoginTask(currentUser.getUser(),currentUser.getPassword(), mPreferences , MainActivity.this);
-            if (loginTask.doLogin()) {
-            	
-            	//TODO: after "dologin" call
-            	currentUser.setActiveSession(true);
-            	//userDao.insert(currentUser);
-            }else{
-            	//TODO: show fb regular login error
-            }
+        	currentUser.setUser(emailText);
+        	currentUser.setPassword(passwordText);
+        	_doRegularLogin(currentUser);
         }
     }
+    
+    private void _doRegularLogin(User currentUser){
+	 LoginTask loginTask = new LoginTask(currentUser.getUser(),currentUser.getPassword(), mPreferences , MainActivity.this);
+	 loginTask.doLogin();
+	    	
+	 //TODO: after "dologin" call
+	 //currentUser.setActiveSession(true);
+   }
+   
     
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
       super.onActivityResult(requestCode, resultCode, data);
       Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
-      uiHelper.onActivityResult(requestCode, resultCode, data, dialogCallback);
 
     }
 	
 	@Override
     public void onStart() {
         super.onStart();
-        Session.getActiveSession().addCallback(callback);
+     //   Session.getActiveSession().addCallback(callback);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Session.getActiveSession().removeCallback(callback);
+       // Session.getActiveSession().removeCallback(callback);
     }
 
     @Override
