@@ -325,7 +325,7 @@ public class EventCreation extends Activity {
 				intent.putExtra("event_name", event_name);
 				intent.putExtra("event_description", event_description);
 				intent.putExtra("event_from_date", event_from_date);
-				intent.putExtra("event_to_time", event_to_date);
+				intent.putExtra("event_to_date", event_to_date);
 				intent.putExtra("event_from_time", event_from_time);
 				intent.putExtra("event_to_time", event_to_time);
 				startActivity(intent);
