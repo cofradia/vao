@@ -16,7 +16,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import de.greenrobot.daovao.User;
-import de.greenrobot.daovao.event.Evento;
+import de.greenrobot.daovao.event.Event;
 import android.location.Location;
 import android.os.Bundle;
 import android.app.Activity;
@@ -87,7 +87,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
         if (map == null) {
         	
             map = ((MapFragment) getFragmentManager()
-                    .findFragmentById(R.id.event_map)).getMap();;
+                    .findFragmentById(R.id.event_map)).getMap();
             // Check if we were successful in obtaining the map.
             if (map == null) {
                 Toast.makeText(this, "Google maps not available",
