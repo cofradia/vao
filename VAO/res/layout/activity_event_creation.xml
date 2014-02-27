@@ -30,6 +30,7 @@
             android:hint="Nombre"
             android:maxWidth="10dp"
             android:textSize="18sp" />
+        <requestFocus />
 
         <EditText
             android:id="@+id/edtTxEventDescription"
@@ -43,22 +44,7 @@
             android:hint="Descripcion"
             android:inputType="textMultiLine"
             android:textSize="18sp" >
-
-            <requestFocus />
         </EditText>
-
-        <EditText
-            android:id="@+id/edtTxEventPlace"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:ems="10"
-            android:hint="Lugar"
-            android:maxWidth="10dp"
-            android:textSize="18sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
