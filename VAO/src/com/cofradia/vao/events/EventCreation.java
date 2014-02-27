@@ -19,7 +19,6 @@ import com.cofradia.vao.R.menu;
 
 import de.greenrobot.daovao.event.Evento;
 
-import DataAccess.DAEvent;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
