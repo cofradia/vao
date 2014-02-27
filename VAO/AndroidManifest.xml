@@ -57,7 +57,8 @@
 
         <activity
             android:name="com.cofradia.vao.events.EventCreation"
-            android:label="@string/title_activity_event_creation" >
+            android:label="@string/title_activity_event_creation" 
+            android:parentActivityName="com.cofradia.vao.events.EventList" >            
         </activity>
 		<activity
             android:name="com.cofradia.vao.EventCreationDetails"
