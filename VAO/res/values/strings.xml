@@ -43,7 +43,7 @@
     <string name="title_activity_event_list">Mostrar lista de eventos</string>
     <string name="txtAddEvent">Crear evento</string>
 	<string name="txtNewEvent">Nuevo evento</string>
-    <string-array name="event_categories">
+    <string-array name="event_categories_keys">
         <item>Concierto</item>
         <item>Teatro</item>
         <item>Tono </item>
@@ -55,5 +55,5 @@
     <string name="title_activity_create_event">CreateEvent</string>
     <string name="validation_fields_complete">Por favor, complete todos los campos</string>
     <string name="validation_correct_dates">Por favor, ingrese fechas válidas para el evento</string>
-    <string name="crear_evento">Crear evento</string>
+    <string name="event_create_save">Guardar</string>
 </resources>
