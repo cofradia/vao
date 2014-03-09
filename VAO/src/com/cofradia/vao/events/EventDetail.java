@@ -1,6 +1,5 @@
 package com.cofradia.vao.events;
 
-import DataAccess.DAEvent;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -17,7 +16,6 @@ public class EventDetail extends Activity {
 	final Context context = this;
 	private Switch swtEventConfirm;
 	private CheckBox chkEventFacebookAttendance;
-	public DAEvent event;
 	
 	public EventDetail() {
 		super();
