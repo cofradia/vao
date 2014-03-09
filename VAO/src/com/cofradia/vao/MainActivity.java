@@ -80,11 +80,12 @@ public class MainActivity extends Activity {
     
     private void setViewListeners(){
         loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton.setReadPermissions(Arrays.asList("user_birthday", "user_status", "email"));
+        loginButton.setPublishPermissions(Arrays.asList("user_birthday", "user_status", "email","create_event"));
 
         loginButton.setUserInfoChangedCallback(new LoginButton.UserInfoChangedCallback() {
             @Override
             public void onUserInfoFetched(GraphUser user) {
+            	
                 MainActivity.this.user = user;
                 if (user!=null){
                 	
@@ -101,8 +102,8 @@ public class MainActivity extends Activity {
                 	_doRegularLogin(currentUser);
                 }
                 else{
-                	Log.d("FBLogin", "usuario nulo :(");
-                    Toast.makeText(MainActivity.this, "No se pudo reealizar el loggeo con FB.", Toast.LENGTH_LONG).show();
+                	Log.d("FBLogin", "usuario nulo :( : " );
+                    //Toast.makeText(MainActivity.this, "No se pudo reealizar el loggeo con FB.", Toast.LENGTH_LONG).show();
 
                 }
             }
@@ -129,8 +130,8 @@ public class MainActivity extends Activity {
     
     public void doRegularLogin(View view){
     	EditText userEmailField = (EditText) findViewById(R.id.txtUsuario);
-        emailText = userEmailField.getText().toString();
         EditText userPasswordField = (EditText) findViewById(R.id.txtPassword);
+        emailText = userEmailField.getText().toString();
         passwordText = userPasswordField.getText().toString();
 
         if (emailText.length() == 0 || passwordText.length() == 0) {

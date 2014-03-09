@@ -17,7 +17,9 @@ import com.cofradia.vao.R;
 import com.cofradia.vao.R.layout;
 import com.cofradia.vao.R.menu;
 
+
 import android.media.ExifInterface;
+
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;

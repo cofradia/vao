@@ -46,6 +46,10 @@ public class EventDetail extends Activity {
 		super();
 	}
 	
+	public EventDetail(int idEvent) {
+		super();		
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
