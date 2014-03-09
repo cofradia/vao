@@ -4,9 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.cofradia.vao.events.EventCreation;
 import com.facebook.LoggingBehavior;
 import com.facebook.Session;
 import com.facebook.SessionState;
@@ -14,8 +16,9 @@ import com.facebook.Settings;
 
 public class FacebookAPI {
 
-    // List of additional write permissions being requested: add events also
-    private static final List<String> PERMISSIONS = Arrays.asList("publish_stream, publish_actions, email");
+
+	// List of additional write permissions being requested: add events also
+    private static final List<String> PERMISSIONS = Arrays.asList("publish_stream, publish_actions, create_event");
 
     // Request code for reauthorization requests. 
     private static final int REAUTH_ACTIVITY_CODE = 100; 
@@ -32,9 +35,17 @@ public class FacebookAPI {
     };
 	
     public FacebookAPI(){
-		Session.getActiveSession();
+		fbSession = Session.getActiveSession();
 	}; 
 	
+	public Session getFbSession() {
+		return fbSession;
+	}
+
+	public void setFbSession(Session fbSession) {
+		this.fbSession = fbSession;
+	}
+
 	public Session setupFBSession(Bundle savedInstanceState,
 			MainActivity mainActivity) {
 		 Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
@@ -82,7 +93,7 @@ public class FacebookAPI {
     }
 	
 	//TODO: must receive extra permission's list
-    public void getExtendedPermissions() {  
+    public void getExtendedPermissions(Activity act) {  
         pendingAnnounce = false;
         Session session = Session.getActiveSession();
         Log.d("FB HANDLEANNOUNCE", "on handle announce");
@@ -96,7 +107,7 @@ public class FacebookAPI {
         	Log.d("FB PERMISSIONS", "NO CONTIENE LOS PERMISOS EXTENDIDOS");
             pendingAnnounce = true; // Mark that we are currently waiting for confirmation of publish permissions 
             session.addCallback(callback);
-            requestPublishPermissions(this.mainActivity, session, PERMISSIONS, REAUTH_ACTIVITY_CODE);
+            requestPublishPermissions(act, session, PERMISSIONS, REAUTH_ACTIVITY_CODE);
             return;
         }
         Log.d("FB PERMISSIONS", "YA CONTIENE LOS PERMISOS EXTENDIDOS");
@@ -117,4 +128,6 @@ public class FacebookAPI {
     	    }
       	Log.d("REQUES PUBLISH", "REQUEST PUBLISH FIN");
     }
+
+
 }
