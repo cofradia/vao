@@ -343,7 +343,9 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 			        	Log.d("FB Events", "Evento real creado!");
 	
 			        	Log.d("FB Events", response.toString());
-	                    Toast.makeText(EventCreationDetails.this, "Evento creado en Facebook.", Toast.LENGTH_LONG).show();
+	                    Toast.makeText(EventCreationDetails.this, 
+	                    		"Evento creado en Facebook.", 
+	                    		Toast.LENGTH_LONG).show();
 			        }
 			    }
 			).executeAsync(); 
