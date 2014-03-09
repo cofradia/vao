@@ -71,7 +71,7 @@ public class MainActivity extends Activity {
         mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
         fbSession = fbApi.setupFBSession(savedInstanceState, this);
         // Check whether user is already logged in and redirects to next View
-        boolean userLoggedIn = false;//user_logged_in(savedInstanceState);
+        boolean userLoggedIn = user_logged_in(savedInstanceState);
         if (!userLoggedIn) {
         	setContentView(R.layout.main);
         	setViewListeners();
