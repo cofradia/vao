@@ -1,6 +1,5 @@
 package com.cofradia.vao.events;
 
-import DataAccess.DAEvent;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
