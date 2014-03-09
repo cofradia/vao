@@ -1,6 +1,13 @@
 package com.cofradia.vao;
 
+import org.json.JSONException;
+
 import com.cofradia.vao.adapters.EventCategoriesAdapter;
+import com.cofradia.vao.util.DateFormatter;
+import com.facebook.HttpMethod;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
@@ -41,6 +48,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 	private String event_description = null;
 	private String event_place_name = null;
 	private Integer event_category = null;
+	private String event_category_description = null;
 	private Float event_place_latitude = null;
 	private Float event_place_longitude= null;
 	private String event_start_date = null;
@@ -52,6 +60,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
     private GoogleMap map;
     private Spinner eventCategorySpinner;
     private EditText eventPlaceNameEditText;
+	private DateFormatter dateUtil = new DateFormatter();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -276,13 +285,68 @@ GooglePlayServicesClient.OnConnectionFailedListener {
     
     private void sendEvent(User currentUser){
     
-    	EventTask eventTask = new EventTask(event_name, event_description, event_place_name, event_start_date, event_end_date, event_start_time, event_end_time, event_place_latitude, event_place_longitude, event_category, getApplicationContext());
+    	EventTask eventTask = new EventTask(event_name, 
+    										event_description, 
+    										event_place_name, 
+    										event_start_date, 
+    										event_end_date, 
+    										event_start_time, 
+    										event_end_time, 
+    										event_place_latitude, 
+    										event_place_longitude, 
+    										event_category, 
+    										getApplicationContext());
     	eventTask.doEventCreation();
-	    	
-	 //TODO: after "dologin" call
-	 //currentUser.setActiveSession(true);
    }
 	
+    private String getFBDecription(String description){
+        String categoryDescription;
+        
+    	Resources r = getResources();
+        int [] values = r.getIntArray(R.array.event_categories_values);
+        
+    	String fbDescription =  new StringBuilder()
+    	.append("Evento: " )
+    	.append(eventCategorySpinner.toString())
+    	.append("\n")
+    	.append(description)
+    	.toString();
+    	
+        
+    	return fbDescription;
+    }
+    
+	public void createFBEvent(View view) throws JSONException{
+			Bundle params = new Bundle();
+			params.putString("name", event_name);
+			params.putString("description", getFBDecription(event_description));
+			params.putString("start_time", dateUtil.getTimeStamp(event_start_date, event_start_time));
+			params.putString("end_time", dateUtil.getTimeStamp(event_end_date, event_end_time));
+			params.putString("location", event_place_name);
+			//params.putString("url", getImageUrl);
+			
+	//		JSONObject jsonObject = new JSONObject();
+	//		jsonObject.put("value", "SELF");
+	//		params.putString("privacy", jsonObject.toString());
+		
+			/* make the API call */
+			FacebookAPI fbApi = new FacebookAPI();
+			Session session = fbApi.getFbSession();
+			new Request(
+			    session,
+			    "/me/events",
+			    params,
+			    HttpMethod.POST,
+			    new Request.Callback() {
+			        public void onCompleted(Response response) {
+			            /* handle the result */
+			        	Log.d("FB Events", "Evento real creado!");
 	
+			        	Log.d("FB Events", response.toString());
+	                    Toast.makeText(EventCreationDetails.this, "Evento creado en Facebook.", Toast.LENGTH_LONG).show();
+			        }
+			    }
+			).executeAsync(); 
+		}
 
 }
