@@ -17,8 +17,7 @@ import com.cofradia.vao.R;
 import com.cofradia.vao.R.layout;
 import com.cofradia.vao.R.menu;
 
-import de.greenrobot.daovao.event.Event;
-
+import android.media.ExifInterface;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,6 +34,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -66,6 +67,8 @@ public class EventCreation extends Activity {
 	private String event_to_date = null;
 	private String event_to_time = null;
 	private Button current_button=null;
+	private int image_width;
+	private int image_height;
 	static final int DATE_DIALOG_ID = 0;
 	static final int TIME_DIALOG_ID = 1;
 	
@@ -103,13 +106,16 @@ public class EventCreation extends Activity {
 
         ((Button) pDisplayTime).setText(
                 new StringBuilder()
-                        .append(pHour).append(":")
-                        .append(pMinute));
+                        .append((String.format("%02d",pHour))).append(":")
+                        .append((String.format("%02d",pMinute))));
 		
 	}
 
 	public void setElements(){
 		mainImageEvent = (ImageButton) findViewById(R.id.imgBtnEventMainImage);
+//		image_width = mainImageEvent.getMeasuredWidth();  
+//		image_height = mainImageEvent.getMeasuredHeight();
+		Log.d("dimenesions for images", ""+image_height+"/"+image_width);
 		eventNameEditText = (EditText) findViewById(R.id.edtTxEventName);
 		eventDescriptionEditText = (EditText) findViewById(R.id.edtTxEventDescription);
 		eventFromDateBtn = (Button) findViewById(R.id.btnFromDate);
@@ -242,10 +248,33 @@ public class EventCreation extends Activity {
         builder.show();
 	}
 	
+	public boolean needsToRotate(String photoPath, Bitmap bitmap){
+		ExifInterface ei;
+		boolean rotate = false;
+		try {
+			ei = new ExifInterface(photoPath);
+			int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+			switch(orientation) {
+			case ExifInterface.ORIENTATION_ROTATE_90:;
+				rotate = true;
+				break;
+			case ExifInterface.ORIENTATION_ROTATE_180:
+				rotate = false;
+				break;
+				// etc.
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rotate;
+	}
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
+			
 			if (requestCode == REQUEST_CAMERA) {
 				File f = new File(Environment.getExternalStorageDirectory()
 						.toString());
@@ -261,10 +290,7 @@ public class EventCreation extends Activity {
 
 					bm = BitmapFactory.decodeFile(f.getAbsolutePath(),
 							btmapOptions);
-
-					bm = Bitmap.createScaledBitmap(bm, mainImageEvent.getWidth(), mainImageEvent.getHeight(), true);
-					mainImageEvent.setImageBitmap(bm);
-
+					
 					String path = android.os.Environment
 							.getExternalStorageDirectory()
 							+ File.separator
@@ -273,6 +299,15 @@ public class EventCreation extends Activity {
 					OutputStream fOut = null;
 					File file = new File(path, String.valueOf(System
 							.currentTimeMillis()) + ".jpg");
+					bm = Bitmap.createScaledBitmap(bm, image_width, image_height, true);
+					if (!needsToRotate(file.getAbsolutePath(), bm)){
+						Log.d("asdasd", "dsadsa");
+						Matrix matrix = new Matrix();
+						matrix.postRotate(90);
+						bm = Bitmap.createBitmap(bm, 0, 0, image_height, image_width, matrix, true);
+					}
+					mainImageEvent.setImageBitmap(bm);
+					
 					try {
 						fOut = new FileOutputStream(file);
 						bm.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
@@ -292,9 +327,18 @@ public class EventCreation extends Activity {
 				Uri selectedImageUri = data.getData();
 
 				String tempPath = getPath(selectedImageUri, this);
+	
 				Bitmap bm;
 				BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
 				bm = BitmapFactory.decodeFile(tempPath, btmapOptions);
+				bm = Bitmap.createScaledBitmap(bm, mainImageEvent.getWidth(), mainImageEvent.getHeight(), true);
+				if ( needsToRotate(tempPath, bm)){
+					Matrix matrix = new Matrix();
+					matrix.postRotate(90);
+					bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
+				}
+				
+				
 				mainImageEvent.setImageBitmap(bm);
 			}
 		}
