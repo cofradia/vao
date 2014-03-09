@@ -1,3 +1,4 @@
+#encoding: utf-8
 class V1::EventController < ApplicationController
 	skip_before_filter :verify_authenticity_token,
                      :if => Proc.new { |c| c.request.format == 'application/json' }
@@ -5,7 +6,6 @@ class V1::EventController < ApplicationController
   respond_to :json
 
   def create
-  	p "asdasda"
 		event_data = params["event"]
 		user = User.find_by_authentication_token(params["auth_token"])
 		if !user.nil?
@@ -22,7 +22,8 @@ class V1::EventController < ApplicationController
 																				:start_date => event_data["event_start_date"], 
 																				:end_date => event_data["event_end_date"])
 					if date_by_event.save!
-						render :json => {:success => true,:event_obj => event_obj}
+						render  :info => "Evento creado exitosamente",
+								:json => {:success => true,:event_obj => event_obj}
 			    else
 	  		    render :status => :unprocessable_entity,:json => { :success => false, :info => @message.errors,
 						:data => {} }
