@@ -16,7 +16,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import de.greenrobot.daovao.User;
-import de.greenrobot.daovao.event.Event;
 import android.location.Location;
 import android.os.Bundle;
 import android.app.Activity;
@@ -28,7 +27,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.support.v4.app.NavUtils;
@@ -58,10 +59,16 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_event_creation_details);
+		setElements();
 		// Show the Up button in the action bar.
 		get_event_parameters();
 		fill_spinner();
 		setupActionBar();
+	}
+	
+	public void setElements(){
+		eventCategorySpinner = (Spinner) findViewById(R.id.spnEventCategory);
+		eventPlaceNameEditText = (EditText) findViewById(R.id.edtTxEventPlace);
 	}
 	
 	 @Override
@@ -153,6 +160,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		
 		categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(categoriesAdapter);
+		event_category = items[0].getValue();
 		
 		spinner.setOnItemSelectedListener(
 	            new AdapterView.OnItemSelectedListener() {
@@ -256,15 +264,16 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		
 	}
 	
-	public void saveTotalEvent(){
+	public void saveTotalEvent(View v){
         if (valid_fields()) {
-            // input fields are empty
+        	
+            sendEvent();
             
         }
 	}
 	
 	public boolean valid_fields(){
-	    if (eventPlaceNameEditText.length() == 0 || event_place_latitude==null || event_place_longitude==null) {
+		if (eventPlaceNameEditText.length() == 0 || event_place_latitude==null || event_place_longitude==null) {
 	        // input fields are empty
 	    	Toast.makeText(this, R.string.validation_fields_complete,
 	            Toast.LENGTH_LONG).show();
@@ -275,9 +284,10 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 	}
 
     
-    private void sendEvent(User currentUser){
-    
-    	EventTask eventTask = new EventTask(event_name, event_description, event_place_name, event_start_date, event_end_date, event_start_time, event_end_time, event_place_latitude, event_place_longitude, event_category, getApplicationContext());
+    private void sendEvent(){
+//    User currentUser
+    	event_place_name = eventPlaceNameEditText.getText().toString();
+    	EventTask eventTask = new EventTask(event_name, event_description, event_place_name, event_start_date, event_end_date, event_start_time, event_end_time, event_place_latitude, event_place_longitude, event_category, this);
     	eventTask.doEventCreation();
 	    	
 	 //TODO: after "dologin" call
