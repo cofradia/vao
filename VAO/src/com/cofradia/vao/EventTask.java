@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.cofradia.vao.events.EventCreation;
 import com.cofradia.vao.events.EventList;
 import com.cofradia.vao.tasks.UrlJsonAsyncTask;
+import com.cofradia.vao.util.DateFormatter;
 
 import de.greenrobot.daovao.DaoMaster.DevOpenHelper;
 import de.greenrobot.daovao.UserDao;
@@ -107,8 +108,8 @@ public class EventTask extends UrlJsonAsyncTask{
                 eventObj.put("event_place_name", event_place_name);
                 eventObj.put("event_place_latitude", event_place_latitude);
                 eventObj.put("event_place_longitude", event_place_longitude);
-                eventObj.put("event_start_date", event_start_date);
-                eventObj.put("event_end_date", event_end_date);
+                eventObj.put("event_start_date", DateFormatter.getTimeStamp(event_start_date, event_start_time));
+                eventObj.put("event_end_date", DateFormatter.getTimeStamp(event_end_date, event_end_time));
                 holder.put("event", eventObj);
                 holder.put("auth_token", mPreferences.getString("AuthToken", null));
                 StringEntity se = new StringEntity(holder.toString());
