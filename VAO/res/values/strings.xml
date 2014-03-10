@@ -54,6 +54,12 @@
         <item>Secreto</item>
         <item>Amigos</item>
     </string-array>
+    <string-array name="event_privacies_values">
+        <item>NOT_SHARING</item>
+        <item>OPEN</item>
+        <item>SECRET</item>
+        <item>FRIENDS</item>
+    </string-array>
 	<string name="title_activity_event_creation_details">EventCreationDetails</string>
     <string name="searchTitle">Lista de Eventos</string>
     <string name="txtExampleEvent">Mi primer evento</string>
