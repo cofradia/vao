@@ -181,6 +181,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 							int position, long id) {
 						
 						event_category = items[position].getValue();
+						event_category_description = items[position].toString();
 						Log.d("category selected", event_category.toString());
 						// TODO Auto-generated method stub
 						
@@ -228,8 +229,8 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		LatLng myLaLn = new LatLng(mCurrentLocation.getLatitude(),
                 mCurrentLocation.getLongitude());
 		
-		event_place_latitude = (float) myLaLn.latitude;
-		event_place_longitude = (float) myLaLn.longitude;
+		event_place_latitude =  (float) -12.130331;//(float) myLaLn.latitude;
+		event_place_longitude = (float) -76.99832;//(float) myLaLn.longitude;
 		
         CameraPosition camPos = new CameraPosition.Builder().target(myLaLn)
                 .zoom(15).bearing(45).tilt(70).build();
@@ -274,9 +275,32 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 	}
 	
 	public void saveTotalEvent(View v){
-        if (valid_fields()) {
-        	
+//        if (valid_fields()) {
+        if (true) {
+
+		Log.d("Event creation", "Creating event...");
             sendEvent();
+            //TODO: Giulio must return a boolean :D
+            if (true ){
+            	Log.d("Event creation", "Everything OK");
+
+            	//TODO: Onlye if it is fb event
+            	if (true){
+                	Log.d("FBEvent", "Creating FBEvent");
+
+	            	try {
+						createFBEvent(v);
+						
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						Log.d("FBEvent", "Error creating fb event");
+						e.printStackTrace();
+					}
+            	}
+            	else 
+                Toast.makeText(EventCreationDetails.this,
+                		"Evento creado", Toast.LENGTH_LONG).show();
+            }
             
         }
 	}
@@ -294,7 +318,6 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 
     
     private void sendEvent(){
-//    User currentUser
     	event_place_name = eventPlaceNameEditText.getText().toString();
     	EventTask eventTask = new EventTask(event_name, 
     										event_description, 
@@ -312,18 +335,15 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 	
     private String getFBDecription(String description){
         String categoryDescription;
-        
-    	Resources r = getResources();
-        int [] values = r.getIntArray(R.array.event_categories_values);
-        
+        Log.d("FBEvent", "Building FB Description...");
     	String fbDescription =  new StringBuilder()
     	.append("Evento: " )
-    	.append(eventCategorySpinner.toString())
+    	.append(event_category_description.toUpperCase())
     	.append("\n")
     	.append(description)
     	.toString();
     	
-        
+        Log.d("FBEvent","Returning FB Descripcion: " + fbDescription);
     	return fbDescription;
     }
     
@@ -331,8 +351,8 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 			Bundle params = new Bundle();
 			params.putString("name", event_name);
 			params.putString("description", getFBDecription(event_description));
-			params.putString("start_time", dateUtil.getTimeStamp(event_start_date, event_start_time));
-			params.putString("end_time", dateUtil.getTimeStamp(event_end_date, event_end_time));
+			params.putString("start_time", dateUtil.getTimeStamp(event_start_date, ""));
+			params.putString("end_time", dateUtil.getTimeStamp(event_end_date, ""));
 			params.putString("location", event_place_name);
 			//params.putString("url", getImageUrl);
 			
