@@ -65,7 +65,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
     private Spinner eventPrivacySpinner;
     private EditText eventPlaceNameEditText;
 	private DateFormatter dateUtil = new DateFormatter();
-	private Integer event_privacy = null;;
+	private String event_privacy = null;;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +91,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
         
         Resources r = getResources();
         String [] keys = r.getStringArray(R.array.event_privacies_keys);
-        int [] values = r.getIntArray(R.array.event_privacies_values);
+        String [] values = r.getStringArray(R.array.event_privacies_values);
         
         items[0] = new EventPrivaciesAdapter(keys[0],values[0]);
         items[1] = new EventPrivaciesAdapter(keys[1],values[1]);
@@ -118,7 +118,6 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 						
 						event_privacy = items[position].getValue();
 						Log.d("privacy selected", event_privacy.toString());
-						// TODO Auto-generated method stub
 						
 					}
 	            }
