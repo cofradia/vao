@@ -3,6 +3,7 @@ package com.cofradia.vao;
 import org.json.JSONException;
 
 import com.cofradia.vao.adapters.EventCategoriesAdapter;
+import com.cofradia.vao.adapters.EventPrivaciesAdapter;
 import com.cofradia.vao.util.DateFormatter;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
@@ -61,8 +62,10 @@ GooglePlayServicesClient.OnConnectionFailedListener {
     private Location mCurrentLocation;
     private GoogleMap map;
     private Spinner eventCategorySpinner;
+    private Spinner eventPrivacySpinner;
     private EditText eventPlaceNameEditText;
 	private DateFormatter dateUtil = new DateFormatter();
+	private Integer event_privacy = null;;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,12 +74,61 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		setElements();
 		// Show the Up button in the action bar.
 		get_event_parameters();
-		fill_spinner();
+		fill_spinners();
+		
 		setupActionBar();
 	}
 	
+	private void fill_spinners() {
+		fill_category_spinner();
+		fill_privacy_spinner();
+	}
+
+	private void fill_privacy_spinner() {
+		Spinner spinner = (Spinner) findViewById(R.id.spnEventPrivacy);
+		
+        final EventPrivaciesAdapter items[] = new EventPrivaciesAdapter[4];
+        
+        Resources r = getResources();
+        String [] keys = r.getStringArray(R.array.event_privacies_keys);
+        int [] values = r.getIntArray(R.array.event_privacies_values);
+        
+        items[0] = new EventPrivaciesAdapter(keys[0],values[0]);
+        items[1] = new EventPrivaciesAdapter(keys[1],values[1]);
+        items[2] = new EventPrivaciesAdapter(keys[2],values[2]);
+        items[3] = new EventPrivaciesAdapter(keys[3],values[3]);
+        ArrayAdapter<EventPrivaciesAdapter> privaciesAdapter = 
+            new ArrayAdapter<EventPrivaciesAdapter>( 
+                this,
+                android.R.layout.simple_spinner_item,
+                items );
+		
+        privaciesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(privaciesAdapter);
+		event_privacy = items[0].getValue();
+		
+		spinner.setOnItemSelectedListener(
+	            new AdapterView.OnItemSelectedListener() {
+	                public void onNothingSelected(AdapterView<?> parent) {
+	                }
+
+					@Override
+					public void onItemSelected(AdapterView<?> parent, View view,
+							int position, long id) {
+						
+						event_privacy = items[position].getValue();
+						Log.d("privacy selected", event_privacy.toString());
+						// TODO Auto-generated method stub
+						
+					}
+	            }
+	        );
+		
+	}
+
 	public void setElements(){
 		eventCategorySpinner = (Spinner) findViewById(R.id.spnEventCategory);
+		eventPrivacySpinner = (Spinner) findViewById(R.id.spnEventPrivacy);
 		eventPlaceNameEditText = (EditText) findViewById(R.id.edtTxEventPlace);
 	}
 	
@@ -149,7 +201,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	public void fill_spinner(){
+	public void fill_category_spinner(){
 		Spinner spinner = (Spinner) findViewById(R.id.spnEventCategory);
 		
         final EventCategoriesAdapter items[] = new EventCategoriesAdapter[3];
