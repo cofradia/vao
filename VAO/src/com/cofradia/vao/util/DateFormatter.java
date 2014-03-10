@@ -2,7 +2,7 @@ package com.cofradia.vao.util;
 
 public class DateFormatter {
 
-	public String getTimeStamp(String date, String time){
+	public static String getTimeStamp(String date, String time){
 		String formattedDate = "";
 		String[] dateArray = date.split("/");
 		formattedDate = dateArray[2]+"-"+dateArray[1]+"-"+dateArray[0];
