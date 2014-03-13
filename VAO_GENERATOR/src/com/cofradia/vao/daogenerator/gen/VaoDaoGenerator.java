@@ -6,7 +6,6 @@ import de.greenrobot.daogenerator.Schema;
 
 public class VaoDaoGenerator {
 	public static void main(String[] args) throws Exception {
-//		Schema schema = new Schema(1, "de.greenrobot.daovao");
 		Schema event = new Schema(1, "de.greenrobot.daovao.event");
 		Schema user = new Schema(1, "de.greenrobot.daovao.user");
 
@@ -15,7 +14,6 @@ public class VaoDaoGenerator {
 		addEvent(event);
 
 		DaoGenerator DaoGen = new DaoGenerator();
-//		DaoGen.generateAll(schema, "../VAO/src-gen");
 		DaoGen.generateAll(event, "../VAO/src-gen");
 		DaoGen.generateAll(user, "../VAO/src-gen");
 
