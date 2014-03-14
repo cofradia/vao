@@ -6,16 +6,14 @@ import de.greenrobot.daogenerator.Schema;
 
 public class VaoDaoGenerator {
 	public static void main(String[] args) throws Exception {
-		Schema schema = new Schema(1, "de.greenrobot.daovao");
 		Schema event = new Schema(1, "de.greenrobot.daovao.event");
 		Schema user = new Schema(1, "de.greenrobot.daovao.user");
 
 		// Add elements to schema
-		addUser(schema);
+		addUser(user);
 		addEvent(event);
 
 		DaoGenerator DaoGen = new DaoGenerator();
-		DaoGen.generateAll(schema, "../VAO/src-gen");
 		DaoGen.generateAll(event, "../VAO/src-gen");
 		DaoGen.generateAll(user, "../VAO/src-gen");
 
@@ -33,18 +31,17 @@ public class VaoDaoGenerator {
 	}
 
 	private static void addEvent(Schema schema) {
-		Entity event = schema.addEntity("Evento");
+		Entity event = schema.addEntity("Event");
 		event.addIdProperty();
-		event.addStringProperty("nombre").notNull();
-		event.addStringProperty("descripcion");
+		event.addStringProperty("name").notNull();
+		event.addStringProperty("description");
 		event.addIntProperty("likes");
 		event.addFloatProperty("rating");
 		event.addStringProperty("mood");
-		event.addStringProperty("imagen");
-		event.addStringProperty("fb_evento_id").notNull();
-		event.addStringProperty("id_categoria").notNull();
-		event.addStringProperty("id_lugar").notNull();
-		event.addStringProperty("id_privacidad").notNull();
+		event.addStringProperty("image");
+		event.addStringProperty("fbEventId").notNull();
+		event.addIntProperty("categoryId").notNull();
+		event.addIntProperty("privacyId").notNull();
 	}
 
 }
