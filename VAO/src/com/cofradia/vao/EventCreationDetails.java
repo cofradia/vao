@@ -333,22 +333,23 @@ GooglePlayServicesClient.OnConnectionFailedListener {
             sendEvent();
             //TODO: Giulio must return a boolean :D
             if (true ){
-            	Log.d("Event creation", "Everything OK");
+            	Log.d("Event creation", "we will see");
 
             	//TODO: Onlye if it is fb event
-            	if (true){
-                	Log.d("FBEvent", "Creating FBEvent");
-
-	            	try {
-						createFBEvent(v);
-						
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						Log.d("FBEvent", "Error creating fb event");
-						e.printStackTrace();
-					}
-            	}
-            	else 
+//            	LEILA
+//            	if (true){
+//                	Log.d("FBEvent", "Creating FBEvent");
+//
+//	            	try {
+//						createFBEvent(v);
+//						
+//					} catch (JSONException e) {
+//						// TODO Auto-generated catch block
+//						Log.d("FBEvent", "Error creating fb event");
+//						e.printStackTrace();
+//					}
+//            	}
+//            	else 
                 Toast.makeText(EventCreationDetails.this,
                 		"Evento creado", Toast.LENGTH_LONG).show();
             }
