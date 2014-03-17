@@ -380,7 +380,8 @@ GooglePlayServicesClient.OnConnectionFailedListener {
     										event_end_time, 
     										event_place_latitude, 
     										event_place_longitude, 
-    										event_category, 
+    										event_category,
+    										event_privacy,
     										this);
     	eventTask.doEventCreation();
    }
