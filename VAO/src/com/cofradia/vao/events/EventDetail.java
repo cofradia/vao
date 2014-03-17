@@ -2,6 +2,7 @@ package com.cofradia.vao.events;
 
 import android.app.Activity;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.widget.CheckBox;
@@ -14,12 +15,24 @@ import android.widget.TextView;
 
 import com.cofradia.vao.R;
 
+import de.greenrobot.daovao.event.DaoMaster;
+import de.greenrobot.daovao.event.DaoSession;
+import de.greenrobot.daovao.event.Event;
+import de.greenrobot.daovao.event.EventDao;
+
 public class EventDetail extends Activity {
 
 	final Context context = this;
-//	Basic Info
+	// green dao
+	private SQLiteDatabase db;
+	private DaoMaster daoMaster;
+	private DaoSession daoSession;
+	private EventDao eventDao;
+	private Event event;
+
+	// Basic Info
 	private ImageView imgEvent;
-	private TextView txtEventTitle;	
+	private TextView txtEventTitle;
 	private TextView txtEventTime;
 	private TextView txtEventPlace;
 	private ImageButton imgEventFav;
@@ -27,39 +40,71 @@ public class EventDetail extends Activity {
 	private ImageView imgIsFbEvent;
 	private TextView txtEventDescriptionLabel;
 	private TextView txtEventDescription;
-	
-//	Mood
+
+	// Mood
 	private TextView txtEventMoodLabel;
 	private TextView txtEventMood;
-	
-//	FB Info
+
+	// FB Info
 	private Switch swtEventConfirm;
 	private CheckBox chkEventFacebookAttendance;
 	private TextView txtEventAttendanceConfirmText;
-	
-//	Comments
+
+	// Comments
 	private TextView txtEventComment;
 	private TextView txtEventCommentLabel;
 	private ImageView imgEventCommentUserImage;
-	
+
 	public EventDetail() {
 		super();
 	}
+
+	public EventDetail(int idEvent) {
+		super();
+	}
+
+	private void setEventSession(Context context) {
+		de.greenrobot.daovao.event.DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(
+				context, "vao-db", null);
+		db = helper.getWritableDatabase();
+		daoMaster = new DaoMaster(db);
+		daoSession = daoMaster.newSession();
+		eventDao = daoSession.getEventDao();
+		event = new Event();
+
+	}
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_event_details);
-		
-		//set comment data
+		setEventSession(this);
+
+		// get event data
+		event = event.getEventById(eventDao,this.getIntent().getExtras()
+				.getLong("event_id"));
+		// set event title
+		this.txtEventTitle = (TextView) findViewById(R.id.txtEventTitle);
+		this.txtEventTitle.setText(event.getName());
+
+		// set event description
+		this.txtEventDescription = (TextView) findViewById(R.id.txtEventDescription);
+		this.txtEventDescription.setText(event.getDescription());
+
+		// set event place
+		this.txtEventPlace = (TextView) findViewById(R.id.txtEventPlace);
+
+		// set event time
+		this.txtEventTime = (TextView) findViewById(R.id.txtEventTime);
+
+		// set comment data
 		this.txtEventComment = (TextView) findViewById(R.id.txtEventComment);
-		this.txtEventComment.setText("Este es un comentario super hardcodeado xD!");
-		
-		
-		
+		this.txtEventComment
+				.setText("Este es un comentario super hardcodeado xD!");
 
 		swtEventConfirm = (Switch) findViewById(R.id.swtEvent);
-
+		
 		// Add a switch-confirm listener
 		swtEventConfirm
 				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -118,14 +163,13 @@ public class EventDetail extends Activity {
 		return chkEventFacebookAttendance;
 	}
 
-	public void setChkEventFacebookAttendance(CheckBox chkEventFacebookAttendance) {
+	public void setChkEventFacebookAttendance(
+			CheckBox chkEventFacebookAttendance) {
 		this.chkEventFacebookAttendance = chkEventFacebookAttendance;
 	}
 
 	public Context getContext() {
 		return context;
 	}
-	
-	
 
 }

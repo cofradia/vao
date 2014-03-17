@@ -70,6 +70,7 @@ public class LoginTask extends UrlJsonAsyncTask {
                     // setup the request headers
                     post.setHeader("Accept", "application/json");
                     post.setHeader("Content-Type", "application/json");
+                    post.setHeader("Authorization", "Token token=" + mPreferences.getString("AuthToken", ""));
 
                     ResponseHandler<String> responseHandler = new BasicResponseHandler();
                     response = client.execute(post, responseHandler);

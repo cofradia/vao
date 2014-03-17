@@ -1,6 +1,14 @@
 package com.cofradia.vao;
 
+import org.json.JSONException;
+
 import com.cofradia.vao.adapters.EventCategoriesAdapter;
+import com.cofradia.vao.adapters.EventPrivaciesAdapter;
+import com.cofradia.vao.util.DateFormatter;
+import com.facebook.HttpMethod;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
@@ -15,8 +23,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import de.greenrobot.daovao.User;
-import de.greenrobot.daovao.event.Event;
+import de.greenrobot.daovao.user.*;
 import android.location.Location;
 import android.os.Bundle;
 import android.app.Activity;
@@ -28,7 +35,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.support.v4.app.NavUtils;
@@ -42,6 +51,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 	private String event_description = null;
 	private String event_place_name = null;
 	private Integer event_category = null;
+	private String event_category_description = null;
 	private Float event_place_latitude = null;
 	private Float event_place_longitude= null;
 	private String event_start_date = null;
@@ -52,16 +62,73 @@ GooglePlayServicesClient.OnConnectionFailedListener {
     private Location mCurrentLocation;
     private GoogleMap map;
     private Spinner eventCategorySpinner;
+    private Spinner eventPrivacySpinner;
     private EditText eventPlaceNameEditText;
+	private DateFormatter dateUtil = new DateFormatter();
+	private String event_privacy = null;;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_event_creation_details);
+		setElements();
 		// Show the Up button in the action bar.
 		get_event_parameters();
-		fill_spinner();
+		fill_spinners();
+		
 		setupActionBar();
+	}
+	
+	private void fill_spinners() {
+		fill_category_spinner();
+		fill_privacy_spinner();
+	}
+
+	private void fill_privacy_spinner() {
+		Spinner spinner = (Spinner) findViewById(R.id.spnEventPrivacy);
+		
+        final EventPrivaciesAdapter items[] = new EventPrivaciesAdapter[4];
+        
+        Resources r = getResources();
+        String [] keys = r.getStringArray(R.array.event_privacies_keys);
+        String [] values = r.getStringArray(R.array.event_privacies_values);
+        
+        items[0] = new EventPrivaciesAdapter(keys[0],values[0]);
+        items[1] = new EventPrivaciesAdapter(keys[1],values[1]);
+        items[2] = new EventPrivaciesAdapter(keys[2],values[2]);
+        items[3] = new EventPrivaciesAdapter(keys[3],values[3]);
+        ArrayAdapter<EventPrivaciesAdapter> privaciesAdapter = 
+            new ArrayAdapter<EventPrivaciesAdapter>( 
+                this,
+                android.R.layout.simple_spinner_item,
+                items );
+		
+        privaciesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(privaciesAdapter);
+		event_privacy = items[0].getValue();
+		
+		spinner.setOnItemSelectedListener(
+	            new AdapterView.OnItemSelectedListener() {
+	                public void onNothingSelected(AdapterView<?> parent) {
+	                }
+
+					@Override
+					public void onItemSelected(AdapterView<?> parent, View view,
+							int position, long id) {
+						
+						event_privacy = items[position].getValue();
+						Log.d("privacy selected", event_privacy.toString());
+						
+					}
+	            }
+	        );
+		
+	}
+
+	public void setElements(){
+		eventCategorySpinner = (Spinner) findViewById(R.id.spnEventCategory);
+		eventPrivacySpinner = (Spinner) findViewById(R.id.spnEventPrivacy);
+		eventPlaceNameEditText = (EditText) findViewById(R.id.edtTxEventPlace);
 	}
 	
 	 @Override
@@ -133,7 +200,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		return super.onOptionsItemSelected(item);
 	}
 	
-	public void fill_spinner(){
+	public void fill_category_spinner(){
 		Spinner spinner = (Spinner) findViewById(R.id.spnEventCategory);
 		
         final EventCategoriesAdapter items[] = new EventCategoriesAdapter[3];
@@ -153,6 +220,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		
 		categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(categoriesAdapter);
+		event_category = items[0].getValue();
 		
 		spinner.setOnItemSelectedListener(
 	            new AdapterView.OnItemSelectedListener() {
@@ -164,6 +232,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 							int position, long id) {
 						
 						event_category = items[position].getValue();
+						event_category_description = items[position].toString();
 						Log.d("category selected", event_category.toString());
 						// TODO Auto-generated method stub
 						
@@ -211,8 +280,8 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		LatLng myLaLn = new LatLng(mCurrentLocation.getLatitude(),
                 mCurrentLocation.getLongitude());
 		
-		event_place_latitude = (float) myLaLn.latitude;
-		event_place_longitude = (float) myLaLn.longitude;
+		event_place_latitude =  (float) -12.130331;//(float) myLaLn.latitude;
+		event_place_longitude = (float) -76.99832;//(float) myLaLn.longitude;
 		
         CameraPosition camPos = new CameraPosition.Builder().target(myLaLn)
                 .zoom(15).bearing(45).tilt(70).build();
@@ -256,15 +325,40 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		
 	}
 	
-	public void saveTotalEvent(){
-        if (valid_fields()) {
-            // input fields are empty
+	public void saveTotalEvent(View v){
+//        if (valid_fields()) {
+        if (true) {
+
+		Log.d("Event creation", "Creating event...");
+            sendEvent();
+            //TODO: Giulio must return a boolean :D
+            if (true ){
+            	Log.d("Event creation", "we will see");
+
+            	//TODO: Onlye if it is fb event
+//            	LEILA
+//            	if (true){
+//                	Log.d("FBEvent", "Creating FBEvent");
+//
+//	            	try {
+//						createFBEvent(v);
+//						
+//					} catch (JSONException e) {
+//						// TODO Auto-generated catch block
+//						Log.d("FBEvent", "Error creating fb event");
+//						e.printStackTrace();
+//					}
+//            	}
+//            	else 
+                Toast.makeText(EventCreationDetails.this,
+                		"Evento creado", Toast.LENGTH_LONG).show();
+            }
             
         }
 	}
 	
 	public boolean valid_fields(){
-	    if (eventPlaceNameEditText.length() == 0 || event_place_latitude==null || event_place_longitude==null) {
+		if (eventPlaceNameEditText.length() == 0 || event_place_latitude==null || event_place_longitude==null) {
 	        // input fields are empty
 	    	Toast.makeText(this, R.string.validation_fields_complete,
 	            Toast.LENGTH_LONG).show();
@@ -275,15 +369,69 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 	}
 
     
-    private void sendEvent(User currentUser){
-    
-    	EventTask eventTask = new EventTask(event_name, event_description, event_place_name, event_start_date, event_end_date, event_start_time, event_end_time, event_place_latitude, event_place_longitude, event_category, getApplicationContext());
+    private void sendEvent(){
+    	event_place_name = eventPlaceNameEditText.getText().toString();
+    	EventTask eventTask = new EventTask(event_name, 
+    										event_description, 
+    										event_place_name, 
+    										event_start_date, 
+    										event_end_date, 
+    										event_start_time, 
+    										event_end_time, 
+    										event_place_latitude, 
+    										event_place_longitude, 
+    										event_category, 
+    										this);
     	eventTask.doEventCreation();
-	    	
-	 //TODO: after "dologin" call
-	 //currentUser.setActiveSession(true);
    }
 	
+    private String getFBDecription(String description){
+        String categoryDescription;
+        Log.d("FBEvent", "Building FB Description...");
+    	String fbDescription =  new StringBuilder()
+    	.append("Evento: " )
+    	.append(event_category_description.toUpperCase())
+    	.append("\n")
+    	.append(description)
+    	.toString();
+    	
+        Log.d("FBEvent","Returning FB Descripcion: " + fbDescription);
+    	return fbDescription;
+    }
+    
+	public void createFBEvent(View view) throws JSONException{
+			Bundle params = new Bundle();
+			params.putString("name", event_name);
+			params.putString("description", getFBDecription(event_description));
+			params.putString("start_time", dateUtil.getTimeStamp(event_start_date, ""));
+			params.putString("end_time", dateUtil.getTimeStamp(event_end_date, ""));
+			params.putString("location", event_place_name);
+			//params.putString("url", getImageUrl);
+			
+	//		JSONObject jsonObject = new JSONObject();
+	//		jsonObject.put("value", "SELF");
+	//		params.putString("privacy", jsonObject.toString());
+		
+			/* make the API call */
+			FacebookAPI fbApi = new FacebookAPI();
+			Session session = fbApi.getFbSession();
+			new Request(
+			    session,
+			    "/me/events",
+			    params,
+			    HttpMethod.POST,
+			    new Request.Callback() {
+			        public void onCompleted(Response response) {
+			            /* handle the result */
+			        	Log.d("FB Events", "Evento real creado!");
 	
+			        	Log.d("FB Events", response.toString());
+	                    Toast.makeText(EventCreationDetails.this, 
+	                    		"Evento creado en Facebook.", 
+	                    		Toast.LENGTH_LONG).show();
+			        }
+			    }
+			).executeAsync(); 
+		}
 
 }
