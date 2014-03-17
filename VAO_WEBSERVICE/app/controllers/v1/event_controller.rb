@@ -11,12 +11,12 @@ class V1::EventController < ApplicationController
 		if !user.nil?
 			place_obj = Place.new(:latitude => event_data["event_place_latitude"], :longitude => event_data["event_place_longitude"], :name => event_data["event_place_name"])
 			if place_obj.save!
-				puts place_obj.inspect
 				event_obj = Event.new(:name => event_data["event_name"], 
 															:description => event_data["event_description"], 
 															:id_category => event_data["event_category"], 
 															:place_id => place_obj.id, 
-															:user_id => user.id)
+															:user_id => user.id
+															:privacy_type => event_data["event_privacy"])
 				if event_obj.save!
 					date_by_event = EventDate.new(:event_id => event_obj.id, 
 																				:start_date => event_data["event_start_date"], 
@@ -24,10 +24,10 @@ class V1::EventController < ApplicationController
 					if date_by_event.save!
 						render  :info => "Evento creado exitosamente",
 								:json => {:success => true,:event_obj => event_obj}
-			    else
-	  		    render :status => :unprocessable_entity,:json => { :success => false, :info => @message.errors,
-						:data => {} }
-			    end			
+				    else
+		  		    render :status => :unprocessable_entity,:json => { :success => false, :info => @message.errors,
+							:data => {} }
+				    end			
 				else
 					render :status => :unprocessable_entity,:json => { :success => false, :info => @message.errors,
 						:data => {} }
