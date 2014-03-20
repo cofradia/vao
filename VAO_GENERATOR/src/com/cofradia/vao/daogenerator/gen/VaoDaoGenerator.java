@@ -34,14 +34,15 @@ public class VaoDaoGenerator {
 		Entity event = schema.addEntity("Event");
 		event.addIdProperty();
 		event.addStringProperty("name").notNull();
-		event.addStringProperty("description");
+		event.addStringProperty("description").notNull();
 		event.addIntProperty("likes");
 		event.addFloatProperty("rating");
 		event.addStringProperty("mood");
 		event.addStringProperty("image");
-		event.addStringProperty("fbEventId").notNull();
+		event.addStringProperty("fbEventId");
 		event.addIntProperty("categoryId").notNull();
-		event.addIntProperty("privacyId").notNull();
+		event.addStringProperty("privacyId").notNull();
+		event.addIntProperty("placeId").notNull();
 	}
 
 }

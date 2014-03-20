@@ -21,20 +21,16 @@ import com.cofradia.vao.events.EventList;
 import com.cofradia.vao.tasks.UrlJsonAsyncTask;
 import com.cofradia.vao.util.DateFormatter;
 
-import de.greenrobot.daovao.DaoMaster.DevOpenHelper;
-import de.greenrobot.daovao.UserDao;
+import de.greenrobot.daovao.user.*;
+import de.greenrobot.daovao.event.*;
 import de.greenrobot.daovao.event.DaoMaster;
-import de.greenrobot.daovao.event.Evento;
-import de.greenrobot.daovao.user.DaoSession;
-import de.greenrobot.daovao.event.EventoDao;
-
 public class EventTask extends UrlJsonAsyncTask{
 	
 	private final static String EVENT_API_ENDPOINT_URL = "http://vao-ws.herokuapp.com/v1/events.json";
 	private SQLiteDatabase db;
 	private DaoMaster daoMaster;
 	private de.greenrobot.daovao.event.DaoSession daoSession;
-	private de.greenrobot.daovao.event.EventoDao eventDao;
+	private de.greenrobot.daovao.event.EventDao eventDao;
 	
 	String event_name;
 	String event_description;
@@ -46,13 +42,14 @@ public class EventTask extends UrlJsonAsyncTask{
 	Float event_place_latitude;
 	Float event_place_longitude;
 	Integer event_category;
+	String event_privacy;
 	SharedPreferences mPreferences;
 
 	public EventTask(String eventName, String eventDescription, String eventPlaceName, 
 						String eventStartDate, String eventEndDate,
 						String eventStartTime, String eventEndTime,
 						Float eventPlaceLatitude, Float eventPlaceLongitude,
-						Integer eventCategory, Context context) {
+						Integer eventCategory, String eventPrivacy, Context context) {
 		super(context);
 		db_init(context);
 		this.event_name = eventName;
@@ -65,6 +62,7 @@ public class EventTask extends UrlJsonAsyncTask{
 		this.event_place_latitude = eventPlaceLatitude;
 		this.event_place_longitude = eventPlaceLongitude;
 		this.event_category = eventCategory;
+		this.event_privacy = eventPrivacy;
 		this.mPreferences = context.getSharedPreferences("CurrentUser", android.content.Context.MODE_PRIVATE);
 		// TODO Auto-generated constructor stub
 	}
@@ -74,7 +72,7 @@ public class EventTask extends UrlJsonAsyncTask{
 		db = helper.getWritableDatabase();
 		daoMaster = new DaoMaster(db);
 		daoSession = daoMaster.newSession();
-		eventDao = daoSession.getEventoDao();
+		eventDao = daoSession.getEventDao();
 		
 	}
 
@@ -108,6 +106,7 @@ public class EventTask extends UrlJsonAsyncTask{
                 eventObj.put("event_place_name", event_place_name);
                 eventObj.put("event_place_latitude", event_place_latitude);
                 eventObj.put("event_place_longitude", event_place_longitude);
+                eventObj.put("event_privacy", event_privacy);
                 eventObj.put("event_start_date", DateFormatter.getTimeStamp(event_start_date, event_start_time));
                 eventObj.put("event_end_date", DateFormatter.getTimeStamp(event_end_date, event_end_time));
                 holder.put("event", eventObj);
@@ -166,18 +165,19 @@ public class EventTask extends UrlJsonAsyncTask{
 		Log.d("JASON", json.toString());
 		try {
 			JSONObject event_object = json.getJSONObject("event_obj");
-			Integer event_category = event_object.getInt("id_category");
+			int event_category = event_object.getInt("id_category");
 			Long event_id = event_object.getLong("id");
 			String event_name = event_object.getString("name");
 			String event_description = event_object.getString("description");
+			String event_privacy = event_object.getString("privacy");
 			Integer event_likes = 0;
 			Float event_rating = (float) 0.0;
 			String event_mood = "";
 			Integer event_place_id = event_object.getInt("place_id");
 			
-			Evento event = new Evento(event_id, event_name, event_description, event_likes, event_rating, event_mood, null, null, event_category.toString(), event_place_id.toString(), null);
-//			eventDao.insert(event); CORREGIR INSERCION EN BD LOCAL
-//			Log.d("Evento en BD local", "Inserted new note, ID: " + event.getId());
+			Event event = new Event(event_id, event_name, event_description, event_likes, event_rating, event_mood, null, null, event_category, event_privacy,event_place_id);
+			eventDao.insert(event); //CORREGIR INSERCION EN BD LOCAL
+			Log.d("Evento en BD local", "Inserted new note, ID: " + event.getId());
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
