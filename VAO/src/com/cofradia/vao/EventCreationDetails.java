@@ -1,6 +1,7 @@
 package com.cofradia.vao;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.cofradia.vao.adapters.EventCategoriesAdapter;
 import com.cofradia.vao.adapters.EventPrivaciesAdapter;
@@ -405,12 +406,11 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 			params.putString("start_time", dateUtil.getTimeStamp(event_start_date, ""));
 			params.putString("end_time", dateUtil.getTimeStamp(event_end_date, ""));
 			params.putString("location", event_place_name);
-			//params.putString("url", getImageUrl);
+//			params.putString("picture", getImageUrl);
 			
-	//		JSONObject jsonObject = new JSONObject();
-	//		jsonObject.put("value", "SELF");
-	//		params.putString("privacy", jsonObject.toString());
-		
+			//TODO: MALAZO CON FB AH!
+			params.putString("privacy_type", "SECRET");
+
 			/* make the API call */
 			FacebookAPI fbApi = new FacebookAPI();
 			Session session = fbApi.getFbSession();
