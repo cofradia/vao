@@ -169,7 +169,7 @@ public class EventTask extends UrlJsonAsyncTask{
 			Long event_id = event_object.getLong("id");
 			String event_name = event_object.getString("name");
 			String event_description = event_object.getString("description");
-			String event_privacy = event_object.getString("privacy");
+			String event_privacy = event_object.getString("privacy_type");
 			Integer event_likes = 0;
 			Float event_rating = (float) 0.0;
 			String event_mood = "";
