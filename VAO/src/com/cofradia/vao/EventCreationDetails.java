@@ -333,9 +333,10 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		Log.d("Event creation", "Creating event...");
             sendEvent();
             //TODO: Giulio must return a boolean :D
+            
             if (true ){
             	Log.d("Event creation", "we will see");
-
+            	
             	//TODO: Onlye if it is fb event
 //            	LEILA
 //            	if (true){
