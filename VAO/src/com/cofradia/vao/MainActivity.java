@@ -29,10 +29,8 @@ import com.facebook.*;
 import com.facebook.model.*;
 import com.facebook.widget.LoginButton;
 
-import de.greenrobot.daovao.DaoMaster;
-import de.greenrobot.daovao.DaoSession;
-import de.greenrobot.daovao.User;
-import de.greenrobot.daovao.UserDao;
+import de.greenrobot.daovao.event.DaoSession;
+import de.greenrobot.daovao.user.*;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.content.Intent;
