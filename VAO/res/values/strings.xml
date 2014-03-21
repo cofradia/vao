@@ -49,7 +49,7 @@
         <item>Tono </item>
     </string-array>
 	<string-array name="event_privacies_keys">
-	    <item>No campartir</item>
+	    <item>No compartir</item>
         <item>Público</item>
         <item>Secreto</item>
         <item>Amigos</item>
