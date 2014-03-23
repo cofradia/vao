@@ -119,7 +119,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 							int position, long id) {
 						
 						event_privacy = items[position].getValue();
-						Log.d("privacy selected", event_privacy.toString());
+						Log.d("privacy selected!!", event_privacy.toString());
 						
 					}
 	            }
@@ -236,9 +236,6 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 						
 						event_category = items[position].getValue();
 						event_category_description = items[position].toString();
-						Log.d("category selected", event_category.toString());
-						// TODO Auto-generated method stub
-						
 					}
 	            }
 	        );
@@ -329,30 +326,28 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 	}
 	
 	public void saveTotalEvent(View v){
-//        if (valid_fields()) {
-        if (true) {
-
+        if (valid_fields()) {
+//        if (true) {
 		Log.d("Event creation", "Creating event...");
             sendEvent();
             //TODO: Giulio must return a boolean :D
-            if (true ){
+            
+            if (true){
             	Log.d("Event creation", "we will see");
-
-            	//TODO: Onlye if it is fb event
-//            	LEILA
-//            	if (true){
-//                	Log.d("FBEvent", "Creating FBEvent");
-//
-//	            	try {
-//						createFBEvent(v);
-//						
-//					} catch (JSONException e) {
-//						// TODO Auto-generated catch block
-//						Log.d("FBEvent", "Error creating fb event");
-//						e.printStackTrace();
-//					}
-//            	}
-//            	else 
+            	
+            	Resources r = getResources();
+                String [] values = r.getStringArray(R.array.event_privacies_values);
+            	if (!event_privacy.equals(values[0])){
+            	   Log.d("FBEvent", "Creating FBEvent");
+ 	            	try {
+						createFBEvent(v);
+						
+					} catch (JSONException e) {
+						Log.d("FBEvent", "Error creating fb event");
+						e.printStackTrace();
+					}
+            	}
+            	else 
                 Toast.makeText(EventCreationDetails.this,
                 		"Evento creado", Toast.LENGTH_LONG).show();
             }
@@ -410,11 +405,9 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 			params.putString("description", getFBDecription(event_description));
 			params.putString("start_time", dateUtil.getTimeStamp(event_start_date, ""));
 			params.putString("end_time", dateUtil.getTimeStamp(event_end_date, ""));
-			params.putString("location", event_place_name);
-//			params.putString("picture", getImageUrl);
-			
-			//TODO: MALAZO CON FB AH!
-			params.putString("privacy_type", "SECRET");
+			params.putString("location", event_place_name);	
+			params.putString("privacy_type", event_privacy);
+//			params.putString("picture", getImageUrl);	
 
 			/* make the API call */
 			FacebookAPI fbApi = new FacebookAPI();
