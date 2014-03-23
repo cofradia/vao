@@ -9,6 +9,7 @@ public class VaoDaoGenerator {
 		Schema event = new Schema(1, "de.greenrobot.daovao.event");
 		Schema user = new Schema(1, "de.greenrobot.daovao.user");
 
+		//new option
 		// Add elements to schema
 		addUser(user);
 		addEvent(event);
