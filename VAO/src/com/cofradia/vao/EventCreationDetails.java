@@ -59,6 +59,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 	private String event_start_time = null;
 	private String event_end_date = null;
 	private String event_end_time = null;
+	private String event_image_file_path = null;
 	private LocationClient mLocationClient;
     private Location mCurrentLocation;
     private GoogleMap map;
@@ -172,6 +173,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 		event_start_time =getIntent().getExtras().getString("event_from_time");
 		event_end_date =getIntent().getExtras().getString("event_to_date");
 		event_end_time =getIntent().getExtras().getString("event_to_time");
+		event_image_file_path =getIntent().getExtras().getString("event_image_file_path");
 		
 	}
 
@@ -378,6 +380,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
     										event_place_longitude, 
     										event_category,
     										event_privacy,
+    										event_image_file_path,
     										this);
     	eventTask.doEventCreation();
    }
