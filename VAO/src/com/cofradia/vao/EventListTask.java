@@ -117,7 +117,7 @@ public class EventListTask extends UrlJsonAsyncTask{
             	JSONArray jsonArray = json.getJSONArray("events");
         		JSONObject jsonObject;
         		
-            	for(int i=0; i<=9; i++){
+            	for(int i=0; i<=jsonArray.length(); i++){
             		jsonObject = (JSONObject) jsonArray.get(i);
         			int event_category = jsonObject.getInt("id_category");
         			Long event_id = jsonObject.getLong("id");

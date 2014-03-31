@@ -12,6 +12,7 @@ public class EventListEndlessScrollListener implements OnScrollListener {
     private int currentPage = 0;
     private int previousTotal = 0;
     private boolean loading = true;
+    private boolean first_time = true;
 	private EventListTask eventListTask;
 
     public EventListEndlessScrollListener(Context context) {
@@ -34,11 +35,12 @@ public class EventListEndlessScrollListener implements OnScrollListener {
 	                currentPage++;
 	            }
 	        }
-	        if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
+	        if (/*(totalItemCount ==0 && visibleItemCount==0 && first_time) ||*/(!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold))) {
 	            // I load the next page of gigs using a background task,
 	            // but you can call any function here.
 	            eventListTask.doEventList(currentPage + 1);
 	            loading = true;
+	            first_time=false;
 	        }
 	        
 	}
