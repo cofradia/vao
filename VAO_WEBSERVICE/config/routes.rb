@@ -1,3 +1,4 @@
+#to commit
 Vao::Application.routes.draw do
  devise_for :users
 
@@ -45,10 +46,13 @@ Vao::Application.routes.draw do
      namespace :v1 do
       get  "events" =>"event::index"
       devise_scope :user do
-        post 'sessions' => 'sessions#create', :as => 'login'
-        delete 'sessions' => 'sessions#destroy', :as => 'logout'
+      	post 'sessions' => 'sessions#create', :as => 'login'
+      	delete 'sessions' => 'sessions#destroy', :as => 'logout'
+        post 'registrations' => 'registrations#create', :as => 'register'
+       
       end
       post 'events' => 'event#create'
+
        # Directs /admin/products/* to Admin::ProductsController
        # (app/controllers/admin/products_controller.rb)
      end
