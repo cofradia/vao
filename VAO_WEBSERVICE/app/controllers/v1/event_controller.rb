@@ -44,7 +44,7 @@ class V1::EventController < ApplicationController
 
   def index
   	puts "asdasd"
-  	events = Event.all[0..9]
+  	events = Event.all
   	render  :info => "Lista de eventos",
 			:json => {:success => true,:events => events}
     # update_time = params[:update_time]
