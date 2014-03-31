@@ -15,7 +15,7 @@ class V1::EventController < ApplicationController
 															:description => event_data["event_description"], 
 															:id_category => event_data["event_category"], 
 															:place_id => place_obj.id, 
-															:user_id => user.id
+															:user_id => user.id,
 															:privacy_type => event_data["event_privacy"])
 				if event_obj.save!
 					date_by_event = EventDate.new(:event_id => event_obj.id, 
@@ -43,8 +43,12 @@ class V1::EventController < ApplicationController
   end
 
   def index
-    update_time = params[:update_time]
-    events = Event.where("created_at >= ? or update_at >= ? ", update_time)
+  	puts "asdasd"
+  	events = Event.all[0..9]
+  	render  :info => "Lista de eventos",
+			:json => {:success => true,:events => events}
+    # update_time = params[:update_time]
+    # events = Event.where("created_at >= ? or update_at >= ? ", update_time)
   end
 
   def show
