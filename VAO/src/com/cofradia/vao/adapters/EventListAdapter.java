@@ -1,9 +1,5 @@
 package com.cofradia.vao.adapters;
 
-import java.util.List;
-
-import com.cofradia.vao.events.EventComment;
-
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
