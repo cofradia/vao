@@ -2,6 +2,7 @@ package com.cofradia.vao.events;
 
 import java.util.List;
 
+import android.R.bool;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.cofradia.vao.EventListTask;
@@ -45,10 +47,11 @@ public class EventList extends Activity {
 	private String event_end_time = null;
 	private List<Event> lstEvent;
 	private String strlstEvent;
+	private boolean first_time = true;
 
 	private void setEventSession(Context context) {
 		de.greenrobot.daovao.event.DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(
-				context, "vao-db", null);
+				context, "events-db", null);
 		db = helper.getWritableDatabase();
 		daoMaster = new DaoMaster(db);
 		daoSession = daoMaster.newSession();
@@ -65,17 +68,29 @@ public class EventList extends Activity {
 		ListView searchResult = (ListView) findViewById(R.id.listEventSearchResult);
 		// TODO: modify to use Event
 
-		//add endless scroll listener
-		searchResult.setOnScrollListener(new EventListEndlessScrollListener(this));
+		// add endless scroll listener
 		lstEvent = event.getAllEvents(eventDao);
-		
+
 		// This is the array adapter, it takes the context of the activity as a
 		// first parameter, the type of list view as a second parameter and your
 		// array as a third parameter.
-		
-		ArrayAdapter<Event> arrayAdapter = new ArrayAdapter<Event>(this,
-				android.R.layout.simple_list_item_1, lstEvent);
 
+		ArrayAdapter<Event> arrayAdapter;
+
+		if (lstEvent.size() == 0) {
+			EventListTask eventListTask = new EventListTask(this);
+			// I load the next page of gigs using a background task,
+			// but you can call any function here.
+			eventListTask.doEventList(1, true);
+		} else {
+			searchResult
+					.setOnScrollListener(new EventListEndlessScrollListener(
+							this));
+		}
+		lstEvent = event.getAllEvents(eventDao);
+
+		arrayAdapter = new ArrayAdapter<Event>(this,
+					android.R.layout.simple_list_item_1, lstEvent);
 		searchResult.setAdapter(arrayAdapter);
 
 		searchResult.setClickable(true);
@@ -105,6 +120,8 @@ public class EventList extends Activity {
 						 */
 					}
 				});
+		searchResult.invalidate();
+
 	}
 
 	@Override
@@ -135,6 +152,5 @@ public class EventList extends Activity {
 		Intent intent = new Intent(EventList.this, EventCreation.class);
 		startActivity(intent);
 	}
-
 
 }
