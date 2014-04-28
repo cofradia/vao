@@ -15,21 +15,27 @@ import android.widget.TextView;
 
 import com.cofradia.vao.R;
 
-import de.greenrobot.daovao.event.DaoMaster;
-import de.greenrobot.daovao.event.DaoSession;
-import de.greenrobot.daovao.event.Event;
-import de.greenrobot.daovao.event.EventDao;
+import de.greenrobot.daovao.place.Place;
 
 public class EventDetail extends Activity {
 
 	final Context context = this;
 	// green dao
-	private SQLiteDatabase db;
-	private DaoMaster daoMaster;
-	private DaoSession daoSession;
-	private EventDao eventDao;
-	private Event event;
+	private SQLiteDatabase dbEvent;
+	private SQLiteDatabase dbPlace;
+	private de.greenrobot.daovao.event.DaoMaster daoMasterEvent;
+	private de.greenrobot.daovao.place.DaoMaster daoMasterPlace;
 
+	private de.greenrobot.daovao.event.DaoSession daoSessionEvent;
+	private de.greenrobot.daovao.place.DaoSession daoSessionPlace;
+
+	private de.greenrobot.daovao.event.EventDao eventDao;
+	private de.greenrobot.daovao.place.PlaceDao placeDao;
+
+	private de.greenrobot.daovao.place.Place place;
+	private de.greenrobot.daovao.event.Event event;
+
+	
 	// Basic Info
 	private ImageView imgEvent;
 	private TextView txtEventTitle;
@@ -64,17 +70,28 @@ public class EventDetail extends Activity {
 	}
 
 	private void setEventSession(Context context) {
-		de.greenrobot.daovao.event.DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(
-				context, "vao-db", null);
-		db = helper.getWritableDatabase();
-		daoMaster = new DaoMaster(db);
-		daoSession = daoMaster.newSession();
-		eventDao = daoSession.getEventDao();
-		event = new Event();
+		de.greenrobot.daovao.event.DaoMaster.DevOpenHelper helperEvent = new de.greenrobot.daovao.event.DaoMaster.DevOpenHelper(
+				context, "events-db", null);
+
+		de.greenrobot.daovao.place.DaoMaster.DevOpenHelper helperPlace = new de.greenrobot.daovao.place.DaoMaster.DevOpenHelper(
+				context, "place-db", null);
+
+		dbEvent = helperEvent.getWritableDatabase();
+		dbPlace = helperPlace.getWritableDatabase();
+		daoMasterEvent = new de.greenrobot.daovao.event.DaoMaster(dbEvent);
+		daoMasterPlace = new de.greenrobot.daovao.place.DaoMaster(dbPlace);
+
+		daoSessionEvent = daoMasterEvent.newSession();
+		eventDao = daoSessionEvent.getEventDao();
+
+		daoSessionPlace = daoMasterPlace.newSession();
+		placeDao = daoSessionPlace.getPlaceDao();
+
+		event = new de.greenrobot.daovao.event.Event();
+		place = new de.greenrobot.daovao.place.Place();
 
 	}
-	
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -82,7 +99,7 @@ public class EventDetail extends Activity {
 		setEventSession(this);
 
 		// get event data
-		event = event.getEventById(eventDao,this.getIntent().getExtras()
+		event = event.getEventById(eventDao, this.getIntent().getExtras()
 				.getLong("event_id"));
 		// set event title
 		this.txtEventTitle = (TextView) findViewById(R.id.txtEventTitle);
@@ -94,6 +111,9 @@ public class EventDetail extends Activity {
 
 		// set event place
 		this.txtEventPlace = (TextView) findViewById(R.id.txtEventPlace);
+		place = place.getPlaceById(placeDao, event.getPlaceId());
+	
+		this.txtEventPlace.setText(place.getName());
 
 		// set event time
 		this.txtEventTime = (TextView) findViewById(R.id.txtEventTime);
@@ -104,7 +124,7 @@ public class EventDetail extends Activity {
 				.setText("Este es un comentario super hardcodeado xD!");
 
 		swtEventConfirm = (Switch) findViewById(R.id.swtEvent);
-		
+
 		// Add a switch-confirm listener
 		swtEventConfirm
 				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
