@@ -2,7 +2,6 @@ package com.cofradia.vao.entities;
 
 import android.content.Context;
 
-import com.cofradia.vao.Book;
 import com.orm.SugarRecord;
 
 public class Event  extends SugarRecord<Event> {
