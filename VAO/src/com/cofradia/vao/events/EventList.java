@@ -1,8 +1,8 @@
 package com.cofradia.vao.events;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import android.R.bool;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -15,11 +15,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-import com.cofradia.vao.EventTask;
+import com.cofradia.vao.EventListTask;
 import com.cofradia.vao.R;
-import com.cofradia.vao.tasks.*;
+import com.cofradia.vao.listeners.EventListEndlessScrollListener;
 
 import de.greenrobot.daovao.event.DaoMaster;
 import de.greenrobot.daovao.event.DaoSession;
@@ -45,10 +46,12 @@ public class EventList extends Activity {
 	private String event_end_date = null;
 	private String event_end_time = null;
 	private List<Event> lstEvent;
+	private String strlstEvent;
+	private boolean first_time = true;
 
 	private void setEventSession(Context context) {
 		de.greenrobot.daovao.event.DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(
-				context, "vao-db", null);
+				context, "events-db", null);
 		db = helper.getWritableDatabase();
 		daoMaster = new DaoMaster(db);
 		daoSession = daoMaster.newSession();
@@ -56,24 +59,38 @@ public class EventList extends Activity {
 		event = new Event();
 
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setEventSession(this);
 		setContentView(R.layout.activity_event_list);
 		ListView searchResult = (ListView) findViewById(R.id.listEventSearchResult);
-
 		// TODO: modify to use Event
-		lstEvent = event.getAllEvents(eventDao);// LEILA
+
+		// add endless scroll listener
+		lstEvent = event.getAllEvents(eventDao);
 
 		// This is the array adapter, it takes the context of the activity as a
 		// first parameter, the type of list view as a second parameter and your
 		// array as a third parameter.
-		// LEILA
-		ArrayAdapter<Event> arrayAdapter = new ArrayAdapter<Event>(this,
-				android.R.layout.simple_list_item_1, lstEvent);// LEILA
 
+		ArrayAdapter<Event> arrayAdapter;
+
+		if (lstEvent.size() == 0) {
+			EventListTask eventListTask = new EventListTask(this);
+			// I load the next page of gigs using a background task,
+			// but you can call any function here.
+			eventListTask.doEventList(1, true);
+		} else {
+			searchResult
+					.setOnScrollListener(new EventListEndlessScrollListener(
+							this));
+		}
+		lstEvent = event.getAllEvents(eventDao);
+
+		arrayAdapter = new ArrayAdapter<Event>(this,
+					android.R.layout.simple_list_item_1, lstEvent);
 		searchResult.setAdapter(arrayAdapter);
 
 		searchResult.setClickable(true);
@@ -88,7 +105,8 @@ public class EventList extends Activity {
 						// Re use an pre created one
 						Intent eventDetails = new Intent(EventList.this,
 								EventDetail.class);
-						Event evento = (Event) parent.getItemAtPosition(position);
+						Event evento = (Event) parent
+								.getItemAtPosition(position);
 						Bundle params = new Bundle();
 
 						eventDetails.putExtra("event_id", evento.getId());
@@ -102,6 +120,8 @@ public class EventList extends Activity {
 						 */
 					}
 				});
+		searchResult.invalidate();
+
 	}
 
 	@Override

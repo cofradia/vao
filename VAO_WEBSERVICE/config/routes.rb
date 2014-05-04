@@ -44,7 +44,7 @@ Vao::Application.routes.draw do
 
   # Sample resource route within a namespace:
      namespace :v1 do
-      get  "events" =>"event::index"
+      get  "events" =>"event#index"
       devise_scope :user do
       	post 'sessions' => 'sessions#create', :as => 'login'
       	delete 'sessions' => 'sessions#destroy', :as => 'logout'
