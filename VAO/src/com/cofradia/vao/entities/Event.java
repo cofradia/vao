@@ -123,4 +123,10 @@ public class Event extends SugarRecord<Event> {
 	public void setHost(User host) {
 		this.host = host;
 	}
+
+	@Override
+	public String toString() {
+		return id + ": " + name + " - " + description;
+	}
+
 }
