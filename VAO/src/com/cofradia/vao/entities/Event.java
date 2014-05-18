@@ -123,4 +123,23 @@ public class Event extends SugarRecord<Event> {
 	public void setHost(User host) {
 		this.host = host;
 	}
+
+	public Event(Context arg0, Long id, String name, String description,
+			Integer likes, Double rating, String mood, String imageUrl,
+			Long fbEventId, Category category, String privacy, Place place,
+			User host) {
+		super(arg0);
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.likes = likes;
+		this.rating = rating;
+		this.mood = mood;
+		this.imageUrl = imageUrl;
+		this.fbEventId = fbEventId;
+		this.category = category;
+		this.privacy = privacy;
+		this.place = place;
+		this.host = host;
+	}
 }
