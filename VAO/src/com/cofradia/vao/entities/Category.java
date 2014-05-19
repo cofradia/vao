@@ -7,6 +7,18 @@ import com.orm.SugarRecord;
 public class Category extends SugarRecord<Category> {
 
 	private Long id;
+	private String description;
+
+	public Category(Context arg0, Long id, String description) {
+		super(arg0);
+		this.id = id;
+		this.description = description;
+	}
+
+	public Category(Context ctx) {
+		super(ctx);
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -21,12 +33,6 @@ public class Category extends SugarRecord<Category> {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	private String description;
-	
-	public Category(Context ctx) {
-		super(ctx);
 	}
 
 }
