@@ -1,7 +1,6 @@
 package com.cofradia.vao;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.ResponseHandler;
@@ -18,26 +17,17 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.cofradia.vao.entities.Category;
+import com.cofradia.vao.entities.Event;
+import com.cofradia.vao.entities.Place;
+import com.cofradia.vao.entities.User;
 import com.cofradia.vao.tasks.UrlJsonAsyncTask;
-
-import de.greenrobot.daovao.event.Event;
-import de.greenrobot.daovao.event.EventDao;
-import de.greenrobot.daovao.place.Place;
-import de.greenrobot.daovao.place.PlaceDao.Properties;
 
 public class EventListTask extends UrlJsonAsyncTask {
 
 	private final static String EVENT_API_ENDPOINT_URL = "http://vao-ws.herokuapp.com/v1/events.json";
 	private SQLiteDatabase dbEvent;
 	private SQLiteDatabase dbPlace;
-	private de.greenrobot.daovao.event.DaoMaster daoMasterEvent;
-	private de.greenrobot.daovao.place.DaoMaster daoMasterPlace;
-
-	private de.greenrobot.daovao.event.DaoSession daoSessionEvent;
-	private de.greenrobot.daovao.place.DaoSession daoSessionPlace;
-
-	private de.greenrobot.daovao.event.EventDao eventDao;
-	private de.greenrobot.daovao.place.PlaceDao placeDao;
 
 	String event_name;
 	String event_description;
@@ -51,35 +41,14 @@ public class EventListTask extends UrlJsonAsyncTask {
 	Integer event_category;
 	String event_privacy;
 	SharedPreferences mPreferences;
-
+	Context context;
 	int count;
 
 	public EventListTask(Context context) {
 		super(context);
-		db_init(context);
 		this.mPreferences = context.getSharedPreferences("CurrentUser",
 				android.content.Context.MODE_PRIVATE);
 		// TODO Auto-generated constructor stub
-	}
-
-	private void db_init(Context context) {
-		de.greenrobot.daovao.event.DaoMaster.DevOpenHelper helperEvent = new de.greenrobot.daovao.event.DaoMaster.DevOpenHelper(
-				context, "events-db", null);
-
-		de.greenrobot.daovao.place.DaoMaster.DevOpenHelper helperPlace = new de.greenrobot.daovao.place.DaoMaster.DevOpenHelper(
-				context, "place-db", null);
-
-		dbEvent = helperEvent.getWritableDatabase();
-		dbPlace = helperPlace.getWritableDatabase();
-		daoMasterEvent = new de.greenrobot.daovao.event.DaoMaster(dbEvent);
-		daoMasterPlace = new de.greenrobot.daovao.place.DaoMaster(dbPlace);
-
-		daoSessionEvent = daoMasterEvent.newSession();
-		eventDao = daoSessionEvent.getEventDao();
-
-		daoSessionPlace = daoMasterPlace.newSession();
-		placeDao = daoSessionPlace.getPlaceDao();
-
 	}
 
 	public void doEventList(int i, boolean first_time) {
@@ -132,14 +101,13 @@ public class EventListTask extends UrlJsonAsyncTask {
 				// CREACION DE LOS EVENTOS EN BD LOCAL: cuando hay internet
 				// chifar la bd local y chancar con la q acabo de obtener
 
-				eventDao.deleteAll();
+				Event.deleteAll(Event.class);
 				JSONArray jsonArrayEvents = json.getJSONArray("events");
 
 				JSONObject jsonObject;
 
 				for (int i = 0; i < jsonArrayEvents.length(); i++) {
 					jsonObject = (JSONObject) jsonArrayEvents.get(i);
-					int event_category = jsonObject.getInt("id_category");
 					Long event_id = jsonObject.getLong("id");
 					String event_name = jsonObject.getString("name");
 					String event_description = jsonObject
@@ -148,18 +116,21 @@ public class EventListTask extends UrlJsonAsyncTask {
 					Integer event_likes = 0;
 					Double event_rating = (Double) 0.0;
 					String event_mood = "";
-					Integer event_place_id = jsonObject.getInt("place_id");
-
-					Event jsonEvent = new Event(event_id, event_name,
-							event_description, event_likes, event_rating,
-							event_mood, null, null, event_category,
-							event_privacy, event_place_id);
-					eventDao.insert(jsonEvent);
+					Place event_place = Place.findById(Place.class,
+							jsonObject.getLong("place_id"));
+					User event_user = new User(this.context);
+					Category event_category = Category.findById(Category.class, jsonObject.getLong("id_category"));
+				
+					Event jsonEvent = new Event(this.context, event_id,
+							event_name, event_description, event_likes,
+							event_rating, event_mood, null, null,
+							event_category, event_privacy, event_place, event_user);
+					jsonEvent.save();
 					jsonEvent = null;
 				}
 
 				jsonObject = null;
-				placeDao.deleteAll();
+				Place.deleteAll(Place.class);
 				JSONArray jsonArrayPlaces = json.getJSONArray("places");
 
 				for (int i = 0; i < jsonArrayPlaces.length(); i++) {
@@ -171,9 +142,9 @@ public class EventListTask extends UrlJsonAsyncTask {
 					Double place_longitude = (!jsonObject.isNull("longitude") ? jsonObject
 							.getDouble("longitude") : 0);
 
-					Place jsonPlace = new Place(place_id, place_name,
-							place_latitude, place_longitude);
-					placeDao.insert(jsonPlace);
+					Place jsonPlace = new Place(this.context, place_id,
+							place_name, place_latitude, place_longitude);
+					jsonPlace.save();
 					jsonPlace = null;
 				}
 
@@ -190,11 +161,6 @@ public class EventListTask extends UrlJsonAsyncTask {
 		} finally {
 			super.onPostExecute(json);
 		}
-	}
-
-	public List<Event> getAllEvents(EventDao eventDao_) {
-		List<Event> lstEvents = eventDao_.loadAll();
-		return lstEvents;
 	}
 
 }

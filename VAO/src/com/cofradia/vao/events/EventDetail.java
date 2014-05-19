@@ -14,8 +14,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.cofradia.vao.R;
-
-import de.greenrobot.daovao.place.Place;
+import com.cofradia.vao.entities.Event;
+import com.cofradia.vao.entities.Place;
 
 public class EventDetail extends Activity {
 
@@ -23,19 +23,10 @@ public class EventDetail extends Activity {
 	// green dao
 	private SQLiteDatabase dbEvent;
 	private SQLiteDatabase dbPlace;
-	private de.greenrobot.daovao.event.DaoMaster daoMasterEvent;
-	private de.greenrobot.daovao.place.DaoMaster daoMasterPlace;
 
-	private de.greenrobot.daovao.event.DaoSession daoSessionEvent;
-	private de.greenrobot.daovao.place.DaoSession daoSessionPlace;
+	private Event event;
+	private Place place;
 
-	private de.greenrobot.daovao.event.EventDao eventDao;
-	private de.greenrobot.daovao.place.PlaceDao placeDao;
-
-	private de.greenrobot.daovao.place.Place place;
-	private de.greenrobot.daovao.event.Event event;
-
-	
 	// Basic Info
 	private ImageView imgEvent;
 	private TextView txtEventTitle;
@@ -70,25 +61,8 @@ public class EventDetail extends Activity {
 	}
 
 	private void setEventSession(Context context) {
-		de.greenrobot.daovao.event.DaoMaster.DevOpenHelper helperEvent = new de.greenrobot.daovao.event.DaoMaster.DevOpenHelper(
-				context, "events-db", null);
-
-		de.greenrobot.daovao.place.DaoMaster.DevOpenHelper helperPlace = new de.greenrobot.daovao.place.DaoMaster.DevOpenHelper(
-				context, "place-db", null);
-
-		dbEvent = helperEvent.getWritableDatabase();
-		dbPlace = helperPlace.getWritableDatabase();
-		daoMasterEvent = new de.greenrobot.daovao.event.DaoMaster(dbEvent);
-		daoMasterPlace = new de.greenrobot.daovao.place.DaoMaster(dbPlace);
-
-		daoSessionEvent = daoMasterEvent.newSession();
-		eventDao = daoSessionEvent.getEventDao();
-
-		daoSessionPlace = daoMasterPlace.newSession();
-		placeDao = daoSessionPlace.getPlaceDao();
-
-		event = new de.greenrobot.daovao.event.Event();
-		place = new de.greenrobot.daovao.place.Place();
+		event = new Event(context);
+		place = new Place(context);
 
 	}
 
@@ -99,7 +73,7 @@ public class EventDetail extends Activity {
 		setEventSession(this);
 
 		// get event data
-		event = event.getEventById(eventDao, this.getIntent().getExtras()
+		event = event.findById(Event.class, this.getIntent().getExtras()
 				.getLong("event_id"));
 		// set event title
 		this.txtEventTitle = (TextView) findViewById(R.id.txtEventTitle);
@@ -111,8 +85,8 @@ public class EventDetail extends Activity {
 
 		// set event place
 		this.txtEventPlace = (TextView) findViewById(R.id.txtEventPlace);
-		place = place.getPlaceById(placeDao, event.getPlaceId());
-	
+		place = place.findById(Place.class, event.getPlace().getId());
+
 		this.txtEventPlace.setText(place.getName());
 
 		// set event time
