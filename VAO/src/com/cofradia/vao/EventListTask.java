@@ -150,12 +150,12 @@ public class EventListTask extends UrlJsonAsyncTask {
 					String event_mood = "";
 					Integer event_place_id = jsonObject.getInt("place_id");
 
-					Event jsonEvent = new Event(event_id, event_name,
-							event_description, event_likes, event_rating,
-							event_mood, null, null, event_category,
-							event_privacy, event_place_id);
-					eventDao.insert(jsonEvent);
-					jsonEvent = null;
+//					Event jsonEvent = new Event(event_id, event_name,
+//							event_description, event_likes, event_rating,
+//							event_mood, null, null, event_category,
+//							event_privacy, event_place_id);
+//					eventDao.insert(jsonEvent);
+//					jsonEvent = null;
 				}
 
 				jsonObject = null;
@@ -171,10 +171,10 @@ public class EventListTask extends UrlJsonAsyncTask {
 					Double place_longitude = (!jsonObject.isNull("longitude") ? jsonObject
 							.getDouble("longitude") : 0);
 
-					Place jsonPlace = new Place(place_id, place_name,
-							place_latitude, place_longitude);
-					placeDao.insert(jsonPlace);
-					jsonPlace = null;
+//					Place jsonPlace = new Place(place_id, place_name,
+//							place_latitude, place_longitude);
+//					placeDao.insert(jsonPlace);
+//					jsonPlace = null;
 				}
 
 				Toast.makeText(context, "Evento listado exitosamente",
