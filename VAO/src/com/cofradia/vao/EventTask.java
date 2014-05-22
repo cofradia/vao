@@ -1,13 +1,21 @@
 package com.cofradia.vao;
 
+import java.io.File;
 import java.io.IOException;
 
+import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.ContentBody;
+import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.CoreProtocolPNames;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,6 +24,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.cofradia.vao.entities.Category;
+import com.cofradia.vao.entities.Place;
+import com.cofradia.vao.entities.User;
+import com.cofradia.vao.entities.Event;
 import com.cofradia.vao.events.EventCreation;
 import com.cofradia.vao.events.EventList;
 import com.cofradia.vao.tasks.UrlJsonAsyncTask;
@@ -27,10 +39,6 @@ import de.greenrobot.daovao.event.DaoMaster;
 public class EventTask extends UrlJsonAsyncTask{
 	
 	private final static String EVENT_API_ENDPOINT_URL = "http://vao-ws.herokuapp.com/v1/events.json";
-	private SQLiteDatabase db;
-	private DaoMaster daoMaster;
-	private de.greenrobot.daovao.event.DaoSession daoSession;
-	private de.greenrobot.daovao.event.EventDao eventDao;
 	
 	String event_name;
 	String event_description;
@@ -43,15 +51,15 @@ public class EventTask extends UrlJsonAsyncTask{
 	Float event_place_longitude;
 	Integer event_category;
 	String event_privacy;
+	String event_image_file_path;
 	SharedPreferences mPreferences;
 
 	public EventTask(String eventName, String eventDescription, String eventPlaceName, 
 						String eventStartDate, String eventEndDate,
 						String eventStartTime, String eventEndTime,
 						Float eventPlaceLatitude, Float eventPlaceLongitude,
-						Integer eventCategory, String eventPrivacy, Context context) {
+						Integer eventCategory, String eventPrivacy,String eventImageFilePath, Context context) {
 		super(context);
-		db_init(context);
 		this.event_name = eventName;
 		this.event_description = eventDescription;
 		this.event_place_name = eventPlaceName;
@@ -63,17 +71,9 @@ public class EventTask extends UrlJsonAsyncTask{
 		this.event_place_longitude = eventPlaceLongitude;
 		this.event_category = eventCategory;
 		this.event_privacy = eventPrivacy;
+		this.event_image_file_path = eventImageFilePath;
 		this.mPreferences = context.getSharedPreferences("CurrentUser", android.content.Context.MODE_PRIVATE);
 		// TODO Auto-generated constructor stub
-	}
-	
-    private void db_init(Context context) {
-		de.greenrobot.daovao.event.DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, "vao-db", null);
-		db = helper.getWritableDatabase();
-		daoMaster = new DaoMaster(db);
-		daoSession = daoMaster.newSession();
-		eventDao = daoSession.getEventDao();
-		
 	}
 
 	public void doEventCreation(){
@@ -85,7 +85,13 @@ public class EventTask extends UrlJsonAsyncTask{
     @Override
     protected JSONObject doInBackground(String... urls) {
         DefaultHttpClient client = new DefaultHttpClient();
+        client.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
         HttpPost post = new HttpPost(urls[0]);
+        Log.d("filepath", event_image_file_path);
+        File data = new File(event_image_file_path);
+        
+        FileEntity tmp = new FileEntity(data,"UTF-8" );
+        
         JSONObject holder = new JSONObject();
         JSONObject eventObj = new JSONObject();
         String response = null;
@@ -99,6 +105,13 @@ public class EventTask extends UrlJsonAsyncTask{
                 json.put("info", "Something went wrong. Retry!");
                 // add the user email and password to
                 // the params
+                
+                MultipartEntity mpEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+                ContentBody cbFile = new FileBody(data, "image/jpeg");
+                mpEntity.addPart("event_image", cbFile);
+//                post.setEntity(mpEntity);
+                Log.d("executing request ", post.getRequestLine().toString());
+                
                 
                 eventObj.put("event_name", event_name);
                 eventObj.put("event_description", event_description);
@@ -117,6 +130,7 @@ public class EventTask extends UrlJsonAsyncTask{
                 // setup the request headers
                 post.setHeader("Accept", "application/json");
                 post.setHeader("Content-Type", "application/json");
+//                post.setHeader("Content-Type", "multipart/form-data");
                 post.setHeader("Authorization", "Token token=" + mPreferences.getString("AuthToken", ""));
 
                 ResponseHandler<String> responseHandler = new BasicResponseHandler();
@@ -165,18 +179,20 @@ public class EventTask extends UrlJsonAsyncTask{
 		Log.d("JASON", json.toString());
 		try {
 			JSONObject event_object = json.getJSONObject("event_obj");
-			int event_category = event_object.getInt("id_category");
+			Long event_category = (Long) event_object.getLong("id_category");
 			Long event_id = event_object.getLong("id");
 			String event_name = event_object.getString("name");
 			String event_description = event_object.getString("description");
 			String event_privacy = event_object.getString("privacy_type");
 			Integer event_likes = 0;
-			Float event_rating = (float) 0.0;
+			Double event_rating = 0.0;
 			String event_mood = "";
-			Integer event_place_id = event_object.getInt("place_id");
+			Long event_place_id = event_object.getLong("place_id");
 			
-			Event event = new Event(event_id, event_name, event_description, event_likes, event_rating, event_mood, null, null, event_category, event_privacy,event_place_id);
-			eventDao.insert(event); //CORREGIR INSERCION EN BD LOCAL
+			Place place = new Place(this.context);
+			Category category = new Category(this.context, event_category, "");
+			
+			Event event = new Event(this.context, event_id, event_name, event_description, event_likes, event_rating, event_mood, "", null, category, event_privacy, place, null);
 			Log.d("Evento en BD local", "Inserted new note, ID: " + event.getId());
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
