@@ -356,7 +356,7 @@ GooglePlayServicesClient.OnConnectionFailedListener {
 	}
 	
 	public boolean valid_fields(){
-		if (eventPlaceNameEditText.length() == 0 || event_place_latitude==null || event_place_longitude==null) {
+		if (eventPlaceNameEditText.length() == 0) {
 	        // input fields are empty
 	    	Toast.makeText(this, R.string.validation_fields_complete,
 	            Toast.LENGTH_LONG).show();
