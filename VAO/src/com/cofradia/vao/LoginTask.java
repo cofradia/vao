@@ -11,6 +11,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.cofradia.vao.entities.User;
 import com.cofradia.vao.events.EventList;
 
 import com.cofradia.vao.tasks.UrlJsonAsyncTask;
@@ -103,6 +104,10 @@ public class LoginTask extends UrlJsonAsyncTask {
                     // the SharedPreferences
                     editor.putString("AuthToken", json.getJSONObject("data").getString("auth_token"));
                     editor.commit();
+                    
+                    User user = new User(this.context, "Nombre1", "Lastname1", "mail");
+                    user.save();
+                    Log.d("user", user.getName() + "/" +user.getLastname() + "/" + user.getMail());
 
                     // launch the HomeActivity and close this one
                     Intent intent = new Intent(((MainActivity)context)	, EventList.class);
