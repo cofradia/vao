@@ -111,7 +111,7 @@ public class EventDetail extends Activity {
 
 		// set event place
 		this.txtEventPlace = (TextView) findViewById(R.id.txtEventPlace);
-		place = place.getPlaceById(placeDao, event.getPlaceId());
+//		place = place.getPlaceById(placeDao, event.getPlaceId());
 	
 		this.txtEventPlace.setText(place.getName());
 
