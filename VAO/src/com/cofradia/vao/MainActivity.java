@@ -29,6 +29,7 @@ import com.facebook.*;
 import com.facebook.model.*;
 import com.facebook.widget.LoginButton;
 
+
 import android.widget.EditText;
 import android.widget.Toast;
 import android.content.Intent;
@@ -50,6 +51,8 @@ public class MainActivity extends Activity {
     private FacebookAPI fbApi = new FacebookAPI();
     private Session  fbSession ;
     
+    //GreenDao
+    private User currentUser = new User();
     private GraphUser user;
     private UiLifecycleHelper uiHelper;
     
