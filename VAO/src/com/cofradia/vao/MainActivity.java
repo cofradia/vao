@@ -13,6 +13,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.cofradia.vao.entities.User;
 import com.cofradia.vao.events.EventDetail;
 import com.cofradia.vao.events.EventList;
 
