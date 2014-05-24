@@ -29,8 +29,6 @@ import com.facebook.*;
 import com.facebook.model.*;
 import com.facebook.widget.LoginButton;
 
-import de.greenrobot.daovao.event.DaoSession;
-import de.greenrobot.daovao.user.*;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.content.Intent;
@@ -52,12 +50,6 @@ public class MainActivity extends Activity {
     private FacebookAPI fbApi = new FacebookAPI();
     private Session  fbSession ;
     
-    //GreenDao
-    private SQLiteDatabase db;
-    private DaoMaster daoMaster;
-    private DaoSession daoSession;
-    private UserDao userDao;
-    private User currentUser = new User();
     private GraphUser user;
     private UiLifecycleHelper uiHelper;
     
@@ -129,8 +121,10 @@ public class MainActivity extends Activity {
     public void doRegularLogin(View view){
     	EditText userEmailField = (EditText) findViewById(R.id.txtUsuario);
         EditText userPasswordField = (EditText) findViewById(R.id.txtPassword);
-        emailText = userEmailField.getText().toString();
-        passwordText = userPasswordField.getText().toString();
+        emailText = ADMINUSER;
+        passwordText= ADMINPWD;
+//        emailText = userEmailField.getText().toString();
+//        passwordText = userPasswordField.getText().toString();
 
         if (emailText.length() == 0 || passwordText.length() == 0) {
             // input fields are empty

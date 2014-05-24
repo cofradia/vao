@@ -33,9 +33,6 @@ import com.cofradia.vao.events.EventList;
 import com.cofradia.vao.tasks.UrlJsonAsyncTask;
 import com.cofradia.vao.util.DateFormatter;
 
-import de.greenrobot.daovao.user.*;
-import de.greenrobot.daovao.event.*;
-import de.greenrobot.daovao.event.DaoMaster;
 public class EventTask extends UrlJsonAsyncTask{
 	
 	private final static String EVENT_API_ENDPOINT_URL = "http://vao-ws.herokuapp.com/v1/events.json";

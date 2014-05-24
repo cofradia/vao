@@ -24,7 +24,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import de.greenrobot.daovao.user.*;
 import android.location.Location;
 import android.os.Bundle;
 import android.app.Activity;
