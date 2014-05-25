@@ -13,7 +13,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.cofradia.vao.entities.User;
 import com.cofradia.vao.events.EventDetail;
 import com.cofradia.vao.events.EventList;
 
@@ -29,7 +28,6 @@ import android.view.View;
 import com.facebook.*;
 import com.facebook.model.*;
 import com.facebook.widget.LoginButton;
-
 
 import android.widget.EditText;
 import android.widget.Toast;
@@ -52,8 +50,6 @@ public class MainActivity extends Activity {
     private FacebookAPI fbApi = new FacebookAPI();
     private Session  fbSession ;
     
-    //GreenDao
-    private User currentUser = new User();
     private GraphUser user;
     private UiLifecycleHelper uiHelper;
     
