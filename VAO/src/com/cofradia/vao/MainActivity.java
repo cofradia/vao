@@ -1,8 +1,8 @@
 package com.cofradia.vao;
 
-import java.io.IOException;
 import java.util.Arrays;
 
+<<<<<<< HEAD
 
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.ResponseHandler;
@@ -16,9 +16,10 @@ import org.json.JSONObject;
 import com.cofradia.vao.events.EventDetail;
 import com.cofradia.vao.events.EventList;
 
+
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.*;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -29,10 +30,16 @@ import com.facebook.*;
 import com.facebook.model.*;
 import com.facebook.widget.LoginButton;
 
+
 import android.widget.EditText;
 import android.widget.Toast;
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
+
+import com.cofradia.vao.entities.User;
+import com.cofradia.vao.events.EventList;
+import com.facebook.Session;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphUser;
+import com.facebook.widget.LoginButton;
 
 /**
  * @author Usuario
@@ -50,6 +57,9 @@ public class MainActivity extends Activity {
     private FacebookAPI fbApi = new FacebookAPI();
     private Session  fbSession ;
     
+
+    private User currentUser = new User(this.getBaseContext());
+
     private GraphUser user;
     private UiLifecycleHelper uiHelper;
     
@@ -87,7 +97,7 @@ public class MainActivity extends Activity {
                 	Log.d("FBLogin", "email: " + email);
                 	Log.d("VAO Login", "doing regular login for fb user");
                 	//TODO: AUTH FB SERVER MISSING 
-                	currentUser.setUser(ADMINUSER);
+                	currentUser.setName(ADMINUSER);
                 	currentUser.setPassword(ADMINPWD);
                 	_doRegularLogin(currentUser);
                 }
@@ -132,14 +142,14 @@ public class MainActivity extends Activity {
                 Toast.LENGTH_LONG).show();
             return;
         } else {
-        	currentUser.setUser(emailText);
+        	currentUser.setName(emailText);
         	currentUser.setPassword(passwordText);
         	_doRegularLogin(currentUser);
         }
     }
     
     private void _doRegularLogin(User currentUser){
-	 LoginTask loginTask = new LoginTask(currentUser.getUser(),currentUser.getPassword(), mPreferences , MainActivity.this);
+	 LoginTask loginTask = new LoginTask(currentUser.getName(),currentUser.getPassword(), mPreferences , MainActivity.this);
 	 loginTask.doLogin();
 	    	
 	 //TODO: after "dologin" call
