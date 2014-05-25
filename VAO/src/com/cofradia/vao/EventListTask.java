@@ -46,6 +46,7 @@ public class EventListTask extends UrlJsonAsyncTask {
 
 	public EventListTask(Context context) {
 		super(context);
+		this.context = context;
 		this.mPreferences = context.getSharedPreferences("CurrentUser",
 				android.content.Context.MODE_PRIVATE);
 		// TODO Auto-generated constructor stub
@@ -100,13 +101,36 @@ public class EventListTask extends UrlJsonAsyncTask {
 
 				// CREACION DE LOS EVENTOS EN BD LOCAL: cuando hay internet
 				// chifar la bd local y chancar con la q acabo de obtener
-
-				Event.deleteAll(Event.class);
+				Log.d("AA", "1");
+				Place.deleteAll(Place.class);
+				Log.d("AA1", "2");
 				JSONArray jsonArrayEvents = json.getJSONArray("events");
+				Log.d("AA2", "3");
+				Event.deleteAll(Event.class);
+				Log.d("AA3", "4");
+				JSONArray jsonArrayPlaces = json.getJSONArray("places");
+				Log.d("AA4", "5");
 
 				JSONObject jsonObject;
+				JSONObject placeObject;
+				
+				for (int i = 0; i < jsonArrayPlaces.length(); i++){
+					placeObject = (JSONObject) jsonArrayPlaces.get(i);
+					Double place_latitude = (!placeObject.isNull("latitude") ? placeObject
+							.getDouble("latitude") : 0);
+					Double place_longitude = (!placeObject.isNull("longitude") ? placeObject
+							.getDouble("longitude") : 0);
+					Place place = new Place(this.context, 
+							placeObject.getLong("id"),
+							placeObject.getString("name"),
+							place_latitude,
+							place_longitude);
+					place.save();
+					place = null;
+				}
 
 				for (int i = 0; i < jsonArrayEvents.length(); i++) {
+					Log.d("AA4", "8");
 					jsonObject = (JSONObject) jsonArrayEvents.get(i);
 					Long event_id = jsonObject.getLong("id");
 					String event_name = jsonObject.getString("name");
@@ -116,12 +140,16 @@ public class EventListTask extends UrlJsonAsyncTask {
 					Integer event_likes = 0;
 					Double event_rating = (Double) 0.0;
 					String event_mood = "";
+					Log.d("AA4", "9"+jsonObject.getLong("place_id"));
 
 
 					Place event_place = Place.findById(Place.class,
-							jsonObject.getLong("place_id"));
+							Long.getLong("1"));
+					Log.d("AA4", "10");
 					User event_user = new User(this.context);
-					Category event_category = Category.findById(Category.class, jsonObject.getLong("id_category"));
+//					Category event_category = Category.findById(Category.class, jsonObject.getLong("id_category"));
+					Category event_category = new Category(this.context, jsonObject.getLong("id_category"), "");
+					event_category.save();
 				
 					Event jsonEvent = new Event(this.context, event_id,
 							event_name, event_description, event_likes,
@@ -132,35 +160,17 @@ public class EventListTask extends UrlJsonAsyncTask {
 				}
 
 				jsonObject = null;
-				Place.deleteAll(Place.class);
-				JSONArray jsonArrayPlaces = json.getJSONArray("places");
-
-				for (int i = 0; i < jsonArrayPlaces.length(); i++) {
-					jsonObject = (JSONObject) jsonArrayPlaces.get(i);
-					Long place_id = jsonObject.getLong("id");
-					String place_name = jsonObject.getString("name");
-					Double place_latitude = (!jsonObject.isNull("latitude") ? jsonObject
-							.getDouble("latitude") : 0);
-					Double place_longitude = (!jsonObject.isNull("longitude") ? jsonObject
-							.getDouble("longitude") : 0);
-
-
-					Place jsonPlace = new Place(this.context, place_id,
-							place_name, place_latitude, place_longitude);
-					jsonPlace.save();
-					jsonPlace = null;
-				}
-
+				
 				Toast.makeText(context, "Evento listado exitosamente",
 						Toast.LENGTH_LONG).show();
 
 			}
 		} catch (Exception e) {
 			// si no hay internet no hace nada
-			Toast.makeText(context, "CATCH: " + e.getMessage(),
-					Toast.LENGTH_LONG).show();
-
-			Log.d("onPostExecute CATCH: ", e.getMessage());
+//			Toast.makeText(context, "CATCH: " + e.getMessage(),
+//					Toast.LENGTH_LONG).show();
+			Log.d("onPostExecute CATCH: ", "dunno D:");
+//			Log.d("onPostExecute CATCH: ", e.getMessage());
 		} finally {
 			super.onPostExecute(json);
 		}

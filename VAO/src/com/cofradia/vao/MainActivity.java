@@ -2,8 +2,6 @@ package com.cofradia.vao;
 
 import java.util.Arrays;
 
-<<<<<<< HEAD
-
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
@@ -58,8 +56,6 @@ public class MainActivity extends Activity {
     private Session  fbSession ;
     
 
-    private User currentUser = new User(this.getBaseContext());
-
     private GraphUser user;
     private UiLifecycleHelper uiHelper;
     
@@ -97,9 +93,8 @@ public class MainActivity extends Activity {
                 	Log.d("FBLogin", "email: " + email);
                 	Log.d("VAO Login", "doing regular login for fb user");
                 	//TODO: AUTH FB SERVER MISSING 
-                	currentUser.setName(ADMINUSER);
-                	currentUser.setPassword(ADMINPWD);
-                	_doRegularLogin(currentUser);
+
+                	_doRegularLogin(ADMINUSER, ADMINPWD);
                 }
                 else{
                 	Log.d("FBLogin", "usuario nulo :( : " );
@@ -142,14 +137,13 @@ public class MainActivity extends Activity {
                 Toast.LENGTH_LONG).show();
             return;
         } else {
-        	currentUser.setName(emailText);
-        	currentUser.setPassword(passwordText);
-        	_doRegularLogin(currentUser);
+
+        	_doRegularLogin(emailText, passwordText);
         }
     }
     
-    private void _doRegularLogin(User currentUser){
-	 LoginTask loginTask = new LoginTask(currentUser.getName(),currentUser.getPassword(), mPreferences , MainActivity.this);
+    private void _doRegularLogin(String user_name, String password){
+	 LoginTask loginTask = new LoginTask(user_name, password, mPreferences , MainActivity.this);
 	 loginTask.doLogin();
 	    	
 	 //TODO: after "dologin" call
