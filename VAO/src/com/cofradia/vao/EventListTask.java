@@ -101,15 +101,10 @@ public class EventListTask extends UrlJsonAsyncTask {
 
 				// CREACION DE LOS EVENTOS EN BD LOCAL: cuando hay internet
 				// chifar la bd local y chancar con la q acabo de obtener
-				Log.d("AA", "1");
 				Place.deleteAll(Place.class);
-				Log.d("AA1", "2");
 				JSONArray jsonArrayEvents = json.getJSONArray("events");
-				Log.d("AA2", "3");
 				Event.deleteAll(Event.class);
-				Log.d("AA3", "4");
 				JSONArray jsonArrayPlaces = json.getJSONArray("places");
-				Log.d("AA4", "5");
 
 				JSONObject jsonObject;
 				JSONObject placeObject;
@@ -130,7 +125,6 @@ public class EventListTask extends UrlJsonAsyncTask {
 				}
 
 				for (int i = 0; i < jsonArrayEvents.length(); i++) {
-					Log.d("AA4", "8");
 					jsonObject = (JSONObject) jsonArrayEvents.get(i);
 					Long event_id = jsonObject.getLong("id");
 					String event_name = jsonObject.getString("name");
@@ -140,12 +134,9 @@ public class EventListTask extends UrlJsonAsyncTask {
 					Integer event_likes = 0;
 					Double event_rating = (Double) 0.0;
 					String event_mood = "";
-					Log.d("AA4", "9"+jsonObject.getLong("place_id"));
-
 
 					Place event_place = Place.findById(Place.class,
-							Long.getLong("1"));
-					Log.d("AA4", "10");
+							jsonObject.getLong("place_id"));
 					User event_user = new User(this.context);
 //					Category event_category = Category.findById(Category.class, jsonObject.getLong("id_category"));
 					Category event_category = new Category(this.context, jsonObject.getLong("id_category"), "");
@@ -170,7 +161,7 @@ public class EventListTask extends UrlJsonAsyncTask {
 //			Toast.makeText(context, "CATCH: " + e.getMessage(),
 //					Toast.LENGTH_LONG).show();
 			Log.d("onPostExecute CATCH: ", "dunno D:");
-//			Log.d("onPostExecute CATCH: ", e.getMessage());
+			Log.d("onPostExecute CATCH: ", e.getMessage());
 		} finally {
 			super.onPostExecute(json);
 		}
