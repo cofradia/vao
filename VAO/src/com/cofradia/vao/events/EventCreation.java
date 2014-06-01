@@ -1,13 +1,16 @@
 package com.cofradia.vao.events;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.SimpleTimeZone;
 
@@ -37,6 +40,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -46,6 +50,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -67,10 +72,22 @@ public class EventCreation extends Activity {
 	private String event_from_date = null;
 	private String event_from_time = null;
 	private String event_to_date = null;
+	private String event_file_path = null;
 	private String event_to_time = null;
 	private Button current_button=null;
 	private int image_width;
 	private int image_height;
+	
+	byte b[];
+	Uri u;
+    ImageView imgview;
+    // int z=0;
+    String z = null;
+	String largeImagePath = "";
+    Uri uriLargeImage;
+    Uri uriThumbnailImage;
+    Cursor myCursor;
+	
 	static final int DATE_DIALOG_ID = 0;
 	static final int TIME_DIALOG_ID = 1;
 	
@@ -220,7 +237,8 @@ public class EventCreation extends Activity {
 	}
 	
 	public void openGalleryOrCameraDialog(View view){
-		final CharSequence[] items = { "Take Photo", "Choose from Library",
+		//"Take Photo",
+		final CharSequence[] items = {  "Choose from Library",
         "Cancel" };
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -270,78 +288,228 @@ public class EventCreation extends Activity {
 			e.printStackTrace();
 		}
 		return rotate;
+		
+		
 	}
+	
+    public void imageCam(Bitmap thumbnail) {
+        Bitmap photo = thumbnail;
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        photo.compress(Bitmap.CompressFormat.JPEG, 70, bos);
+        b = bos.toByteArray();
+        ImageView imageview = (ImageView) mainImageEvent;
+        imageview.setImageBitmap(photo);
+    }
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+		Uri mImageCaptureUri = null;
 		if (resultCode == RESULT_OK) {
 			
+//			
 			if (requestCode == REQUEST_CAMERA) {
-				File f = new File(Environment.getExternalStorageDirectory()
-						.toString());
-				for (File temp : f.listFiles()) {
-					if (temp.getName().equals("temp.jpg")) {
-						f = temp;
-						break;
-					}
-				}
+				
 				try {
-					Bitmap bm;
-					BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
+	                Log.i("TAG", "inside Samsung Phones");
+	                String[] projection = {
+	                        MediaStore.Images.Thumbnails._ID, // The columns we want
+	                        MediaStore.Images.Thumbnails.IMAGE_ID,
+	                        MediaStore.Images.Thumbnails.KIND,
+	                        MediaStore.Images.Thumbnails.DATA };
+	                String selection = MediaStore.Images.Thumbnails.KIND + "=" + // Select
+	                                                                                // only
+	                                                                                // mini's
+	                        MediaStore.Images.Thumbnails.MINI_KIND;
 
-					bm = BitmapFactory.decodeFile(f.getAbsolutePath(),
-							btmapOptions);
-					
-					String path = android.os.Environment
-							.getExternalStorageDirectory()
-							+ File.separator
-							+ "Phoenix" + File.separator + "default";
-					f.delete();
-					OutputStream fOut = null;
-					File file = new File(path, String.valueOf(System
-							.currentTimeMillis()) + ".jpg");
-					bm = Bitmap.createScaledBitmap(bm, image_width, image_height, true);
-					if (!needsToRotate(file.getAbsolutePath(), bm)){
-						Log.d("asdasd", "dsadsa");
-						Matrix matrix = new Matrix();
-						matrix.postRotate(90);
-						bm = Bitmap.createBitmap(bm, 0, 0, image_height, image_width, matrix, true);
-					}
-					mainImageEvent.setImageBitmap(bm);
-					
-					try {
-						fOut = new FileOutputStream(file);
-						bm.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
-						fOut.flush();
-						fOut.close();
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+	                String sort = MediaStore.Images.Thumbnails._ID + " DESC";
+
+	                // At the moment, this is a bit of a hack, as I'm returning ALL
+	                // images, and just taking the latest one. There is a better way
+	                // to
+	                // narrow this down I think with a WHERE clause which is
+	                // currently
+	                // the selection variable
+	                Cursor myCursor = this.managedQuery(
+	                        MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI,
+	                        projection, selection, null, sort);
+
+	                long imageId = 0l;
+	                long thumbnailImageId = 0l;
+	                String thumbnailPath = "";
+
+	                try {
+	                    myCursor.moveToFirst();
+	                    imageId = myCursor
+	                            .getLong(myCursor
+	                                    .getColumnIndexOrThrow(MediaStore.Images.Thumbnails.IMAGE_ID));
+	                    thumbnailImageId = myCursor
+	                            .getLong(myCursor
+	                                    .getColumnIndexOrThrow(MediaStore.Images.Thumbnails._ID));
+	                    thumbnailPath = myCursor
+	                            .getString(myCursor
+	                                    .getColumnIndexOrThrow(MediaStore.Images.Thumbnails.DATA));
+	                } finally {
+	                    // myCursor.close();
+	                }
+
+	                // Create new Cursor to obtain the file Path for the large image
+
+	                String[] largeFileProjection = {
+	                        MediaStore.Images.ImageColumns._ID,
+	                        MediaStore.Images.ImageColumns.DATA };
+
+	                String largeFileSort = MediaStore.Images.ImageColumns._ID
+	                        + " DESC";
+	                myCursor = this.managedQuery(
+	                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+	                        largeFileProjection, null, null, largeFileSort);
+	                String largeImagePath = "";
+
+	                try {
+	                    myCursor.moveToFirst();
+
+	                    // This will actually give yo uthe file path location of the
+	                    // image.
+	                    largeImagePath = myCursor
+	                            .getString(myCursor
+	                                    .getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATA));
+	                    mImageCaptureUri = Uri.fromFile(new File(
+	                            largeImagePath));
+
+	                } finally {
+	                    // myCursor.close();
+	                }
+	                // These are the two URI's you'll be interested in. They give
+	                // you a
+	                // handle to the actual images
+	                Uri uriLargeImage = Uri.withAppendedPath(
+	                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+	                        String.valueOf(imageId));
+	                Uri uriThumbnailImage = Uri.withAppendedPath(
+	                        MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI,
+	                        String.valueOf(thumbnailImageId));
+
+	                mainImageEvent.setImageURI(uriLargeImage);
+	                
+//	                mainImageEvent.setImageURI
+	                // I've left out the remaining code, as all I do is assign the
+	                // URI's
+	                // to my own objects anyways...
+	            } catch (Exception e) {
+
+	                Log.i("TAG",
+	                        "inside catch Samsung Phones exception " + e.toString());
+
+	            }
+
+
+	            try {
+
+	                Log.i("TAG", "URI Normal:" + mImageCaptureUri.getPath());
+	            } catch (Exception e) {
+	                Log.i("TAG", "Excfeption inside Normal URI :" + e.toString());
+	            }
+
+	            //doCrop();
+				
+				
+//				File f = new File(Environment.getExternalStorageDirectory()
+//						.toString());
+//				for (File temp : f.listFiles()) {
+//					if (temp.getName().equals("temp.jpg")) {
+//						f = temp;
+//						break;
+//					}
+//				}
+//				Uri selectedImage = data.getData();
+//				mainImageEvent.setImageURI(selectedImage);
+//				
+////				try {
+////					Bitmap bm;
+////					BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
+////
+////					bm = BitmapFactory.decodeFile(f.getAbsolutePath(),
+////							btmapOptions);
+////					
+////					String path = android.os.Environment
+////							.getExternalStorageDirectory()
+////							+ File.separator
+////							+ "Phoenix" + File.separator + "default";
+////					f.delete();
+////					OutputStream fOut = null;
+////					File file = new File(path, String.valueOf(System
+////							.currentTimeMillis()) + ".jpg");
+////					bm = Bitmap.createScaledBitmap(bm, image_width, image_height, true);
+////					event_file_path = file.getAbsolutePath();
+////					if (!needsToRotate(file.getAbsolutePath(), bm)){
+////						Log.d("asdasd", "dsadsa");
+////						Matrix matrix = new Matrix();
+////						matrix.postRotate(90);
+////						bm = Bitmap.createBitmap(bm, 0, 0, image_height, image_width, matrix, true);
+////					}
+////					mainImageEvent.setImageBitmap(bm);
+////					
+////					try {
+////						fOut = new FileOutputStream(file);
+////						bm.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
+////						fOut.flush();
+////						fOut.close();
+////					} catch (FileNotFoundException e) {
+////						e.printStackTrace();
+////					} catch (IOException e) {
+////						e.printStackTrace();
+////					} catch (Exception e) {
+////						e.printStackTrace();
+////					}
+////				} catch (Exception e) {
+////					e.printStackTrace();
+////				}
 			} else if (requestCode == SELECT_FILE) {
 				Uri selectedImageUri = data.getData();
 
-				String tempPath = getPath(selectedImageUri, this);
-	
-				Bitmap bm;
-				BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
-				bm = BitmapFactory.decodeFile(tempPath, btmapOptions);
-				bm = Bitmap.createScaledBitmap(bm, mainImageEvent.getWidth(), mainImageEvent.getHeight(), true);
-				if ( needsToRotate(tempPath, bm)){
-					Matrix matrix = new Matrix();
-					matrix.postRotate(90);
-					bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
+//				String tempPath = getPath(selectedImageUri, this);
+//	
+//				Bitmap bm;
+//				BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
+//				bm = BitmapFactory.decodeFile(tempPath, btmapOptions);
+//				bm = Bitmap.createScaledBitmap(bm, mainImageEvent.getWidth(), mainImageEvent.getHeight(), true);
+//				if ( needsToRotate(tempPath, bm)){
+//					Matrix matrix = new Matrix();
+//					matrix.postRotate(90);
+//					bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
+//				}
+//				mainImageEvent.setImageURI(selectedImageUri);
+//				
+//				mainImageEvent.setImageBitmap(bm);
+				String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+	            Cursor cursor = getContentResolver().query(
+	            		selectedImageUri, filePathColumn, null, null, null);
+	            cursor.moveToFirst();
+
+	            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+	            String filePath = cursor.getString(columnIndex);
+	            cursor.close();
+
+
+	            Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath);
+	            event_file_path = filePath;
+	            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();  
+	            yourSelectedImage.compress(Bitmap.CompressFormat.PNG, 70, byteArrayOutputStream);
+	            byte[] byteArray = byteArrayOutputStream .toByteArray();
+	            try {
+					byteArrayOutputStream.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+	            byteArrayOutputStream = null;
+	            String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+	            Log.d("BASE64", encoded);
+	            mainImageEvent.setImageBitmap(yourSelectedImage);
+	            yourSelectedImage.recycle();
 				
-				
-				mainImageEvent.setImageBitmap(bm);
 			}
 		}
 	}
@@ -373,6 +541,7 @@ public class EventCreation extends Activity {
 				intent.putExtra("event_to_date", event_to_date);
 				intent.putExtra("event_from_time", event_from_time);
 				intent.putExtra("event_to_time", event_to_time);
+				intent.putExtra("event_image_file_path", event_file_path);
 				startActivity(intent);
 			}else{
 				
