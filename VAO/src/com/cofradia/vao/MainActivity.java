@@ -222,7 +222,7 @@ public class MainActivity extends Activity {
               session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
           } else {
         	  Log.d("FBLogin", "usuario existente! "+ session);
-//        	  _doRegularLogin(ADMINUSER, ADMINPWD);
+        	  _doRegularLogin(ADMINUSER, ADMINPWD);
 //              Session.openActiveSession(this, true, statusCallback);
           }
         	
