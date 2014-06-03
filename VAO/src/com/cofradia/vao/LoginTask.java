@@ -26,16 +26,18 @@ public class LoginTask extends UrlJsonAsyncTask {
 
 	String emailText;
 	String passwordText;
+	String fb_auth_token;
 	SharedPreferences mPreferences;
 //	 public LoginTask(Context context) {
 //         super(context);
 //        
 //     }
-        public LoginTask( String emailText, String passwordText, SharedPreferences mPreferences, Context context) {
+        public LoginTask( String emailText, String passwordText, SharedPreferences mPreferences, String fbAuthToken, Context context) {
             super(context);
             this.emailText = emailText;
             this.passwordText = passwordText;
             this.mPreferences = mPreferences;
+            this.fb_auth_token = fb_auth_token;
         }
         
         public void doLogin(){
@@ -64,6 +66,7 @@ public class LoginTask extends UrlJsonAsyncTask {
                     // the params
                     userObj.put("email", emailText);
                     userObj.put("password", passwordText);
+                    userObj.put("fb_auth_token", fb_auth_token);
                     holder.put("user", userObj);
                     StringEntity se = new StringEntity(holder.toString());
                     post.setEntity(se);
