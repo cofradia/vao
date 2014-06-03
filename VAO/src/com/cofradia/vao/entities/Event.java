@@ -13,8 +13,9 @@ public class Event extends SugarRecord<Event> {
 	private String mood;
 	private String imageUrl;
 	private Long fbEventId;
-	private Category category;
 	private String privacy;
+	//Relationships
+	private Category category;
 	private Place place;
 	private User host;
 
