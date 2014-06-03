@@ -108,17 +108,16 @@ public class EventListTask extends UrlJsonAsyncTask {
 
 				JSONObject jsonObject;
 				JSONObject placeObject;
-				
-				for (int i = 0; i < jsonArrayPlaces.length(); i++){
+
+				for (int i = 0; i < jsonArrayPlaces.length(); i++) {
 					placeObject = (JSONObject) jsonArrayPlaces.get(i);
 					Double place_latitude = (!placeObject.isNull("latitude") ? placeObject
 							.getDouble("latitude") : 0);
 					Double place_longitude = (!placeObject.isNull("longitude") ? placeObject
 							.getDouble("longitude") : 0);
-					Place place = new Place(this.context, 
+					Place place = new Place(this.context,
 							placeObject.getLong("id"),
-							placeObject.getString("name"),
-							place_latitude,
+							placeObject.getString("name"), place_latitude,
 							place_longitude);
 					place.save();
 					place = null;
@@ -137,31 +136,33 @@ public class EventListTask extends UrlJsonAsyncTask {
 
 					Place event_place = Place.findById(Place.class,
 							jsonObject.getLong("place_id"));
+
 					User event_user = new User(this.context);
-//					Category event_category = Category.findById(Category.class, jsonObject.getLong("id_category"));
-					Category event_category = new Category(this.context, jsonObject.getLong("id_category"), "");
+					Category event_category = new Category(this.context,
+							jsonObject.getLong("id_category"), "");
 					event_category.save();
-				
+
 					Event jsonEvent = new Event(this.context, event_id,
 							event_name, event_description, event_likes,
 							event_rating, event_mood, null, null,
-							event_category, event_privacy, event_place, event_user);
+							event_category, event_privacy, event_place,
+							event_user);
 					jsonEvent.save();
 					jsonEvent = null;
 				}
 
 				jsonObject = null;
-				
+
 				Toast.makeText(context, "Evento listado exitosamente",
 						Toast.LENGTH_LONG).show();
 
 			}
 		} catch (Exception e) {
 			// si no hay internet no hace nada
-//			Toast.makeText(context, "CATCH: " + e.getMessage(),
-//					Toast.LENGTH_LONG).show();
+			// Toast.makeText(context, "CATCH: " + e.getMessage(),
+			// Toast.LENGTH_LONG).show();
 			Log.d("onPostExecute CATCH: ", "dunno D:");
-			Log.d("onPostExecute CATCH: ", e.getMessage());
+			// Log.d("onPostExecute CATCH: ", e.getMessage());
 		} finally {
 			super.onPostExecute(json);
 		}

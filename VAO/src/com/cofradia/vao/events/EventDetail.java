@@ -14,6 +14,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.cofradia.vao.R;
+import com.cofradia.vao.entities.Category;
 import com.cofradia.vao.entities.Event;
 import com.cofradia.vao.entities.Place;
 
@@ -87,7 +88,7 @@ public class EventDetail extends Activity {
 		this.txtEventPlace = (TextView) findViewById(R.id.txtEventPlace);
 
 		place = place.findById(Place.class, event.getPlace().getId());
-
+		
 		this.txtEventPlace.setText(place.getName());
 
 		// set event time
