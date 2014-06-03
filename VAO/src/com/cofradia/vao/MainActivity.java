@@ -41,6 +41,7 @@ public class MainActivity extends Activity {
     private static final String TAG = "MainActivity";
     
     private SharedPreferences mPreferences;
+    private String fb_auth_token = null;
     private String emailText;
     private String passwordText;
     private LoginButton loginButton;
@@ -63,11 +64,11 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         loginButton = (LoginButton) findViewById(R.id.login_button);
 //        loginButton.setReadPermissions(Arrays.asList("public_profile", "user_birthday", "user_status", "email"));
-//        boolean userLoggedIn = user_logged_in(savedInstanceState);
-//        if (!userLoggedIn) {
+        boolean userLoggedIn = user_logged_in(savedInstanceState);
+        if (!userLoggedIn) {
         	setContentView(R.layout.main);
         	setViewListeners();
-//        }
+        }
 
         Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
 
@@ -89,8 +90,6 @@ public class MainActivity extends Activity {
             }
             updateView();
         }
-        
-        mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
 //        fbSession = fbApi.setupFBSession(savedInstanceState, this);
         // Check whether user is already logged in and redirects to next View
     }
@@ -136,6 +135,7 @@ public class MainActivity extends Activity {
     }
     
     private boolean user_logged_in(Bundle savedInstanceState) {
+    	mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
         String first = mPreferences.getString("AuthToken", null);
         if((first != null)){
         	
@@ -168,12 +168,12 @@ public class MainActivity extends Activity {
             return;
         } else {
 
-        	_doRegularLogin(emailText, passwordText);
+        	_doRegularLogin(emailText, passwordText, null);
         }
     }
     
-    private void _doRegularLogin(String user_name, String password){
-	 LoginTask loginTask = new LoginTask(user_name, password, mPreferences , MainActivity.this);
+    private void _doRegularLogin(String user_name, String password, String fb_auth_token){
+	 LoginTask loginTask = new LoginTask(user_name, password, mPreferences , fb_auth_token, MainActivity.this);
 	 loginTask.doLogin();
 	    	
 	 //TODO: after "dologin" call
@@ -222,7 +222,7 @@ public class MainActivity extends Activity {
               session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
           } else {
         	  Log.d("FBLogin", "usuario existente! "+ session);
-        	  _doRegularLogin(ADMINUSER, ADMINPWD);
+        	  _doRegularLogin(ADMINUSER, ADMINPWD, session.getAccessToken()+"");
 //              Session.openActiveSession(this, true, statusCallback);
           }
         	
